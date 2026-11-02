@@ -41,13 +41,25 @@ class JobSeekerService:
             raise JobProfileNotFoundException()
         return current_job_seeker
 
-    async def update_current_job_seeker(self, user, job_seeker_data):  
-        job_seeker = await self.job_seeker_repository.get_by_user_id(user.id) 
+    async def update_current_job_seeker(self, user, job_seeker_data):
+        job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
-        if job_seeker is None : 
+        if job_seeker is None:
             raise JobProfileNotFoundException()
-        fields = job_seeker_data.model_dump(exclude_unset = True ) 
+        fields = job_seeker_data.model_dump(exclude_unset=True)
 
-        updated_job_seeker = await self.job_seeker_repository.update_by_user_id(job_seeker, fields)
+        updated_job_seeker = await self.job_seeker_repository.update_by_user_id(
+            job_seeker, fields
+        )
 
         return updated_job_seeker
+
+    async def delete_current_job_seeker(self, user_id: int):
+        job_seeker = await self.job_seeker_repository.get_by_user_id(user_id)
+
+        if job_seeker is None:
+            raise JobProfileNotFoundException()
+
+        result = await self.job_seeker_repository.delete_by_user_id(user_id)
+        await self.db.commit()
+        return result
