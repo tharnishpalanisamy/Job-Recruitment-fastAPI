@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from sqlalchemy import (
-    CheckConstraint,
     DateTime,
     Enum,
     ForeignKey,
@@ -24,10 +23,6 @@ class Application(Base):
             "job_seeker_id",
             "job_id",
             name="uq_job_seeker_job",
-        ),
-        CheckConstraint(
-            "resume_size > 0",
-            name="ck_application_resume_size_positive",
         ),
     )
 
