@@ -1,8 +1,15 @@
+from .job_seeker import JobProfileNotFoundException
 from .refresh_token import InvalidRefreshTokenException
-from .user import InvalidCredentialsException, NotAuthorizedException
+from .user import (
+    InvalidCredentialsException,
+    NotAuthorizedException,
+    UserNotFoundException,
+)
 
 __all__ = [
     "InvalidCredentialsException",
     "InvalidRefreshTokenException",
+    "JobProfileNotFoundException",
     "NotAuthorizedException",
+    "UserNotFoundException",
 ]

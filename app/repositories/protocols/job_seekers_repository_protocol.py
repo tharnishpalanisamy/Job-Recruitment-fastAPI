@@ -1,0 +1,11 @@
+from typing import Protocol
+
+from app.models import JobSeeker
+
+
+class JobSeekersRepositoryProtocol(Protocol):
+    async def create(self, job_seeker) -> JobSeeker: ...
+
+    async def get_all(self) -> list[JobSeeker]: ...
+
+    async def get_by_user_id(self, user_id) -> JobSeeker: ...

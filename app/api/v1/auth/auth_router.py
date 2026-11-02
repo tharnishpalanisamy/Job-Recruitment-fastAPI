@@ -3,7 +3,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from app.dependencies import get_auth_service
-from app.schemas import LoginResponse, UserCreate, UserLogin, UserResponse
+from app.schemas import (
+    LoginResponse,
+    RefreshTokenRequest,
+    UserCreate,
+    UserLogin,
+    UserResponse,
+)
 from app.services.protocols import AuthServiceProtocol
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -33,3 +39,11 @@ async def signup_user(
     service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
 ):
     return await service.create_user(user_data)
+
+
+@router.post("/refresh")
+async def refresh_token(
+    payload: RefreshTokenRequest,
+    service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
+):
+    return await service.refresh_tokens(payload.refresh_token)

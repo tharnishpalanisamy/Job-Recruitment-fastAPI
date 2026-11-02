@@ -1,4 +1,9 @@
 from .auth_service_protocol import AuthServiceProtocol
-from .refresh_token_protocol import RefreshTokenServiceProtocol
+from .job_seeker_service_protocol import JobSeekerServiceProtocol
+from .refresh_token_service_protocol import RefreshTokenServiceProtocol
 
-__all__ = ["AuthServiceProtocol", "RefreshTokenServiceProtocol"]
+__all__ = [
+    "AuthServiceProtocol",
+    "JobSeekerServiceProtocol",
+    "RefreshTokenServiceProtocol",
+]

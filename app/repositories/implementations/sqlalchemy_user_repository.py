@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from app.models import User
 
@@ -19,7 +19,12 @@ class UserRepository:
         user = await self.db.scalar(query)
         return user
 
-    async def get_by_id(self, id) -> User | None: 
+    async def get_by_id(self, id) -> User | None:
         query = select(User).where(User.id == id)
         user = await self.db.scalar(query)
-        return user 
+        return user
+
+    async def update_role(self, id, role) -> User | None:
+        query = update(User).where(User.id == id).values(role=role).returning(User)
+        result = await self.db.execute(query)
+        return result

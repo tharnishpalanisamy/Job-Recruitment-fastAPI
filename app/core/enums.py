@@ -4,8 +4,8 @@ import enum
 class UserRole(str, enum.Enum):
     USER = "user"
     ADMIN = "admin"
-    HR = "hr"
-
+    RECRUITER = "recruiter"
+    JOB_SEEKER = "job_seeker"
 
 class EmploymentType(str, enum.Enum):
     FULL_TIME = "full_time"

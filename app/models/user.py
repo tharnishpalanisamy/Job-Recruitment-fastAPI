@@ -17,8 +17,7 @@ class User(Base):
         Enum(
             UserRole,
             name="user_role_enum",
-            native_enum=True,
-            create_constraint=True,
+            values_callable=lambda enum_cls: [member.value for member in enum_cls],
         ),
         nullable=False,
         default=UserRole.USER,

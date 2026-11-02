@@ -4,3 +4,6 @@ class InvalidCredentialsException(Exception) :
 
 class NotAuthorizedException(Exception) :
     pass 
+
+class UserNotFoundException(Exception) :
+    pass 

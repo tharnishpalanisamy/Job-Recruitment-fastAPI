@@ -1,4 +1,5 @@
 from .auth_service import AuthService
-from .refresh_token import RefreshTokenService
+from .job_seeker_service import JobSeekerService
+from .refresh_token_service import RefreshTokenService
 
-__all__ = ["AuthService", "RefreshTokenService"]
+__all__ = ["AuthService", "JobSeekerService", "RefreshTokenService"]

@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 class UserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=50)
-    email: EmailStr = Field(min_length = 5 , max_length=255)
+    email: EmailStr = Field(min_length=5, max_length=255)
     password: str = Field(min_length=8, max_length=50)
 
     @field_validator("password")
@@ -23,8 +23,10 @@ class UserCreate(BaseModel):
         return value
 
 
-class UserLogin(BaseModel) :
-    email: EmailStr = Field(min_length=5,max_length=255) 
+class UserLogin(BaseModel):
+    email: EmailStr = Field(min_length=5, max_length=255)
     password: str = Field(min_length=8, max_length=50)
 
 
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str = Field(min_length=1)

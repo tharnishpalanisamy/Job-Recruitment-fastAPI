@@ -1,0 +1,11 @@
+from typing import Protocol
+
+from app.models import User
+
+
+class JobSeekerServiceProtocol(Protocol):
+    async def create_job_seeker(self, job_seeker_data): ...
+
+    async def get_all_job_seekers(self, filters, limit, offset): ...
+
+    async def get_current_job_seeker(self, user: User): ...

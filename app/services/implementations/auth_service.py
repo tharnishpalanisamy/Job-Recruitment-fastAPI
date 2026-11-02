@@ -1,11 +1,11 @@
 from app.core import create_access_token, hash_password, verify_password
-from app.exceptions import InvalidCredentialsException
+from app.exceptions import InvalidCredentialsException, InvalidRefreshTokenException
 from app.models import User
 from app.repositories.protocols import (
-    RefreshTokenRepositoryProtocol,
     UserRepositoryProtocol,
 )
 from app.schemas import UserCreate
+from app.services.protocols import RefreshTokenServiceProtocol
 
 
 class AuthService:
@@ -13,11 +13,11 @@ class AuthService:
         self,
         db,
         repository: UserRepositoryProtocol,
-        refresh_token_repository: RefreshTokenRepositoryProtocol,
+        refresh_token_service: RefreshTokenServiceProtocol,
     ):
         self.db = db
         self.user_repository = repository
-        self.refresh_token_repository = refresh_token_repository
+        self.refresh_token_service = refresh_token_service
 
     async def authenticate_user(self, user_data: UserCreate):
         user = await self.user_repository.get_by_email(user_data.email)
@@ -32,7 +32,7 @@ class AuthService:
 
         access_token = create_access_token(user.id, user.role)
 
-        refresh_token = await self.refresh_token_repository.issue_refresh_token(user.id)
+        refresh_token = await self.refresh_token_service.issue_refresh_token(user.id)
 
         return {
             "access_token": access_token,
@@ -53,3 +53,22 @@ class AuthService:
         await self.db.commit()
 
         return created_user
+
+    async def refresh_tokens(self, token):
+        (
+            user_id,
+            new_refresh_token,
+        ) = await self.refresh_token_service.rotate_refresh_token(token)
+
+        user = await self.user_repository.get_by_id(user_id)
+
+        if user is None:
+            raise InvalidRefreshTokenException()
+
+        access_token = create_access_token(user.id, user.role)
+
+        return {
+            "access_token": access_token,
+            "refresh_token": new_refresh_token,
+            "token_type": "bearer",
+        }

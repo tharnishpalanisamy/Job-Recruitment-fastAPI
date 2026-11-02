@@ -1,0 +1,2 @@
+class JobProfileNotFoundException(Exception) :
+    pass 
