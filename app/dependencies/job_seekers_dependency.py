@@ -28,6 +28,6 @@ def get_job_seeker_service(
     repository: Annotated[
         JobSeekersRepositoryProtocol, Depends(get_job_seeker_repository)
     ],
-    user_repository : Annotated[UserRepositoryProtocol , Depends(get_user_repository)] 
+    user_repository: Annotated[UserRepositoryProtocol, Depends(get_user_repository)],
 ) -> JobSeekerServiceProtocol:
-    return JobSeekerService(db, repository , user_repository)
+    return JobSeekerService(db, repository, user_repository)

@@ -43,7 +43,7 @@ class Job(Base):
     qualification: Mapped[str] = mapped_column(
         String(150),
         nullable=False,
-    ) 
+    )
 
     experience_min: Mapped[float] = mapped_column(
         Numeric(4, 1),
@@ -70,7 +70,7 @@ class Job(Base):
         Enum(
             EmploymentType,
             name="employment_type",
-            native_enum = True , 
+            native_enum=True,
             create_constraint=True,
         ),
         nullable=False,

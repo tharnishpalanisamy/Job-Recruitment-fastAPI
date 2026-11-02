@@ -41,11 +41,14 @@ async def update_current_jobseeker(
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
 ):
-    return await service.update_current_job_seeker(user , job_seeker_data)
+    return await service.update_current_job_seeker(user, job_seeker_data)
 
-@router.delete('/me' , summary='Delete job seeker profile' , status_code=status.HTTP_204_NO_CONTENT) 
+
+@router.delete(
+    "/me", summary="Delete job seeker profile", status_code=status.HTTP_204_NO_CONTENT
+)
 async def delete_current_job_seeker(
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
-    service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)]
-) : 
-    return await service.delete_current_job_seeker(user.id) 
+    service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
+):
+    return await service.delete_current_job_seeker(user.id)

@@ -35,6 +35,6 @@ class JobSeekersRepository:
     async def delete_by_user_id(self, user_id: int):
         query = delete(JobSeeker).where(JobSeeker.user_id == user_id)
 
-        result =  await self.db.execute(query) 
-        await self.db.flush() 
-        return result 
+        result = await self.db.execute(query)
+        await self.db.flush()
+        return result

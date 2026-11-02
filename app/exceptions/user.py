@@ -1,9 +1,10 @@
-class InvalidCredentialsException(Exception) :
-    pass 
+class InvalidCredentialsException(Exception):
+    pass
 
 
-class NotAuthorizedException(Exception) :
-    pass 
+class NotAuthorizedException(Exception):
+    pass
 
-class UserNotFoundException(Exception) :
-    pass 
+
+class UserNotFoundException(Exception):
+    pass

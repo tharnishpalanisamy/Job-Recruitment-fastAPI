@@ -1,5 +1,6 @@
-class JobProfileNotFoundException(Exception) :
-    pass 
+class JobProfileNotFoundException(Exception):
+    pass
 
-class JobSeekerProfileAlreadyExistsException(Exception) :
-    pass 
+
+class JobSeekerProfileAlreadyExistsException(Exception):
+    pass
