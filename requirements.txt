@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic
+pytest
+pydantic_settings
+asyncpg 
+sqlalchemy[asyncio]
+alembic
+PyJWT[crypto]
+pwdlib[argon2] 
+pydantic[email]
+pytest_asyncio 
+ruff  
