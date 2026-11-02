@@ -21,3 +21,13 @@ class JobSeekersRepository:
     async def get_by_user_id(self, user_id) -> JobSeeker:
         query = select(JobSeeker).where(JobSeeker.user_id == user_id)
         return await self.db.scalar(query)
+
+    async def update_by_user_id(self , job_seeker, fields) -> JobSeeker : 
+
+        for field , value in fields.items() :
+            setattr(job_seeker , field , value ) 
+
+        await self.db.flush() 
+        await self.db.refresh(job_seeker) 
+
+        return job_seeker 

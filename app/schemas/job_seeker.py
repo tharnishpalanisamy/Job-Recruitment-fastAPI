@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class JobSeekerCreate(BaseModel):
@@ -35,3 +35,48 @@ class JobSeekerResponse(BaseModel):
     current_designation: str | None
     current_salary: int | None
     created_at: datetime
+
+
+class JobSeekerUpdate(BaseModel):
+    full_name: str | None = Field(
+        default=None,
+        min_length=2,
+        max_length=150,
+    )
+    phone: str | None = Field(
+        default=None,
+        pattern=r"^\d{10}$",
+    )
+    date_of_birth: date | None = None
+    qualification: str | None = Field(
+        default=None,
+        min_length=2,
+        max_length=150,
+    )
+    specialization: str | None = Field(
+        default=None,
+        max_length=150,
+    )
+    experience_years: Decimal | None = Field(
+        default=None,
+        ge=0,
+        decimal_places=1,
+    )
+    current_company: str | None = Field(
+        default=None,
+        max_length=150,
+    )
+    current_designation: str | None = Field(
+        default=None,
+        max_length=150,
+    )
+    current_salary: int | None = Field(
+        default=None,
+        ge=0,
+    )
+
+    @model_validator(mode="after")
+    def require_at_least_one_field(self) -> "JobSeekerUpdate":
+        if not self.model_fields_set:
+            raise ValueError("At least one field must be provided")
+        return self
