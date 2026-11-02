@@ -7,3 +7,7 @@ class UserResponse(BaseModel):
     username: str
     email: str
 
+class LoginResponse(BaseModel) :
+    access_token : str 
+    refresh_token:str 
+    user : UserResponse

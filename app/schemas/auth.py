@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 class UserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=50)
-    email: EmailStr = Field(max_length=255)
+    email: EmailStr = Field(min_length = 5 , max_length=255)
     password: str = Field(min_length=8, max_length=50)
 
     @field_validator("password")
@@ -21,3 +21,10 @@ class UserCreate(BaseModel):
                 "Password must contains one of these symbols [!,@,#,$,%,^,&,*]"
             )
         return value
+
+
+class UserLogin(BaseModel) :
+    email: EmailStr = Field(min_length=5,max_length=255) 
+    password: str = Field(min_length=8, max_length=50)
+
+

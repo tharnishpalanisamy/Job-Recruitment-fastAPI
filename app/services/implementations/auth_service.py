@@ -1,4 +1,5 @@
-from app.core import hash_password
+from app.core import create_access_token, hash_password, verify_password
+from app.exceptions import InvalidCredentialsException
 from app.models import User
 from app.repositories.protocols import (
     RefreshTokenRepositoryProtocol,
@@ -19,7 +20,25 @@ class AuthService:
         self.refresh_token_repository = refresh_token_repository
 
     async def authenticate_user(self, user_data: UserCreate):
-        pass
+        user = await self.user_repository.get_by_email(user_data.email)
+
+        if not user:
+            raise InvalidCredentialsException("Invalid username or password ")
+
+        authenticated = verify_password(user_data.password, user.password_hash)
+
+        if not authenticated:
+            raise InvalidCredentialsException("Invalid username or password ")
+
+        access_token = create_access_token(user.id, user.role)
+
+        refresh_token = await self.refresh_token_repository.issue_refresh_token(user.id)
+
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "user": user,
+        }
 
     async def create_user(self, user_data: UserCreate) -> User:
         password_hash = hash_password(user_data.password)
