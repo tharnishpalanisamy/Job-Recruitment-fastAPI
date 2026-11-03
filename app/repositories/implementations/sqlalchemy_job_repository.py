@@ -65,11 +65,10 @@ class JobRepository:
         query = select(Job).where(Job.id == id)
         return await self.db.scalar(query)
 
-    async def delete_by_id(self, job_id):
+    async def delete_by_id(self, job_id: int) -> None:
         query = delete(Job).where(Job.id == job_id)
-        result = await self.db.execute(query)
+        await self.db.execute(query)
         await self.db.flush()
-        return result
 
     async def update(self, job, fields) -> Job:
         for field, value in fields.items():

@@ -22,8 +22,8 @@ class EmailService:
         recipient: str,
         subject: str,
         template_name: str,
-        context: dict,
-    ):
+        context: dict[str, str],
+    ) -> None:
         template = template_env.get_template(template_name)
         body = template.render(**context)
 
@@ -38,7 +38,7 @@ class EmailService:
         self,
         recipient: str,
         username: str,
-    ):
+    ) -> None:
         await self._send_template(
             recipient=recipient,
             subject="Welcome to Job Portal!",
@@ -51,7 +51,7 @@ class EmailService:
         recipient: str,
         username: str,
         job_title: str,
-    ):
+    ) -> None:
         await self._send_template(
             recipient=recipient,
             subject="Application Submitted Successfully",
@@ -63,8 +63,8 @@ class EmailService:
         )
 
     async def send_job_seeker_account_creation_email(
-        self , recipient:str ,username : str 
-    ):
+        self, recipient: str, username: str
+    ) -> None:
         await self._send_template(
             recipient=recipient,
             subject="Your Job Seeker Profile Has Been Successfully Created – Job Portal", 
@@ -79,7 +79,7 @@ class EmailService:
         recruiter_name: str,
         applicant_name: str,
         job_title: str,
-    ):
+    ) -> None:
         await self._send_template(
             recipient=recipient,
             subject="New Job Application Received",
@@ -97,7 +97,7 @@ class EmailService:
         username: str,
         job_title: str,
         status: str,
-    ):
+    ) -> None:
         await self._send_template(
             recipient=recipient,
             subject="Application Status Updated",

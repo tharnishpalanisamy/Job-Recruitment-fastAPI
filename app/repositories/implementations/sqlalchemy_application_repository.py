@@ -50,9 +50,8 @@ class ApplicationRepository:
 
         return application
 
-    async def delete_by_id(self, id):
+    async def delete_by_id(self, id: int) -> None:
         query = delete(Application).where(Application.id == id)
 
-        result = await self.db.execute(query)
+        await self.db.execute(query)
         await self.db.flush()
-        return result

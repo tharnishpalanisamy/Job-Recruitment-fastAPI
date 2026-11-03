@@ -5,7 +5,11 @@ from app.exceptions import (
     UserNotFoundException,
 )
 from app.models import JobSeeker, User
-from app.repositories.protocols import JobRepositoryProtocol, UserRepositoryProtocol
+from app.repositories.protocols import (
+    JobSeekersRepositoryProtocol,
+    UserRepositoryProtocol,
+)
+from app.schemas import JobSeekerCreate, JobSeekerFilterParams, JobSeekerUpdate
 from app.services.protocols import EmailServiceProtocol
 
 
@@ -13,7 +17,7 @@ class JobSeekerService:
     def __init__(
         self,
         db,
-        repository: JobRepositoryProtocol,
+        repository: JobSeekersRepositoryProtocol,
         user_repository: UserRepositoryProtocol,
         email_service: EmailServiceProtocol,
     ):
@@ -22,10 +26,14 @@ class JobSeekerService:
         self.user_repository = user_repository
         self.email_service = email_service
 
-    async def create_job_seeker(self, user, job_seeker_data):
+    async def create_job_seeker(
+        self, user: User, job_seeker_data: JobSeekerCreate
+    ) -> JobSeeker:
         existing_profile = await self.job_seeker_repository.get_by_user_id(user.id)
         if existing_profile is not None:
-            raise JobSeekerProfileAlreadyExistsException()
+            raise JobSeekerProfileAlreadyExistsException(
+                "You already have a job seeker profile."
+            )
 
         job_seeker = JobSeeker(user_id=user.id, **job_seeker_data.model_dump())
         result = await self.job_seeker_repository.create(job_seeker)
@@ -43,41 +51,44 @@ class JobSeekerService:
         )
         return result
 
-    async def get_all_job_seekers(self, filters, limit, offset):
+    async def get_all_job_seekers(
+        self, filters: JobSeekerFilterParams, limit: int, offset: int
+    ) -> list[JobSeeker]:
         return await self.job_seeker_repository.get_all(filters, limit, offset)
 
-    async def get_job_seeker_by_id(self, job_seeker_id: int):
+    async def get_job_seeker_by_id(self, job_seeker_id: int) -> JobSeeker:
         job_seeker = await self.job_seeker_repository.get_by_id(job_seeker_id)
         if job_seeker is None:
-            raise JobProfileNotFoundException()
+            raise JobProfileNotFoundException("Job seeker profile not found.")
         return job_seeker
 
-    async def get_current_job_seeker(self, user: User):
+    async def get_current_job_seeker(self, user: User) -> JobSeeker:
         current_job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
         if current_job_seeker is None:
-            raise JobProfileNotFoundException()
+            raise JobProfileNotFoundException("Your job seeker profile was not found.")
         return current_job_seeker
 
-    async def update_current_job_seeker(self, user, job_seeker_data):
+    async def update_current_job_seeker(
+        self, user: User, job_seeker_data: JobSeekerUpdate
+    ) -> JobSeeker:
         job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
         if job_seeker is None:
-            raise JobProfileNotFoundException()
+            raise JobProfileNotFoundException("Your job seeker profile was not found.")
         fields = job_seeker_data.model_dump(exclude_unset=True)
 
         updated_job_seeker = await self.job_seeker_repository.update_by_user_id(
             job_seeker, fields
         )
-
+        await self.db.commit()      
         return updated_job_seeker
 
-    async def delete_current_job_seeker(self, user_id: int):
+    async def delete_current_job_seeker(self, user_id: int) -> None:
         job_seeker = await self.job_seeker_repository.get_by_user_id(user_id)
 
         if job_seeker is None:
-            raise JobProfileNotFoundException()
+            raise JobProfileNotFoundException("Your job seeker profile was not found.")
 
-        result = await self.job_seeker_repository.delete_by_user_id(user_id)
+        await self.job_seeker_repository.delete_by_user_id(user_id)
         await self.db.commit()
-        return result

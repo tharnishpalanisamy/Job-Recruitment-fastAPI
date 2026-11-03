@@ -58,7 +58,7 @@ class RefreshTokenService:
             old_record = await self.repository.get_token_by_hash_for_update(token_hash)
 
             if old_record is None:
-                raise InvalidRefreshTokenException()
+                raise InvalidRefreshTokenException("This refresh token is not valid.")
 
             now = datetime.now(UTC)
 
@@ -68,7 +68,9 @@ class RefreshTokenService:
                     now,
                 )
                 await self.db.commit()
-                raise InvalidRefreshTokenException()
+                raise InvalidRefreshTokenException(
+                    "This refresh token has already been used. Please sign in again."
+                )
 
             expires_at = old_record.expires_at
 
@@ -78,7 +80,9 @@ class RefreshTokenService:
             if expires_at <= now:
                 old_record.revoked_at = now
                 await self.db.commit()
-                raise InvalidRefreshTokenException()
+                raise InvalidRefreshTokenException(
+                    "This refresh token has expired. Please sign in again."
+                )
 
             user_id = old_record.user_id
 

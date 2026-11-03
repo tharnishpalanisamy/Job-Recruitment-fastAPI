@@ -1,7 +1,9 @@
 import logging
 from pathlib import Path
 
-from app.core import UserRole
+from fastapi import UploadFile
+
+from app.core import ApplicationStatus, UserRole
 from app.exceptions import (
     ApplicationAlreadyExistsException,
     ApplicationNotFoundException,
@@ -9,7 +11,7 @@ from app.exceptions import (
     JobProfileNotFoundException,
     NotAuthorizedException,
 )
-from app.models import Application
+from app.models import Application, User
 from app.repositories.protocols import (
     ApplicationRepositoryProtocol,
     JobRepositoryProtocol,
@@ -39,7 +41,9 @@ class ApplicationService:
         self.user_repository = user_repository
         self.email_service = email_service
 
-    async def create_application(self, job_id, resume, user):
+    async def create_application(
+        self, job_id: int, resume: UploadFile, user: User
+    ) -> Application:
         job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
         if job_seeker is None:
@@ -55,7 +59,7 @@ class ApplicationService:
 
         if existing_application is not None:
             raise ApplicationAlreadyExistsException(
-                f"You have already applied to the job {job_id}"
+                f"You have already applied to the job with id {job_id}"
             )
         file_name = resume.filename
         file_path = await save_resume(resume)
@@ -68,17 +72,32 @@ class ApplicationService:
         )
 
         result = await self.application_repository.create(application)
-        await self.db.commit()
-        applicant = await self.user_repository.get_by_id(user.id)
+        await self.db.commit() 
+        job_seeker = await self.job_seeker_repository.get_by_id(
+            application.job_seeker_id
+        )
+        applicant = (
+            await self.user_repository.get_by_id(job_seeker.user_id)
+            if job_seeker is not None
+            else None
+        )
         if applicant is not None:
             await self.email_service.send_application_confirmation(
                 recipient=applicant.email,
                 username=applicant.username,
                 job_title=job.title,
             )
+            recruiter = await self.user_repository.get_by_id(job.created_by)
+            if recruiter is not None:
+                await self.email_service.send_new_application_notification(
+                    recipient=recruiter.email,
+                    recruiter_name=recruiter.username,
+                    applicant_name=applicant.username,
+                    job_title=job.title,
+                )
         return result
 
-    async def get_current_user_applications(self, user):
+    async def get_current_user_applications(self, user: User) -> list[Application]:
         job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
         if job_seeker is None:
             raise JobProfileNotFoundException("User do not have a job seeker profile ")
@@ -87,7 +106,9 @@ class ApplicationService:
         )
         return result
 
-    async def get_all_applications(self, user, job_id, limit, offset):
+    async def get_all_applications(
+        self, user: User, job_id: int | None, limit: int, offset: int
+    ) -> list[Application]:
         recruiter_id = None
 
         if user.role == UserRole.RECRUITER:
@@ -99,9 +120,11 @@ class ApplicationService:
 
         return result
 
-    async def get_applications_by_job_id(self, job_id): ...
+    async def get_applications_by_job_id(self, job_id: int) -> list[Application]: ...
 
-    async def update_application_status_by_id(self, user, application_id, status):
+    async def update_application_status_by_id(
+        self, user: User, application_id: int, status: ApplicationStatus
+    ) -> Application:
         application = await self.application_repository.get_by_application_id(
             application_id
         )
@@ -120,18 +143,25 @@ class ApplicationService:
         result = await self.application_repository.update_status(application, status)
         await self.db.commit()  
 
-        applicant = await self.user_repository.get_by_id(user.id)
+        job_seeker = await self.job_seeker_repository.get_by_id(
+            application.job_seeker_id
+        )
+        applicant = (
+            await self.user_repository.get_by_id(job_seeker.user_id)
+            if job_seeker is not None
+            else None
+        )
         if applicant is not None:
             await self.email_service.send_application_status_update(
                 recipient=applicant.email,
                 username=applicant.username,
                 job_title=title,
-                status=status.capitalize(),
+                status=status.replace("_", " ").title()
             )
 
         return result
 
-    async def delete_application_by_id(self, user, id):
+    async def delete_application_by_id(self, user: User, id: int) -> None:
         application = await self.application_repository.get_by_application_id(id)
 
         if application is None:
@@ -153,7 +183,7 @@ class ApplicationService:
 
         resume_path = Path(application.resume_path)
 
-        result = await self.application_repository.delete_by_id(id)
+        await self.application_repository.delete_by_id(id)
         await self.db.commit()
 
         try:
@@ -162,4 +192,3 @@ class ApplicationService:
         except OSError:
             logger.exception("Failed to delete resume file: %s", resume_path)
 
-        return result

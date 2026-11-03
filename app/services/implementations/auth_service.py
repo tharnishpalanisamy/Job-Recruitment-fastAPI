@@ -21,7 +21,9 @@ class AuthService:
         self.refresh_token_service = refresh_token_service
         self.email_service = email_service
 
-    async def authenticate_user(self, user_data: UserCreate):
+    async def authenticate_user(
+        self, user_data: UserCreate
+    ) -> dict[str, str | User]:
         user = await self.user_repository.get_by_email(user_data.email)
 
         if not user:
@@ -59,7 +61,7 @@ class AuthService:
         )
         return created_user
 
-    async def refresh_tokens(self, token):
+    async def refresh_tokens(self, token: str) -> dict[str, str]:
         (
             user_id,
             new_refresh_token,
@@ -68,7 +70,9 @@ class AuthService:
         user = await self.user_repository.get_by_id(user_id)
 
         if user is None:
-            raise InvalidRefreshTokenException()
+            raise InvalidRefreshTokenException(
+                "This refresh token is no longer valid. Please sign in again."
+            )
 
         access_token = create_access_token(user.id, user.role)
 
