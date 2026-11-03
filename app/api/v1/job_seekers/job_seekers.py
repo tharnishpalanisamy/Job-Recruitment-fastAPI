@@ -1,11 +1,16 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Query, status
 
 from app.core import UserRole
 from app.dependencies import get_current_user, get_job_seeker_service, require_roles
 from app.models import User
-from app.schemas import JobSeekerCreate, JobSeekerResponse, JobSeekerUpdate
+from app.schemas import (
+    JobSeekerCreate,
+    JobSeekerFilterParams,
+    JobSeekerResponse,
+    JobSeekerUpdate,
+)
 from app.services.protocols import JobSeekerServiceProtocol
 
 router = APIRouter(prefix="/jobs", tags=["Job Portal"])
@@ -52,3 +57,23 @@ async def delete_current_job_seeker(
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
 ):
     return await service.delete_current_job_seeker(user.id)
+
+
+@router.get("/", summary="get all job seekers")
+async def get_all_job_seekers(
+    user: Annotated[User, Depends(require_roles(UserRole.ADMIN, UserRole.RECRUITER))],
+    service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
+    filters: Annotated[JobSeekerFilterParams, Depends()],
+    limit: int = Query(ge=0, le=100, default=20),
+    offset: int = Query(ge=0, default=0),
+):
+
+    return await service.get_all_job_seekers(filters, limit, offset)
+
+@router.get("/{job_seeker_id}", summary="get job seeker by id")
+async def get_job_seeker_by_id(
+    job_seeker_id: int,
+    user: Annotated[User, Depends(require_roles(UserRole.ADMIN, UserRole.RECRUITER))],
+    service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
+):
+    return await service.get_job_seeker_by_id(job_seeker_id)

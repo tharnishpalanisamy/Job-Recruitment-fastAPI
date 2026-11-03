@@ -14,8 +14,8 @@ class JobSeekerService:
         self.user_repository = user_repository
 
     async def create_job_seeker(self, user, job_seeker_data):
-        user = await self.user_repository.get_by_id(user.id)
-        if user:
+        existing_profile = await self.job_seeker_repository.get_by_user_id(user.id)
+        if existing_profile is not None:
             raise JobSeekerProfileAlreadyExistsException()
 
         job_seeker = JobSeeker(user_id=user.id, **job_seeker_data.model_dump())
@@ -25,14 +25,18 @@ class JobSeekerService:
         )
 
         if updated_user is None:
-            raise UserNotFoundException(
-                "Job seeker profile already exists please update your existing profile"
-            )
+            raise UserNotFoundException("User not found")
         await self.db.commit()
         return result
 
     async def get_all_job_seekers(self, filters, limit, offset):
-        pass
+        return await self.job_seeker_repository.get_all(filters , limit , offset)
+    
+    async def get_job_seeker_by_id(self, job_seeker_id: int):
+        job_seeker = await self.job_seeker_repository.get_by_id(job_seeker_id)
+        if job_seeker is None:
+            raise JobProfileNotFoundException()
+        return job_seeker
 
     async def get_current_job_seeker(self, user: User):
         current_job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)

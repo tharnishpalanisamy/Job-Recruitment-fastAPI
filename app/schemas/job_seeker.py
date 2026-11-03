@@ -80,3 +80,25 @@ class JobSeekerUpdate(BaseModel):
         if not self.model_fields_set:
             raise ValueError("At least one field must be provided")
         return self
+
+
+class JobSeekerFilterParams(BaseModel):
+    qualification: str | None = Field(default=None, min_length=1, max_length=30)
+    specialization: str | None = Field(default=None, min_length=1, max_length=30)
+    designation: str | None = Field(default=None, min_length=1, max_length=30)
+    min_experience: Decimal | None = Field(default=None, ge=0)
+    max_experience: Decimal | None = Field(default=None, gt=0)
+    current_salary: int | None = Field(default=None)
+
+    @model_validator(mode="after")
+    def validate_experience_range(self):
+        if (
+            self.min_experience is not None
+            and self.max_experience is not None
+            and self.min_experience > self.max_experience
+        ):
+            raise ValueError(
+                "minimum experience cannot be greater than maximum experience"
+            )
+
+        return self
