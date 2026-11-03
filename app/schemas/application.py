@@ -2,9 +2,8 @@ from pydantic import BaseModel
 
 
 class ApplicationCreate(BaseModel):
+    job_id: int
 
-        job_id: int
-    
-        resume_filename: str
-    
-        resume_path: str
+    resume_filename: str
+
+    resume_path: str

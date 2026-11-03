@@ -5,7 +5,7 @@ from app.repositories.protocols import (
     UserRepositoryProtocol,
 )
 from app.schemas import UserCreate
-from app.services.protocols import RefreshTokenServiceProtocol
+from app.services.protocols import EmailServiceProtocol, RefreshTokenServiceProtocol
 
 
 class AuthService:
@@ -14,10 +14,12 @@ class AuthService:
         db,
         repository: UserRepositoryProtocol,
         refresh_token_service: RefreshTokenServiceProtocol,
+        email_service: EmailServiceProtocol,
     ):
         self.db = db
         self.user_repository = repository
         self.refresh_token_service = refresh_token_service
+        self.email_service = email_service
 
     async def authenticate_user(self, user_data: UserCreate):
         user = await self.user_repository.get_by_email(user_data.email)
@@ -52,6 +54,9 @@ class AuthService:
         created_user = await self.user_repository.create(user)
         await self.db.commit()
 
+        await self.email_service.send_welcome_email(
+            recipient=created_user.email, username=created_user.username
+        )
         return created_user
 
     async def refresh_tokens(self, token):

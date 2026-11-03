@@ -26,6 +26,7 @@ class ApplicationStatus(str, enum.Enum):
     SHORTLISTED = "SHORTLISTED"
     REJECTED = "REJECTED"
 
-class SortBy(str , enum.Enum) :
-    ASC = 'asc' 
-    DESC = 'desc'
+
+class SortBy(str, enum.Enum):
+    ASC = "asc"
+    DESC = "desc"

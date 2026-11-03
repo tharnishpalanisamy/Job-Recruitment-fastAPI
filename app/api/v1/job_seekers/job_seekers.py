@@ -70,6 +70,7 @@ async def get_all_job_seekers(
 
     return await service.get_all_job_seekers(filters, limit, offset)
 
+
 @router.get("/{job_seeker_id}", summary="get job seeker by id")
 async def get_job_seeker_by_id(
     job_seeker_id: int,

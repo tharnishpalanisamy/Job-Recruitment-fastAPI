@@ -43,14 +43,12 @@ class ApplicationRepository:
         result = await self.db.scalars(query)
         return result.all()
 
+    async def update_status(self, application: Application, status):
+        application.status = status
+        await self.db.flush()
+        await self.db.refresh(application)
 
-    async def update_status(self, application:Application, status) : 
-        application.status = status 
-        await self.db.flush() 
-        await self.db.refresh(application) 
-
-        return application 
-        
+        return application
 
     async def delete_by_id(self, id):
         query = delete(Application).where(Application.id == id)

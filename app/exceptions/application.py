@@ -1,5 +1,6 @@
-class ApplicationAlreadyExistsException(Exception) :
-    pass 
+class ApplicationAlreadyExistsException(Exception):
+    pass
 
-class ApplicationNotFoundException(Exception) :
-    pass 
+
+class ApplicationNotFoundException(Exception):
+    pass

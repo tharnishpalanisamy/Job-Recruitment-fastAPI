@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core import UserRole
 from app.core.config import setting
 from app.database import get_db
+from app.dependencies.email_dependency import get_email_service
 from app.exceptions import NotAuthorizedException
 from app.models import User
 from app.repositories.implementations import RefreshTokenRepository, UserRepository
@@ -18,7 +19,11 @@ from app.repositories.protocols import (
     UserRepositoryProtocol,
 )
 from app.services.implementations import AuthService, RefreshTokenService
-from app.services.protocols import AuthServiceProtocol, RefreshTokenServiceProtocol
+from app.services.protocols import (
+    AuthServiceProtocol,
+    EmailServiceProtocol,
+    RefreshTokenServiceProtocol,
+)
 
 
 # Refresh token dependencies
@@ -50,8 +55,9 @@ def get_auth_service(
     refresh_token_service: Annotated[
         RefreshTokenService, Depends(get_refresh_token_service)
     ],
+    email_service: Annotated[EmailServiceProtocol, Depends(get_email_service)],
 ) -> AuthServiceProtocol:
-    return AuthService(db, repository, refresh_token_service)
+    return AuthService(db, repository, refresh_token_service , email_service)
 
 
 bearer_scheme = HTTPBearer(auto_error=False)

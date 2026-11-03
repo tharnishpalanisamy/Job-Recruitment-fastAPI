@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Job Portal</title>
+</head>
+<body style="
+    margin: 0;
+    padding: 30px;
+    background-color: #f4f4f7;
+    font-family: Arial, sans-serif;
+">
+    <div style="
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+    ">
+        <h2 style="color: #4F46E5;">
+            Job Portal
+        </h2>
+
+        {% block content %}{% endblock %}
+
+        <hr style="margin-top: 30px; border: 1px solid #eee;">
+
+        <p style="color: #888; font-size: 12px;">
+            This is an automated email. Please do not reply.
+        </p>
+    </div>
+</body>
+</html>

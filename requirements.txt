@@ -12,3 +12,5 @@ pydantic[email]
 pytest_asyncio 
 ruff  
 python-multipart
+fastapi-mail
+jinja2 

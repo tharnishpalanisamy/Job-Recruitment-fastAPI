@@ -5,13 +5,22 @@ from app.exceptions import (
     UserNotFoundException,
 )
 from app.models import JobSeeker, User
+from app.repositories.protocols import JobRepositoryProtocol, UserRepositoryProtocol
+from app.services.protocols import EmailServiceProtocol
 
 
 class JobSeekerService:
-    def __init__(self, db, repository, user_repository):
+    def __init__(
+        self,
+        db,
+        repository: JobRepositoryProtocol,
+        user_repository: UserRepositoryProtocol,
+        email_service: EmailServiceProtocol,
+    ):
         self.db = db
         self.job_seeker_repository = repository
         self.user_repository = user_repository
+        self.email_service = email_service
 
     async def create_job_seeker(self, user, job_seeker_data):
         existing_profile = await self.job_seeker_repository.get_by_user_id(user.id)
@@ -26,12 +35,17 @@ class JobSeekerService:
 
         if updated_user is None:
             raise UserNotFoundException("User not found")
-        await self.db.commit()
+        user = updated_user 
+
+        await self.db.commit() 
+        await self.email_service.send_job_seeker_account_creation_email(
+            recipient=user.email, username=user.username
+        )
         return result
 
     async def get_all_job_seekers(self, filters, limit, offset):
-        return await self.job_seeker_repository.get_all(filters , limit , offset)
-    
+        return await self.job_seeker_repository.get_all(filters, limit, offset)
+
     async def get_job_seeker_by_id(self, job_seeker_id: int):
         job_seeker = await self.job_seeker_repository.get_by_id(job_seeker_id)
         if job_seeker is None:

@@ -14,7 +14,9 @@ from app.repositories.protocols import (
     ApplicationRepositoryProtocol,
     JobRepositoryProtocol,
     JobSeekersRepositoryProtocol,
+    UserRepositoryProtocol,
 )
+from app.services.protocols import EmailServiceProtocol
 from app.utilities import save_resume
 
 logger = logging.getLogger(__name__)
@@ -27,11 +29,15 @@ class ApplicationService:
         repository: ApplicationRepositoryProtocol,
         job_seeker_repository: JobSeekersRepositoryProtocol,
         job_repository: JobRepositoryProtocol,
+        user_repository: UserRepositoryProtocol,
+        email_service: EmailServiceProtocol,
     ):
         self.db = db
         self.application_repository = repository
         self.job_seeker_repository = job_seeker_repository
         self.job_repository = job_repository
+        self.user_repository = user_repository
+        self.email_service = email_service
 
     async def create_application(self, job_id, resume, user):
         job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
@@ -43,7 +49,7 @@ class ApplicationService:
         if job is None:
             raise JobNotFoundException(f"Job with job id {job_id} not found ")
 
-        existing_application = self.application_repository.get_existing_application(
+        existing_application = await self.application_repository.get_existing_application(
             job_seeker.id, job.id
         )
 
@@ -63,6 +69,13 @@ class ApplicationService:
 
         result = await self.application_repository.create(application)
         await self.db.commit()
+        applicant = await self.user_repository.get_by_id(user.id)
+        if applicant is not None:
+            await self.email_service.send_application_confirmation(
+                recipient=applicant.email,
+                username=applicant.username,
+                job_title=job.title,
+            )
         return result
 
     async def get_current_user_applications(self, user):
@@ -88,22 +101,35 @@ class ApplicationService:
 
     async def get_applications_by_job_id(self, job_id): ...
 
+    async def update_application_status_by_id(self, user, application_id, status):
+        application = await self.application_repository.get_by_application_id(
+            application_id
+        )
+        if application is None:
+            raise ApplicationNotFoundException(
+                f"Application with id {application_id} not found "
+            )
 
-    async def update_application_status_by_id(self, user, application_id, status): 
-        application = await self.application_repository.get_by_application_id(application_id) 
-        if application is None :
-            raise ApplicationNotFoundException(f'Application with id {application_id} not found ')
-        
         job = await self.job_repository.get_by_id(application.job_id)
 
-        if job.created_by != user.id :
-            raise NotAuthorizedException('You are not allowed to perform this operation ' ) 
-        
+        if job.created_by != user.id:
+            raise NotAuthorizedException(
+                "You are not allowed to perform this operation "
+            )
+        title = job.title 
         result = await self.application_repository.update_status(application, status)
-        await self.db.commit()
-        return result
+        await self.db.commit()  
 
-    
+        applicant = await self.user_repository.get_by_id(user.id)
+        if applicant is not None:
+            await self.email_service.send_application_status_update(
+                recipient=applicant.email,
+                username=applicant.username,
+                job_title=title,
+                status=status.capitalize(),
+            )
+
+        return result
 
     async def delete_application_by_id(self, user, id):
         application = await self.application_repository.get_by_application_id(id)

@@ -58,7 +58,7 @@ async def update_job_by_id(
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
 ):
-    return await service.update_job(job_id , job_data) 
+    return await service.update_job(job_id, job_data)
 
 
 @router.delete(
@@ -69,4 +69,4 @@ async def delete_job_by_id(
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
 ):
-    return await service.delete_job_by_id( user , job_id)
+    return await service.delete_job_by_id(user, job_id)

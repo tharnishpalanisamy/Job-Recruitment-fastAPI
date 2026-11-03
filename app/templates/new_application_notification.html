@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+
+<h3>Hello {{ recruiter_name }},</h3>
+
+<p>You have received a new application for your job posting.</p>
+
+<p><strong>Applicant:</strong> {{ applicant_name }}</p>
+
+<p><strong>Job Position:</strong> {{ job_title }}</p>
+
+<p>Please log in to your recruiter dashboard to review the application.</p>
+
+{% endblock %}

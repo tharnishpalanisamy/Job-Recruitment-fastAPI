@@ -4,13 +4,14 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
+from app.dependencies.email_dependency import get_email_service
 from app.repositories.implementations import JobSeekersRepository, UserRepository
 from app.repositories.protocols import (
     JobSeekersRepositoryProtocol,
     UserRepositoryProtocol,
 )
 from app.services.implementations import JobSeekerService
-from app.services.protocols import JobSeekerServiceProtocol
+from app.services.protocols import EmailServiceProtocol, JobSeekerServiceProtocol
 
 
 def get_job_seeker_repository(db: Annotated[AsyncSession, Depends(get_db)]):
@@ -29,5 +30,6 @@ def get_job_seeker_service(
         JobSeekersRepositoryProtocol, Depends(get_job_seeker_repository)
     ],
     user_repository: Annotated[UserRepositoryProtocol, Depends(get_user_repository)],
+    email_service: Annotated[EmailServiceProtocol, Depends(get_email_service)],
 ) -> JobSeekerServiceProtocol:
-    return JobSeekerService(db, repository, user_repository)
+    return JobSeekerService(db, repository, user_repository, email_service)

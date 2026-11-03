@@ -1,3 +1,4 @@
+from .email_service import EmailService
 from .application_service import ApplicationService
 from .auth_service import AuthService
 from .job_seeker_service import JobSeekerService
@@ -9,5 +10,6 @@ __all__ = [
     "AuthService",
     "JobSeekerService",
     "JobService",
+    "EmailService",
     "RefreshTokenService",
 ]
