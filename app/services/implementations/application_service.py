@@ -1,7 +1,12 @@
+from pathlib import Path
+
+from app.core import UserRole
 from app.exceptions import (
     ApplicationAlreadyExistsException,
+    ApplicationNotFoundException,
     JobNotFoundException,
     JobProfileNotFoundException,
+    NotAuthorizedException,
 )
 from app.models import Application
 from app.repositories.protocols import (
@@ -74,4 +79,35 @@ class ApplicationService:
 
     async def update_application_status_by_id(self, id, status): ...
 
-    async def delete_application_by_id(self, user, id): ...
+    async def delete_application_by_id(self, user, id):
+        application = await self.application_repository.get_by_application_id(id)
+
+        if application is None:
+            raise ApplicationNotFoundException(f"Job application with {id} not found")
+        job = await self.job_repository.get_by_id(application.job_id)
+
+        if user.role == UserRole.JOB_SEEKER:
+            job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
+
+            if job_seeker is None:
+                raise JobProfileNotFoundException(
+                    "Cannot find job profile associated with user"
+                )
+            if application.job_seeker_id != job_seeker.id:
+                raise NotAuthorizedException("Not Authorized to perform this action")
+        elif user.role == UserRole.RECRUITER:
+            if job.created_by != user.id:
+                raise NotAuthorizedException("Not Authorized to perform this action")
+
+        resume_path = Path(application.resume_path)
+
+        result = await self.application_repository.delete_by_id(id)
+        await self.db.commit()
+
+        try:
+            if resume_path.exists():
+                resume_path.unlink()
+        except OSError:
+            logger.exception("Failed to delete resume file: %s", resume_path)
+
+        return result

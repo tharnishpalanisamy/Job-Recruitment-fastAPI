@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile
+from fastapi import APIRouter, Depends, File, Form, UploadFile , status
 
 from app.core import UserRole
 from app.dependencies import get_application_service, require_roles
@@ -26,3 +26,11 @@ async def get_current_user_applications(
     service : Annotated[ApplicationServiceProtocol , Depends(get_application_service)]
 ) :
     return await service.get_current_user_applications(user) 
+
+@router.delete('/{application_id}' , summary='Delete job applications using id ' , status_code=status.HTTP_204_NO_CONTENT) 
+async def delete_application(
+    application_id:int , 
+    user:Annotated[User , Depends(require_roles(UserRole.JOB_SEEKER , UserRole.ADMIN , UserRole.RECRUITER))] , 
+    service : Annotated[ApplicationServiceProtocol , Depends(get_application_service)] ,
+) :
+    return await service.delete_application_by_id(user , application_id) 

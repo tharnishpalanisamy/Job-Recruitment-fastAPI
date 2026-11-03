@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select , delete
 
 from app.models import Application
 
@@ -26,10 +26,25 @@ class ApplicationRepository:
 
         return await self.db.scalar(query) 
 
+    async def get_by_application_id(self, id ) -> Application | None  :
+        query = select(Application).where(
+            Application.id == id 
+        )
+        return await self.db.scalar(query) 
+    
     async def get_all(Self, filters, limit, offset): ...
 
     async def get_all_by_recruiter(self, filters, limit, offset, recruiter): ...
 
     async def update_status(self, id, status): ...
 
-    async def delete_by_id(self, id): ...
+    async def delete_by_id(self, id): 
+        query = delete(
+            Application
+        ).where(
+            Application.id == id 
+        )
+
+        result = await self.db.execute(query) 
+        await self.db.flush() 
+        return result 
