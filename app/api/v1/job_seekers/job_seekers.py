@@ -13,7 +13,7 @@ from app.schemas import (
 )
 from app.services.protocols import JobSeekerServiceProtocol
 
-router = APIRouter(prefix="/jobs", tags=["Job Portal"])
+router = APIRouter(prefix="/job-seekers", tags=["Job Seekers"])
 
 
 @router.post(
