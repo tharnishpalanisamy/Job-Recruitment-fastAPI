@@ -1,6 +1,6 @@
 from sqlalchemy import delete, select
 
-from app.models import Application
+from app.models import Application, Job
 
 
 class ApplicationRepository:
@@ -31,9 +31,18 @@ class ApplicationRepository:
         query = select(Application).where(Application.id == id)
         return await self.db.scalar(query)
 
-    async def get_all(Self, filters, limit, offset): ...
+    async def get_all(self, recruiter_id, job_id, limit, offset):
+        query = select(Application).join(Job, Application.job_id == Job.id)
 
-    async def get_all_by_recruiter(self, filters, limit, offset, recruiter): ...
+        if recruiter_id is not None:
+            query = query.where(Job.created_by == recruiter_id)
+
+        if job_id is not None:
+            query = query.where(Application.job_id == job_id)
+        query = query.order_by(Application.applied_at.asc()).limit(limit).offset(offset)
+        result = await self.db.scalars(query)
+        return result.all()
+
 
     async def update_status(self, id, status): ...
 

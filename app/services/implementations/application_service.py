@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from app.core import UserRole
@@ -15,6 +16,8 @@ from app.repositories.protocols import (
     JobSeekersRepositoryProtocol,
 )
 from app.utilities import save_resume
+
+logger = logging.getLogger(__name__)
 
 
 class ApplicationService:
@@ -71,7 +74,15 @@ class ApplicationService:
         )
         return result
 
-    async def get_all_applications(self, filters, limit, offset): ...
+    async def get_all_applications(self, user ,job_id, limit, offset):  
+        recruiter_id = None 
+
+        if user.role == UserRole.RECRUITER :
+            recruiter_id = user.id 
+
+        result = await self.application_repository.get_all(recruiter_id,job_id , limit , offset) 
+
+        return result 
 
     async def get_all_by_recruiter(self, filters, limit, offset, recruiter): ...
 
