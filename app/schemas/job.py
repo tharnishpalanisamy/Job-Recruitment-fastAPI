@@ -1,4 +1,4 @@
-from datetime import datetime , date
+from datetime import date, datetime
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -90,3 +90,41 @@ class JobFilterParams(BaseModel):
     employment_type: EmploymentType | None = Field(default=None)
     location: str | None = Field(default=None, max_length=150)
     created_at: date | None = Field(default=None)
+
+
+class JobUpdate(BaseModel):
+    title: str | None = Field(min_length=3, max_length=150, default=None)
+    description: str | None = Field(min_length=10, default=None)
+    requirements: str | None = Field(min_length=5, default=None)
+    qualification: str | None = Field(min_length=2, max_length=150, default=None)
+
+    experience_min: float | None = Field(ge=0, default=None)
+    experience_max: float | None = Field(default=None, ge=0)
+
+    salary_min: float | None = Field(default=None, ge=0)
+    salary_max: float | None = Field(default=None, ge=0)
+
+    employment_type: EmploymentType | None = Field(default=None)
+    location: str | None = Field(min_length=2, max_length=150, default=None)
+
+    vacancies: int | None = Field(ge=1, default=None)
+
+    @model_validator(mode="after")
+    def validate_ranges(self):
+        if (
+            self.experience_min is not None
+            and self.experience_max is not None
+            and self.experience_max < self.experience_min
+        ):
+            raise ValueError(
+                "Maximum experience cannot be less than minimum experience"
+            )
+
+        if (
+            self.salary_min is not None
+            and self.salary_max is not None
+            and self.salary_max < self.salary_min
+        ):
+            raise ValueError("Maximum salary cannot be less than minimum salary")
+
+        return self

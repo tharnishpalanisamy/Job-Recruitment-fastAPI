@@ -1,5 +1,5 @@
 from .auth import RefreshTokenRequest, UserCreate, UserLogin
-from .job import JobCreate, JobFilterParams, JobListResponse, JobResponse
+from .job import JobCreate, JobFilterParams, JobListResponse, JobResponse, JobUpdate
 from .job_seeker import (
     JobSeekerCreate,
     JobSeekerFilterParams,
@@ -17,6 +17,7 @@ __all__ = [
     "JobSeekerFilterParams",
     "JobSeekerResponse",
     "JobSeekerUpdate",
+    "JobUpdate",
     "LoginResponse",
     "RefreshTokenRequest",
     "UserCreate",

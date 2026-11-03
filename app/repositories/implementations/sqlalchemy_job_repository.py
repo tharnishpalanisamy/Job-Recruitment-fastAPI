@@ -1,6 +1,6 @@
 from datetime import datetime, time, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import delete, select
 
 from app.models import Job
 
@@ -61,8 +61,19 @@ class JobRepository:
         result = await self.db.execute(query)
         return result.scalars().all()
 
-    async def get_by_id(self, id): ...
+    async def get_by_id(self, id):
+        query = select(Job).where(Job.id == id)
+        return await self.db.scalar(query)
 
-    async def delete_by_id(self, job_id): ...
+    async def delete_by_id(self, job_id):
+        query = delete(Job).where(Job.id == job_id)
+        result = await self.db.execute(query)
+        await self.db.flush()
+        return result
 
-    async def update_by_id(self, id, job_data): ...
+    async def update(self, job, fields) -> Job:
+        for field, value in fields.items():
+            setattr(job, field, value)
+        await self.db.flush()
+        await self.db.refresh(job)
+        return job

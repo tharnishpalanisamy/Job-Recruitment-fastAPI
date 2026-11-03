@@ -25,3 +25,7 @@ class ApplicationStatus(str, enum.Enum):
     UNDER_REVIEW = "UNDER_REVIEW"
     SHORTLISTED = "SHORTLISTED"
     REJECTED = "REJECTED"
+
+class SortBy(str , enum.Enum) :
+    ASC = 'asc' 
+    DESC = 'desc'

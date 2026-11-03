@@ -5,7 +5,13 @@ from fastapi import APIRouter, Depends, Query, status
 from app.core import UserRole
 from app.dependencies import get_current_user, get_job_service, require_roles
 from app.models import User
-from app.schemas import JobCreate, JobFilterParams, JobListResponse, JobResponse
+from app.schemas import (
+    JobCreate,
+    JobFilterParams,
+    JobListResponse,
+    JobResponse,
+    JobUpdate,
+)
 from app.services.protocols import JobServiceProtocol
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
@@ -42,17 +48,17 @@ async def get_job_by_id(
     user: Annotated[User, Depends(get_current_user)],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
 ):
-    pass
+    return await service.get_job_by_id(job_id)
 
 
 @router.patch("/{job_id}", summary="update job by id ", response_model=JobResponse)
 async def update_job_by_id(
     job_id: int,
-    job_data,
+    job_data: JobUpdate,
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
 ):
-    pass
+    return await service.update_job(job_id , job_data) 
 
 
 @router.delete(
@@ -63,4 +69,4 @@ async def delete_job_by_id(
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
 ):
-    pass
+    return await service.delete_job_by_id( user , job_id)
