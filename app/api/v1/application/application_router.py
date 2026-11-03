@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, Form, Query, UploadFile, status
 
-from app.core import UserRole
+from app.core import UserRole , ApplicationStatus
 from app.dependencies import get_application_service, require_roles
 from app.models import User
 from app.services.protocols import ApplicationServiceProtocol
@@ -57,3 +57,15 @@ async def get_all_applications(
     offset: int = Query(ge=0, default=0),
 ):
     return await service.get_all_applications(user , job_id , limit , offset )
+
+@router.patch('/{application_id}/status') 
+async def update_application_status(
+    application_id:int , 
+    status : ApplicationStatus ,
+    user: Annotated[
+            User,
+            Depends(require_roles( UserRole.RECRUITER)),
+        ],
+    service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],  
+) : 
+    return await service.update_application_status_by_id(user , application_id , status)

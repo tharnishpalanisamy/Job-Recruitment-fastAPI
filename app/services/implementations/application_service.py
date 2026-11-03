@@ -74,21 +74,36 @@ class ApplicationService:
         )
         return result
 
-    async def get_all_applications(self, user ,job_id, limit, offset):  
-        recruiter_id = None 
+    async def get_all_applications(self, user, job_id, limit, offset):
+        recruiter_id = None
 
-        if user.role == UserRole.RECRUITER :
-            recruiter_id = user.id 
+        if user.role == UserRole.RECRUITER:
+            recruiter_id = user.id
 
-        result = await self.application_repository.get_all(recruiter_id,job_id , limit , offset) 
+        result = await self.application_repository.get_all(
+            recruiter_id, job_id, limit, offset
+        )
 
-        return result 
-
-    async def get_all_by_recruiter(self, filters, limit, offset, recruiter): ...
+        return result
 
     async def get_applications_by_job_id(self, job_id): ...
 
-    async def update_application_status_by_id(self, id, status): ...
+
+    async def update_application_status_by_id(self, user, application_id, status): 
+        application = await self.application_repository.get_by_application_id(application_id) 
+        if application is None :
+            raise ApplicationNotFoundException(f'Application with id {application_id} not found ')
+        
+        job = await self.job_repository.get_by_id(application.job_id)
+
+        if job.created_by != user.id :
+            raise NotAuthorizedException('You are not allowed to perform this operation ' ) 
+        
+        result = await self.application_repository.update_status(application, status)
+        await self.db.commit()
+        return result
+
+    
 
     async def delete_application_by_id(self, user, id):
         application = await self.application_repository.get_by_application_id(id)
