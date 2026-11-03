@@ -61,7 +61,7 @@ async def get_current_user(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(bearer_scheme)],
     db: Annotated[AsyncSession, Depends(get_db)],
 ):
-    if credentials is None :
+    if credentials is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired token",
@@ -69,7 +69,6 @@ async def get_current_user(
         )
     token = credentials.credentials
 
-    
     try:
         payload = jwt.decode(
             token, setting.JWT_SECRET_KEY, algorithms=[setting.JWT_ALGORITHM]
@@ -109,7 +108,7 @@ def require_roles(*allowed_roles: UserRole):
         current_user: Annotated[User, Depends(get_current_user)],
     ) -> User:
         if current_user.role not in allowed_roles:
-            raise NotAuthorizedException()
+            raise NotAuthorizedException("You are not allowed to access this resource")
 
         return current_user
 

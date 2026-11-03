@@ -11,3 +11,4 @@ pwdlib[argon2]
 pydantic[email]
 pytest_asyncio 
 ruff  
+python-multipart

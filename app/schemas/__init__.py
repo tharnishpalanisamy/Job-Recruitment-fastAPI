@@ -1,3 +1,4 @@
+from .application import ApplicationCreate
 from .auth import RefreshTokenRequest, UserCreate, UserLogin
 from .job import JobCreate, JobFilterParams, JobListResponse, JobResponse, JobUpdate
 from .job_seeker import (
@@ -9,6 +10,7 @@ from .job_seeker import (
 from .user import LoginResponse, UserResponse
 
 __all__ = [
+    "ApplicationCreate",
     "JobCreate",
     "JobFilterParams",
     "JobListResponse",

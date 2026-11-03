@@ -47,6 +47,9 @@ class JobService:
                 raise NotAuthorizedException(
                     "You are not authorized to delete this job posting"
                 )
+        existing_job = await self.job_repository.get_by_id(job_id)
+        if existing_job is None:
+            raise JobNotFoundException(f"Job posting with id {job_id} not found!")
         result = await self.job_repository.delete_by_id(job_id)
         await self.db.commit()
         return result

@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from app.exceptions import (
     InvalidCredentialsException,
     InvalidRefreshTokenException,
+    JobNotFoundException,
     JobProfileNotFoundException,
     JobSeekerProfileAlreadyExistsException,
     NotAuthorizedException,
@@ -63,6 +64,12 @@ def register_exception_handlers(app: FastAPI):
             content={"detail": str(exc)},
         )
 
+    @app.exception_handler(JobNotFoundException)
+    async def job_not_found_handler(request: Request, exc: JobNotFoundException):
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND, content={"detail": str(exc)}
+        )
+    
     @app.exception_handler(UserNotFoundException)
     async def user_not_found_handler(
         request: Request,
