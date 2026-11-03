@@ -1,4 +1,8 @@
-from app.exceptions import JobNotFoundException, JobProfileNotFoundException
+from app.exceptions import (
+    ApplicationAlreadyExistsException,
+    JobNotFoundException,
+    JobProfileNotFoundException,
+)
 from app.models import Application
 from app.repositories.protocols import (
     ApplicationRepositoryProtocol,
@@ -30,6 +34,15 @@ class ApplicationService:
 
         if job is None:
             raise JobNotFoundException(f"Job with job id {job_id} not found ")
+
+        existing_application = self.application_repository.get_existing_application(
+            job_seeker.id, job.id
+        )
+
+        if existing_application is not None:
+            raise ApplicationAlreadyExistsException(
+                f"You have already applied to the job {job_id}"
+            )
         file_name = resume.filename
         file_path = await save_resume(resume)
 
@@ -42,6 +55,15 @@ class ApplicationService:
 
         result = await self.application_repository.create(application)
         await self.db.commit()
+        return result
+
+    async def get_current_user_applications(self, user):
+        job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
+        if job_seeker is None:
+            raise JobProfileNotFoundException("User do not have a job seeker profile ")
+        result = await self.application_repository.get_all_by_job_seeker_id(
+            job_seeker.id
+        )
         return result
 
     async def get_all_applications(self, filters, limit, offset): ...

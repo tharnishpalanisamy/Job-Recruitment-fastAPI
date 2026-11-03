@@ -1,0 +1,2 @@
+class ApplicationAlreadyExistsException(Exception) :
+    pass 
