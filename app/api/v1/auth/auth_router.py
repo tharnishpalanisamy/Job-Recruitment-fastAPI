@@ -47,3 +47,5 @@ async def refresh_token(
     service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
 ):
     return await service.refresh_tokens(payload.refresh_token)
+
+

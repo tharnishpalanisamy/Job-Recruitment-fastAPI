@@ -13,7 +13,10 @@ class JobService:
         await self.db.commit()
         return result
 
-    async def get_all_jobs(self, filters, limit, offset): ...
+    async def get_all_jobs(self, filters, limit, offset):
+        result = await self.job_repository.get_all(filters, limit, offset)
+
+        return result
 
     async def get_job_by_id(self, job_id): ...
 

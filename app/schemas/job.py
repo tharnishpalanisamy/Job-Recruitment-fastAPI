@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime , date
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -42,6 +42,22 @@ class JobCreate(BaseModel):
         return self
 
 
+class JobListResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title: str
+    qualification: str
+    experience_min: float
+    experience_max: float | None
+    salary_min: float | None
+    salary_max: float | None
+    employment_type: EmploymentType
+    location: str
+    status: JobStatus
+    created_at: datetime
+
+
 class JobResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -50,18 +66,27 @@ class JobResponse(BaseModel):
     description: str
     requirements: str
     qualification: str
-
     experience_min: float
     experience_max: float | None
-
     salary_min: float | None
     salary_max: float | None
-
     employment_type: EmploymentType
     location: str
     vacancies: int
-
     status: JobStatus
-
     created_by: int
     created_at: datetime
+
+
+class JobFilterParams(BaseModel):
+    title: str | None = Field(max_length=150, default=None)
+    requirements: str | None = Field(max_length=255, default=None)
+
+    qualification: str | None = Field(max_length=150, default=None)
+    experience_min: float | None = Field(ge=0, default=None)
+    experience_max: float | None = Field(gt=0, default=None)
+    salary_min: float | None = Field(ge=0, default=None)
+    salary_max: float | None = Field(gt=0, default=None)
+    employment_type: EmploymentType | None = Field(default=None)
+    location: str | None = Field(default=None, max_length=150)
+    created_at: date | None = Field(default=None)
