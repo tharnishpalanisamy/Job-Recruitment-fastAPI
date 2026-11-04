@@ -55,3 +55,12 @@ class ApplicationRepository:
 
         await self.db.execute(query)
         await self.db.flush()
+
+    async def update_resume(self, application, filename, file_path):
+        application.resume_filename = filename
+        application.resume_path = file_path
+
+        await self.db.flush()
+        await self.db.refresh(application)
+
+        return application

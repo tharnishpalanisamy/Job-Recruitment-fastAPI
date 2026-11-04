@@ -212,3 +212,33 @@ class ApplicationService:
                 resume_path.unlink()
         except OSError:
             logger.exception("Failed to delete resume file: %s", resume_path)
+
+    async def update_resume_by_id(self, user, application_id, resume):
+        application = await self.application_repository.get_by_application_id(
+            application_id
+        )
+
+        if application is None:
+            raise ApplicationNotFoundException(
+                f"Application with id {application_id} not found"
+            )
+        job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
+
+        if job_seeker is None:
+            raise JobProfileNotFoundException(
+                "Job file corresponding to the user is not found !"
+            )
+
+        if application.job_seeker_id != job_seeker.id:
+            raise NotAuthorizedException("You are not allowed to edit this resouce")
+
+        filename = resume.filename
+        file_path = await save_resume(resume)
+
+        result = await self.application_repository.update_resume(
+            application, filename, file_path
+        )
+
+        await self.db.commit()
+
+        return result
