@@ -8,3 +8,9 @@ class ApplicationNotFoundException(Exception):
 
 class InvalidApplicationStatusTransitionException(Exception) :
     pass 
+
+class InvalidApplicationStatusException(Exception) :
+    pass 
+
+class ApplicationNotEditableException(Exception) :
+    pass 

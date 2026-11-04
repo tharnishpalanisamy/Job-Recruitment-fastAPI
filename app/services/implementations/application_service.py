@@ -3,14 +3,18 @@ from pathlib import Path
 
 from fastapi import UploadFile
 
-from app.core import ApplicationStatus, UserRole
+from app.core import ApplicationStatus, JobStatus, UserRole
 from app.exceptions import (
     ApplicationAlreadyExistsException,
+    ApplicationNotEditableException,
     ApplicationNotFoundException,
+    InvalidApplicationStatusException,
     InvalidApplicationStatusTransitionException,
+    JobNotAcceptingApplicationsException,
     JobNotFoundException,
     JobProfileNotFoundException,
     NotAuthorizedException,
+    NoVacanciesAvailableException,
 )
 from app.models import Application, User
 from app.repositories.protocols import (
@@ -68,6 +72,11 @@ class ApplicationService:
         if job is None:
             raise JobNotFoundException(f"Job with job id {job_id} not found ")
 
+        if job.vacancies == 0 or job.status == JobStatus.CLOSED:
+            raise JobNotAcceptingApplicationsException(
+                "Job no longer accepts applications"
+            )
+
         existing_application = (
             await self.application_repository.get_existing_application(
                 job_seeker.id, job.id
@@ -87,17 +96,18 @@ class ApplicationService:
             resume_filename=file_name,
             resume_path=file_path,
         )
-
-        result = await self.application_repository.create(application)
-        await self.db.commit()
+        try:
+            result = await self.application_repository.create(application)
+            await self.db.commit()
+        except Exception:
+            Path(file_path).unlink()
+            raise
         job_seeker = await self.job_seeker_repository.get_by_id(
             application.job_seeker_id
         )
-        applicant = (
-            await self.user_repository.get_by_id(job_seeker.user_id)
-            if job_seeker is not None
-            else None
-        )
+        if job_seeker is not None:
+            applicant = await self.user_repository.get_by_id(job_seeker.user_id)
+
         if applicant is not None:
             await self.email_service.send_application_confirmation(
                 recipient=applicant.email,
@@ -137,8 +147,6 @@ class ApplicationService:
 
         return result
 
-    async def get_applications_by_job_id(self, job_id: int) -> list[Application]: ...
-
     async def update_application_status_by_id(
         self, user: User, application_id: int, status: ApplicationStatus
     ) -> Application:
@@ -162,7 +170,15 @@ class ApplicationService:
             ApplicationStatus(application.status),
             status,
         )
+        if status == ApplicationStatus.SELECTED:
+            if job.vacancies == 0:
+                raise NoVacanciesAvailableException(
+                    "Cannot shortlist applicant maximum vacancies reached !"
+                )
+            await self.job_repository.reduce_vacancy(job)
+
         result = await self.application_repository.update_status(application, status)
+
         await self.db.commit()
 
         job_seeker = await self.job_seeker_repository.get_by_id(
@@ -190,6 +206,11 @@ class ApplicationService:
         job = await self.job_repository.get_by_id(application.job_id)
 
         if user.role == UserRole.JOB_SEEKER:
+            if application.status != ApplicationStatus.APPLIED:
+                raise ApplicationNotEditableException(
+                    f"Application has been moved to {application.staus.replace('_', ' ').title()} , so it cannot be deleted"
+                )
+
             job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
             if job_seeker is None:
@@ -222,6 +243,11 @@ class ApplicationService:
             raise ApplicationNotFoundException(
                 f"Application with id {application_id} not found"
             )
+
+        if application.status != ApplicationStatus.APPLIED:
+            raise InvalidApplicationStatusException(
+                f"Application has been already moved to {application.status.replace('_', ' ').title()} , cannot change the resume now!"
+            )
         job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
         if job_seeker is None:
@@ -238,7 +264,8 @@ class ApplicationService:
         result = await self.application_repository.update_resume(
             application, filename, file_path
         )
-
+        old_path = Path(application.resume_path)
+        old_path.unlink()
         await self.db.commit()
 
         return result

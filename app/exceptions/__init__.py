@@ -1,9 +1,15 @@
 from .application import (
     ApplicationAlreadyExistsException,
+    ApplicationNotEditableException,
     ApplicationNotFoundException,
+    InvalidApplicationStatusException,
     InvalidApplicationStatusTransitionException,
 )
-from .job import JobNotFoundException
+from .job import (
+    JobNotAcceptingApplicationsException,
+    JobNotFoundException,
+    NoVacanciesAvailableException,
+)
 from .job_seeker import (
     JobProfileNotFoundException,
     JobSeekerProfileAlreadyExistsException,
@@ -17,13 +23,17 @@ from .user import (
 
 __all__ = [
     "ApplicationAlreadyExistsException",
+    "ApplicationNotEditableException",
     "ApplicationNotFoundException",
+    "InvalidApplicationStatusException",
     "InvalidApplicationStatusTransitionException",
     "InvalidCredentialsException",
     "InvalidRefreshTokenException",
+    "JobNotAcceptingApplicationsException",
     "JobNotFoundException",
     "JobProfileNotFoundException",
     "JobSeekerProfileAlreadyExistsException",
+    "NoVacanciesAvailableException",
     "NotAuthorizedException",
     "UserNotFoundException",
 ]

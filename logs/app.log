@@ -1,0 +1,4 @@
+2026-11-04 13:09:57,493 | INFO | app.middleware.logging_middleware | Incoming request GET /docs
+2026-11-04 13:09:57,494 | INFO | app.middleware.logging_middleware | Process timing 0.0016 seconds | Status code: 200
+2026-11-04 13:09:57,601 | INFO | app.middleware.logging_middleware | Incoming request GET /openapi.json
+2026-11-04 13:09:57,786 | INFO | app.middleware.logging_middleware | Process timing 0.1855 seconds | Status code: 200

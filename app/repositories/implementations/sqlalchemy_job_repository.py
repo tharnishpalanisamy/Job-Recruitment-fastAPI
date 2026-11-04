@@ -2,6 +2,7 @@ from datetime import datetime, time, timedelta, timezone
 
 from sqlalchemy import delete, select
 
+from app.core import JobStatus
 from app.models import Job
 
 
@@ -76,3 +77,11 @@ class JobRepository:
         await self.db.flush()
         await self.db.refresh(job)
         return job
+
+    async def reduce_vacancy(self, job: Job) -> None:
+        job.vacancies = job.vacancies - 1
+        if job.vacancies == 0:
+            job.status = JobStatus.CLOSED 
+
+        await self.db.flush() 
+        
