@@ -5,12 +5,17 @@ from fastapi.responses import JSONResponse
 
 from app.exceptions import (
     ApplicationAlreadyExistsException,
+    ApplicationNotEditableException,
+    ApplicationNotFoundException,
+    InvalidApplicationStatusException,
     InvalidApplicationStatusTransitionException,
     InvalidCredentialsException,
     InvalidRefreshTokenException,
     JobNotFoundException,
+    JobNotAcceptingApplicationsException,
     JobProfileNotFoundException,
     JobSeekerProfileAlreadyExistsException,
+    NoVacanciesAvailableException,
     NotAuthorizedException,
     UserNotFoundException,
 )
@@ -80,6 +85,51 @@ def register_exception_handlers(app: FastAPI):
         logger.error("Exception handled: %s", exc)
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND, content={"detail": str(exc)}
+        )
+
+    @app.exception_handler(JobNotAcceptingApplicationsException)
+    async def job_not_accepting_applications_handler(
+        request: Request, exc: JobNotAcceptingApplicationsException
+    ):
+        logger.error("Exception handled: %s", exc)
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
+        )
+
+    @app.exception_handler(NoVacanciesAvailableException)
+    async def no_vacancies_available_handler(
+        request: Request, exc: NoVacanciesAvailableException
+    ):
+        logger.error("Exception handled: %s", exc)
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
+        )
+
+    @app.exception_handler(ApplicationNotFoundException)
+    async def application_not_found_handler(
+        request: Request, exc: ApplicationNotFoundException
+    ):
+        logger.error("Exception handled: %s", exc)
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND, content={"detail": str(exc)}
+        )
+
+    @app.exception_handler(InvalidApplicationStatusException)
+    async def invalid_application_status_exception_handler(
+        request: Request, exc: InvalidApplicationStatusException
+    ):
+        logger.error("Exception handled: %s", exc)
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
+        )
+
+    @app.exception_handler(ApplicationNotEditableException)
+    async def application_not_editable_handler(
+        request: Request, exc: ApplicationNotEditableException
+    ):
+        logger.error("Exception handled: %s", exc)
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
         )
 
     @app.exception_handler(ApplicationAlreadyExistsException)

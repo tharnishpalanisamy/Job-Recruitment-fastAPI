@@ -14,7 +14,6 @@ from app.exceptions import (
     JobNotFoundException,
     JobProfileNotFoundException,
     NotAuthorizedException,
-    NoVacanciesAvailableException,
 )
 from app.models import Application, User
 from app.repositories.protocols import (
@@ -160,6 +159,8 @@ class ApplicationService:
 
         job = await self.job_repository.get_by_id(application.job_id)
 
+        if job is None:
+            raise JobNotFoundException(f"Job with id {application.job_id} not found !")
         if job.created_by != user.id:
             raise NotAuthorizedException(
                 "You are not allowed to perform this operation "
@@ -171,10 +172,11 @@ class ApplicationService:
             status,
         )
         if status == ApplicationStatus.SELECTED:
-            if job.vacancies == 0:
-                raise NoVacanciesAvailableException(
-                    "Cannot shortlist applicant maximum vacancies reached !"
+            if job.status != JobStatus.OPEN or job.vacancies <= 0:
+                raise JobNotAcceptingApplicationsException(
+                    "No vacancies available for this job"
                 )
+
             await self.job_repository.reduce_vacancy(job)
 
         result = await self.application_repository.update_status(application, status)
@@ -193,7 +195,7 @@ class ApplicationService:
                 recipient=applicant.email,
                 username=applicant.username,
                 job_title=title,
-                status=status.replace("_", " ").title(),
+                status=status.value.replace("_", " ").title(),
             )
 
         return result
@@ -208,7 +210,7 @@ class ApplicationService:
         if user.role == UserRole.JOB_SEEKER:
             if application.status != ApplicationStatus.APPLIED:
                 raise ApplicationNotEditableException(
-                    f"Application has been moved to {application.staus.replace('_', ' ').title()} , so it cannot be deleted"
+                    f"Application has been moved to {application.status.replace('_', ' ').title()} , so it cannot be deleted"
                 )
 
             job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
@@ -258,14 +260,32 @@ class ApplicationService:
         if application.job_seeker_id != job_seeker.id:
             raise NotAuthorizedException("You are not allowed to edit this resouce")
 
+        old_path = Path(application.resume_path)
+
+
         filename = resume.filename
         file_path = await save_resume(resume)
 
-        result = await self.application_repository.update_resume(
-            application, filename, file_path
-        )
-        old_path = Path(application.resume_path)
-        old_path.unlink()
-        await self.db.commit()
+        try:
+            result = await self.application_repository.update_resume(
+                application, filename, file_path
+            )
+
+            await self.db.commit()
+
+        except Exception:
+            await self.db.rollback()
+
+            new_path = Path(file_path)
+            if new_path.exists():
+                new_path.unlink()
+
+            raise
+
+        try:
+            if old_path.exists():
+                old_path.unlink()
+        except OSError:
+            logger.exception("Failed to delete old resume: %s", old_path)
 
         return result
