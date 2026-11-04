@@ -2,3 +2,5 @@
 2026-11-04 13:09:57,494 | INFO | app.middleware.logging_middleware | Process timing 0.0016 seconds | Status code: 200
 2026-11-04 13:09:57,601 | INFO | app.middleware.logging_middleware | Incoming request GET /openapi.json
 2026-11-04 13:09:57,786 | INFO | app.middleware.logging_middleware | Process timing 0.1855 seconds | Status code: 200
+2026-11-04 15:22:55,763 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/health/
+2026-11-04 15:22:55,772 | INFO | app.middleware.logging_middleware | Process timing 0.0094 seconds | Status code: 200

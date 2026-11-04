@@ -66,6 +66,18 @@ class JobRepository:
         query = select(Job).where(Job.id == id)
         return await self.db.scalar(query)
 
+    async def get_by_id_for_update(self, job_id: int) -> Job | None:
+        query = (
+            select(Job)
+            .where(Job.id == job_id)
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+
+        result = await self.db.execute(query)
+
+        return result.scalar_one_or_none()
+
     async def delete_by_id(self, job_id: int) -> None:
         query = delete(Job).where(Job.id == job_id)
         await self.db.execute(query)
@@ -81,7 +93,6 @@ class JobRepository:
     async def reduce_vacancy(self, job: Job) -> None:
         job.vacancies = job.vacancies - 1
         if job.vacancies == 0:
-            job.status = JobStatus.CLOSED 
+            job.status = JobStatus.CLOSED
 
-        await self.db.flush() 
-        
+        await self.db.flush()

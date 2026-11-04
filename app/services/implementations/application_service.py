@@ -157,7 +157,10 @@ class ApplicationService:
                 f"Application with id {application_id} not found "
             )
 
-        job = await self.job_repository.get_by_id(application.job_id)
+        if status == ApplicationStatus.SELECTED:
+            job = await self.job_repository.get_by_id_for_update(application.job_id)
+        else:
+            job = await self.job_repository.get_by_id(application.job_id)
 
         if job is None:
             raise JobNotFoundException(f"Job with id {application.job_id} not found !")
@@ -216,7 +219,7 @@ class ApplicationService:
             job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
             if job_seeker is None:
-                raise JobProfileNotFoundException(
+                raise JobProfileNotFoundException(  
                     "Cannot find job profile associated with user"
                 )
             if application.job_seeker_id != job_seeker.id:
@@ -261,7 +264,6 @@ class ApplicationService:
             raise NotAuthorizedException("You are not allowed to edit this resouce")
 
         old_path = Path(application.resume_path)
-
 
         filename = resume.filename
         file_path = await save_resume(resume)
