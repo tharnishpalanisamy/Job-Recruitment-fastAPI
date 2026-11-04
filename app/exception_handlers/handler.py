@@ -11,12 +11,12 @@ from app.exceptions import (
     InvalidApplicationStatusTransitionException,
     InvalidCredentialsException,
     InvalidRefreshTokenException,
-    JobNotFoundException,
     JobNotAcceptingApplicationsException,
+    JobNotFoundException,
     JobProfileNotFoundException,
     JobSeekerProfileAlreadyExistsException,
-    NoVacanciesAvailableException,
     NotAuthorizedException,
+    NoVacanciesAvailableException,
     UserNotFoundException,
 )
 

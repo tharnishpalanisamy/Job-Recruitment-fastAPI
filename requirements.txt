@@ -10,6 +10,7 @@ PyJWT[crypto]
 pwdlib[argon2] 
 pydantic[email]
 pytest_asyncio 
+httpx
 ruff  
 python-multipart
 fastapi-mail

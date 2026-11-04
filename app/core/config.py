@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     db_password: str
     db_name: str
     DATABASE_URL: str
+    TEST_DATABASE_URL: str | None 
 
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
