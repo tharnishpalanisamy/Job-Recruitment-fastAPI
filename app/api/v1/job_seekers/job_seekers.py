@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Query, status
 
 from app.core import UserRole
-from app.dependencies import get_current_user, get_job_seeker_service, require_roles
+from app.dependencies import get_job_seeker_service, require_roles
 from app.models import User
 from app.schemas import (
     JobSeekerCreate,
@@ -24,7 +24,7 @@ router = APIRouter(prefix="/job-seekers", tags=["Job Seekers"])
 )
 async def create_job_seeker(
     data: JobSeekerCreate,
-    user: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
 ):
     return await service.create_job_seeker(user, data)

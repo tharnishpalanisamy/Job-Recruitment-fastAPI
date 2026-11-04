@@ -29,8 +29,11 @@ class JobService:
             raise JobNotFoundException(f"Job posting with id {job_id} not found!")
         return job
 
-    async def update_job(self, job_id: int, job_data: JobUpdate) -> Job:
+    async def update_job(self, user: User, job_id: int, job_data: JobUpdate) -> Job:
         existing_job = await self.job_repository.get_by_id(job_id)
+
+        if user.role == UserRole.RECRUITER and user.id != existing_job.created_by:
+            raise NotAuthorizedException("You are not allowed to edit this resouce")
 
         if existing_job is None:
             raise JobNotFoundException(f"Job posting with id {job_id} not found!")
