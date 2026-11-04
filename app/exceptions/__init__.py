@@ -16,6 +16,7 @@ from .job_seeker import (
 )
 from .refresh_token import InvalidRefreshTokenException
 from .user import (
+    EmailAlreadyExists,
     InvalidCredentialsException,
     NotAuthorizedException,
     UserNotFoundException,
@@ -25,6 +26,7 @@ __all__ = [
     "ApplicationAlreadyExistsException",
     "ApplicationNotEditableException",
     "ApplicationNotFoundException",
+    "EmailAlreadyExists",
     "InvalidApplicationStatusException",
     "InvalidApplicationStatusTransitionException",
     "InvalidCredentialsException",

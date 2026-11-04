@@ -1,6 +1,300 @@
-2026-11-04 13:09:57,493 | INFO | app.middleware.logging_middleware | Incoming request GET /docs
-2026-11-04 13:09:57,494 | INFO | app.middleware.logging_middleware | Process timing 0.0016 seconds | Status code: 200
-2026-11-04 13:09:57,601 | INFO | app.middleware.logging_middleware | Incoming request GET /openapi.json
-2026-11-04 13:09:57,786 | INFO | app.middleware.logging_middleware | Process timing 0.1855 seconds | Status code: 200
-2026-11-04 15:22:55,763 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/health/
-2026-11-04 15:22:55,772 | INFO | app.middleware.logging_middleware | Process timing 0.0094 seconds | Status code: 200
+2026-11-04 18:25:16,469 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:25:16,628 | INFO | sqlalchemy.engine.Engine | select pg_catalog.version()
+2026-11-04 18:25:16,629 | INFO | sqlalchemy.engine.Engine | [raw sql] ()
+2026-11-04 18:25:16,634 | INFO | sqlalchemy.engine.Engine | select current_schema()
+2026-11-04 18:25:16,635 | INFO | sqlalchemy.engine.Engine | [raw sql] ()
+2026-11-04 18:25:16,638 | INFO | sqlalchemy.engine.Engine | show standard_conforming_strings
+2026-11-04 18:25:16,638 | INFO | sqlalchemy.engine.Engine | [raw sql] ()
+2026-11-04 18:25:16,641 | INFO | sqlalchemy.engine.Engine | BEGIN (implicit)
+2026-11-04 18:25:16,656 | INFO | sqlalchemy.engine.Engine | SELECT users.id, users.username, users.email, users.password_hash, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = $1::VARCHAR
+2026-11-04 18:25:16,658 | INFO | sqlalchemy.engine.Engine | [generated in 0.00145s] ('user@example.com',)
+2026-11-04 18:25:16,755 | INFO | sqlalchemy.engine.Engine | ROLLBACK
+2026-11-04 18:25:16,756 | ERROR | app.exception_handlers.handler | Exception handled: Invalid username or password 
+2026-11-04 18:25:16,758 | INFO | app.middleware.logging_middleware | Process timing 0.2886 seconds | Status code: 401
+2026-11-04 18:25:36,884 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:40,764 | INFO | app.middleware.logging_middleware | Process timing 3.8800 seconds | Status code: 201
+2026-11-04 18:25:40,767 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:25:41,350 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:45,041 | INFO | app.middleware.logging_middleware | Process timing 3.6905 seconds | Status code: 201
+2026-11-04 18:25:45,042 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:25:45,043 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:45,241 | ERROR | app.exception_handlers.handler | Exception handled : Account Already exists please try to login 
+2026-11-04 18:25:45,241 | INFO | app.middleware.logging_middleware | Process timing 0.1983 seconds | Status code: 409
+2026-11-04 18:25:45,255 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 409 Conflict"
+2026-11-04 18:25:45,772 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:45,777 | INFO | app.middleware.logging_middleware | Process timing 0.0051 seconds | Status code: 422
+2026-11-04 18:25:45,777 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:25:46,383 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:46,387 | INFO | app.middleware.logging_middleware | Process timing 0.0040 seconds | Status code: 422
+2026-11-04 18:25:46,387 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:25:47,194 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:47,199 | INFO | app.middleware.logging_middleware | Process timing 0.0042 seconds | Status code: 422
+2026-11-04 18:25:47,199 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:25:47,821 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:47,842 | INFO | app.middleware.logging_middleware | Process timing 0.0214 seconds | Status code: 422
+2026-11-04 18:25:47,843 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:25:48,562 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:25:52,253 | INFO | app.middleware.logging_middleware | Process timing 3.6911 seconds | Status code: 201
+2026-11-04 18:25:52,256 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:25:52,258 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:25:52,496 | INFO | app.middleware.logging_middleware | Process timing 0.2384 seconds | Status code: 200
+2026-11-04 18:25:52,497 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:31:11,939 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:16,296 | INFO | app.middleware.logging_middleware | Process timing 4.3568 seconds | Status code: 201
+2026-11-04 18:31:16,298 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:31:16,989 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:21,569 | INFO | app.middleware.logging_middleware | Process timing 4.5799 seconds | Status code: 201
+2026-11-04 18:31:21,569 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:31:21,570 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:21,796 | ERROR | app.exception_handlers.handler | Exception handled : Account Already exists please try to login 
+2026-11-04 18:31:21,796 | INFO | app.middleware.logging_middleware | Process timing 0.2257 seconds | Status code: 409
+2026-11-04 18:31:21,810 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 409 Conflict"
+2026-11-04 18:31:22,422 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:22,428 | INFO | app.middleware.logging_middleware | Process timing 0.0054 seconds | Status code: 422
+2026-11-04 18:31:22,428 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:31:23,126 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:23,131 | INFO | app.middleware.logging_middleware | Process timing 0.0044 seconds | Status code: 422
+2026-11-04 18:31:23,131 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:31:23,733 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:23,741 | INFO | app.middleware.logging_middleware | Process timing 0.0077 seconds | Status code: 422
+2026-11-04 18:31:23,742 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:31:24,460 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:24,464 | INFO | app.middleware.logging_middleware | Process timing 0.0038 seconds | Status code: 422
+2026-11-04 18:31:24,465 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:31:25,244 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:31:29,202 | INFO | app.middleware.logging_middleware | Process timing 3.9582 seconds | Status code: 201
+2026-11-04 18:31:29,203 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:31:29,204 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:31:29,441 | INFO | app.middleware.logging_middleware | Process timing 0.2373 seconds | Status code: 200
+2026-11-04 18:31:29,441 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:32:06,991 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:11,187 | INFO | app.middleware.logging_middleware | Process timing 4.1963 seconds | Status code: 201
+2026-11-04 18:32:11,188 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:32:11,638 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:15,551 | INFO | app.middleware.logging_middleware | Process timing 3.9129 seconds | Status code: 201
+2026-11-04 18:32:15,553 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:32:15,555 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:15,726 | ERROR | app.exception_handlers.handler | Exception handled : Account Already exists please try to login 
+2026-11-04 18:32:15,727 | INFO | app.middleware.logging_middleware | Process timing 0.1719 seconds | Status code: 409
+2026-11-04 18:32:15,741 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 409 Conflict"
+2026-11-04 18:32:16,277 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:16,281 | INFO | app.middleware.logging_middleware | Process timing 0.0041 seconds | Status code: 422
+2026-11-04 18:32:16,282 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:32:16,873 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:16,878 | INFO | app.middleware.logging_middleware | Process timing 0.0043 seconds | Status code: 422
+2026-11-04 18:32:16,878 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:32:17,510 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:17,515 | INFO | app.middleware.logging_middleware | Process timing 0.0046 seconds | Status code: 422
+2026-11-04 18:32:17,515 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:32:18,155 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:18,159 | INFO | app.middleware.logging_middleware | Process timing 0.0040 seconds | Status code: 422
+2026-11-04 18:32:18,160 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:32:18,952 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:32:30,095 | INFO | app.middleware.logging_middleware | Process timing 11.1432 seconds | Status code: 201
+2026-11-04 18:32:30,096 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:32:30,097 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:32:30,326 | INFO | app.middleware.logging_middleware | Process timing 0.2288 seconds | Status code: 200
+2026-11-04 18:32:30,327 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:33:00,018 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:18,924 | INFO | app.middleware.logging_middleware | Process timing 18.9053 seconds | Status code: 201
+2026-11-04 18:33:18,925 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:33:19,392 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:23,269 | INFO | app.middleware.logging_middleware | Process timing 3.8775 seconds | Status code: 201
+2026-11-04 18:33:23,271 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:33:23,272 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:23,460 | ERROR | app.exception_handlers.handler | Exception handled : Account Already exists please try to login 
+2026-11-04 18:33:23,461 | INFO | app.middleware.logging_middleware | Process timing 0.1887 seconds | Status code: 409
+2026-11-04 18:33:23,474 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 409 Conflict"
+2026-11-04 18:33:24,031 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:24,037 | INFO | app.middleware.logging_middleware | Process timing 0.0051 seconds | Status code: 422
+2026-11-04 18:33:24,037 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:33:24,616 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:24,620 | INFO | app.middleware.logging_middleware | Process timing 0.0041 seconds | Status code: 422
+2026-11-04 18:33:24,620 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:33:25,246 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:25,251 | INFO | app.middleware.logging_middleware | Process timing 0.0044 seconds | Status code: 422
+2026-11-04 18:33:25,251 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-04 18:33:25,837 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:33:26,023 | ERROR | app.exception_handlers.handler | Exception handled: Invalid username or password 
+2026-11-04 18:33:26,024 | INFO | app.middleware.logging_middleware | Process timing 0.1871 seconds | Status code: 401
+2026-11-04 18:33:26,024 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 401 Unauthorized"
+2026-11-04 18:33:26,666 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-04 18:33:30,718 | INFO | app.middleware.logging_middleware | Process timing 4.0515 seconds | Status code: 201
+2026-11-04 18:33:30,720 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-04 18:33:30,721 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:33:30,934 | INFO | app.middleware.logging_middleware | Process timing 0.2130 seconds | Status code: 200
+2026-11-04 18:33:30,935 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:45:45,250 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:45:45,363 | INFO | app.middleware.logging_middleware | Process timing 0.1129 seconds | Status code: 200
+2026-11-04 18:45:45,364 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:45:45,367 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/
+2026-11-04 18:45:45,388 | INFO | app.middleware.logging_middleware | Process timing 0.0209 seconds | Status code: 405
+2026-11-04 18:45:45,388 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/ "HTTP/1.1 405 Method Not Allowed"
+2026-11-04 18:46:52,873 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:46:53,021 | INFO | app.middleware.logging_middleware | Process timing 0.1482 seconds | Status code: 200
+2026-11-04 18:46:53,022 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:46:53,025 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:46:53,337 | INFO | app.middleware.logging_middleware | Process timing 0.3120 seconds | Status code: 201
+2026-11-04 18:46:53,338 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:47:44,114 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:47:44,325 | INFO | app.middleware.logging_middleware | Process timing 0.2110 seconds | Status code: 200
+2026-11-04 18:47:44,327 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:47:44,333 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:47:44,617 | INFO | app.middleware.logging_middleware | Process timing 0.2836 seconds | Status code: 201
+2026-11-04 18:47:44,617 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:48:03,520 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:48:03,729 | INFO | sqlalchemy.engine.Engine | select pg_catalog.version()
+2026-11-04 18:48:03,730 | INFO | sqlalchemy.engine.Engine | [raw sql] ()
+2026-11-04 18:48:03,734 | INFO | sqlalchemy.engine.Engine | select current_schema()
+2026-11-04 18:48:03,735 | INFO | sqlalchemy.engine.Engine | [raw sql] ()
+2026-11-04 18:48:03,737 | INFO | sqlalchemy.engine.Engine | show standard_conforming_strings
+2026-11-04 18:48:03,738 | INFO | sqlalchemy.engine.Engine | [raw sql] ()
+2026-11-04 18:48:03,739 | INFO | sqlalchemy.engine.Engine | BEGIN (implicit)
+2026-11-04 18:48:03,749 | INFO | sqlalchemy.engine.Engine | SELECT users.id, users.username, users.email, users.password_hash, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = $1::VARCHAR
+2026-11-04 18:48:03,750 | INFO | sqlalchemy.engine.Engine | [generated in 0.00081s] ('sgstzz4@gmail.com',)
+2026-11-04 18:48:03,940 | INFO | sqlalchemy.engine.Engine | INSERT INTO refresh_tokens (user_id, token_hash, expires_at, revoked_at, replaced_by_id, created_at) VALUES ($1::INTEGER, $2::VARCHAR, $3::TIMESTAMP WITH TIME ZONE, $4::TIMESTAMP WITH TIME ZONE, $5::INTEGER, $6::TIMESTAMP WITH TIME ZONE) RETURNING refresh_tokens.id
+2026-11-04 18:48:03,941 | INFO | sqlalchemy.engine.Engine | [generated in 0.00098s] (2, '58324a0c29be21e1f8a2c6071468cbf098ef94e5639ca4cc497d04c48be8aa02', datetime.datetime(2026, 11, 11, 13, 18, 3, 936895, tzinfo=datetime.timezone.utc), None, None, datetime.datetime(2026, 11, 4, 13, 17, 34, 41866, tzinfo=datetime.timezone.utc))
+2026-11-04 18:48:03,951 | INFO | sqlalchemy.engine.Engine | SELECT refresh_tokens.id, refresh_tokens.user_id, refresh_tokens.token_hash, refresh_tokens.expires_at, refresh_tokens.revoked_at, refresh_tokens.replaced_by_id, refresh_tokens.created_at 
+FROM refresh_tokens 
+WHERE refresh_tokens.id = $1::INTEGER
+2026-11-04 18:48:03,952 | INFO | sqlalchemy.engine.Engine | [generated in 0.00086s] (9,)
+2026-11-04 18:48:03,970 | INFO | sqlalchemy.engine.Engine | COMMIT
+2026-11-04 18:48:03,977 | INFO | app.middleware.logging_middleware | Process timing 0.4577 seconds | Status code: 200
+2026-11-04 18:48:15,957 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:48:16,045 | INFO | sqlalchemy.engine.Engine | BEGIN (implicit)
+2026-11-04 18:48:16,056 | INFO | sqlalchemy.engine.Engine | SELECT users.id, users.username, users.email, users.password_hash, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::INTEGER
+2026-11-04 18:48:16,058 | INFO | sqlalchemy.engine.Engine | [generated in 0.00245s] (2,)
+2026-11-04 18:48:16,076 | INFO | sqlalchemy.engine.Engine | INSERT INTO jobs (title, description, requirements, qualification, experience_min, experience_max, salary_min, salary_max, employment_type, location, vacancies, status, created_by) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::NUMERIC(4, 1), $6::NUMERIC(4, 1), $7::NUMERIC(12, 2), $8::NUMERIC(12, 2), $9::employment_type, $10::VARCHAR, $11::INTEGER, $12::job_status, $13::INTEGER) RETURNING jobs.id, jobs.created_at, jobs.updated_at
+2026-11-04 18:48:16,096 | INFO | sqlalchemy.engine.Engine | [generated in 0.02033s] ('string', 'stringstri', 'string', 'string', 0.0, 0.0, 0.0, 0.0, 'FULL_TIME', 'string', 1, 'OPEN', 2)
+2026-11-04 18:48:16,175 | INFO | sqlalchemy.engine.Engine | SELECT jobs.id, jobs.title, jobs.description, jobs.requirements, jobs.qualification, jobs.experience_min, jobs.experience_max, jobs.salary_min, jobs.salary_max, jobs.employment_type, jobs.location, jobs.vacancies, jobs.status, jobs.created_by, jobs.created_at, jobs.updated_at 
+FROM jobs 
+WHERE jobs.id = $1::INTEGER
+2026-11-04 18:48:16,175 | INFO | sqlalchemy.engine.Engine | [generated in 0.00078s] (5,)
+2026-11-04 18:48:16,262 | INFO | sqlalchemy.engine.Engine | COMMIT
+2026-11-04 18:48:16,264 | INFO | app.middleware.logging_middleware | Process timing 0.3066 seconds | Status code: 201
+2026-11-04 18:48:56,344 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:48:56,346 | INFO | sqlalchemy.engine.Engine | BEGIN (implicit)
+2026-11-04 18:48:56,348 | INFO | sqlalchemy.engine.Engine | SELECT users.id, users.username, users.email, users.password_hash, users.role, users.is_active, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::INTEGER
+2026-11-04 18:48:56,352 | INFO | sqlalchemy.engine.Engine | [cached since 40.3s ago] (2,)
+2026-11-04 18:48:56,356 | INFO | sqlalchemy.engine.Engine | ROLLBACK
+2026-11-04 18:48:56,358 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-04 18:48:56,359 | INFO | app.middleware.logging_middleware | Process timing 0.0147 seconds | Status code: 403
+2026-11-04 18:49:38,074 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:49:38,184 | INFO | app.middleware.logging_middleware | Process timing 0.1098 seconds | Status code: 200
+2026-11-04 18:49:38,185 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:49:38,188 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:49:38,443 | INFO | app.middleware.logging_middleware | Process timing 0.2555 seconds | Status code: 201
+2026-11-04 18:49:38,444 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:50:13,801 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:50:13,916 | INFO | app.middleware.logging_middleware | Process timing 0.1149 seconds | Status code: 200
+2026-11-04 18:50:13,917 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:50:13,920 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:50:14,216 | INFO | app.middleware.logging_middleware | Process timing 0.2962 seconds | Status code: 201
+2026-11-04 18:50:14,217 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:50:15,338 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:50:15,420 | ERROR | app.exception_handlers.handler | Exception handled: Invalid username or password 
+2026-11-04 18:50:15,421 | INFO | app.middleware.logging_middleware | Process timing 0.0828 seconds | Status code: 401
+2026-11-04 18:50:15,422 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 401 Unauthorized"
+2026-11-04 18:51:18,157 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:51:18,255 | INFO | app.middleware.logging_middleware | Process timing 0.0984 seconds | Status code: 200
+2026-11-04 18:51:18,256 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:51:18,258 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:51:18,554 | INFO | app.middleware.logging_middleware | Process timing 0.2952 seconds | Status code: 201
+2026-11-04 18:51:18,554 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:51:19,668 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:51:19,760 | INFO | app.middleware.logging_middleware | Process timing 0.0919 seconds | Status code: 200
+2026-11-04 18:51:19,761 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:51:19,763 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:51:20,042 | INFO | app.middleware.logging_middleware | Process timing 0.2786 seconds | Status code: 201
+2026-11-04 18:51:20,043 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:52:32,897 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:52:33,026 | INFO | app.middleware.logging_middleware | Process timing 0.1286 seconds | Status code: 200
+2026-11-04 18:52:33,027 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:52:33,031 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:52:33,402 | INFO | app.middleware.logging_middleware | Process timing 0.3712 seconds | Status code: 201
+2026-11-04 18:52:33,403 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:52:34,935 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:52:35,031 | INFO | app.middleware.logging_middleware | Process timing 0.0964 seconds | Status code: 200
+2026-11-04 18:52:35,032 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:52:35,034 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:52:35,443 | INFO | app.middleware.logging_middleware | Process timing 0.4088 seconds | Status code: 201
+2026-11-04 18:52:35,444 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:52:37,059 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:52:37,163 | INFO | app.middleware.logging_middleware | Process timing 0.1041 seconds | Status code: 200
+2026-11-04 18:52:37,164 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:52:37,166 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:52:37,405 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-04 18:52:37,406 | INFO | app.middleware.logging_middleware | Process timing 0.2401 seconds | Status code: 403
+2026-11-04 18:52:37,406 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"
+2026-11-04 18:52:54,736 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:52:54,889 | INFO | app.middleware.logging_middleware | Process timing 0.1531 seconds | Status code: 200
+2026-11-04 18:52:54,890 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:52:54,894 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:52:55,296 | INFO | app.middleware.logging_middleware | Process timing 0.4024 seconds | Status code: 201
+2026-11-04 18:52:55,297 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:52:56,769 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:52:56,950 | INFO | app.middleware.logging_middleware | Process timing 0.1819 seconds | Status code: 200
+2026-11-04 18:52:56,952 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:52:56,955 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:52:57,619 | INFO | app.middleware.logging_middleware | Process timing 0.6640 seconds | Status code: 201
+2026-11-04 18:52:57,620 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:52:59,888 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:53:00,059 | INFO | app.middleware.logging_middleware | Process timing 0.1713 seconds | Status code: 200
+2026-11-04 18:53:00,060 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:53:00,066 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:53:00,523 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-04 18:53:00,523 | INFO | app.middleware.logging_middleware | Process timing 0.4571 seconds | Status code: 403
+2026-11-04 18:53:00,524 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"
+2026-11-04 18:54:43,285 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:54:43,400 | INFO | app.middleware.logging_middleware | Process timing 0.1152 seconds | Status code: 200
+2026-11-04 18:54:43,401 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:54:43,403 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:54:43,733 | INFO | app.middleware.logging_middleware | Process timing 0.3293 seconds | Status code: 201
+2026-11-04 18:54:43,734 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:54:44,972 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:54:45,074 | INFO | app.middleware.logging_middleware | Process timing 0.1025 seconds | Status code: 200
+2026-11-04 18:54:45,075 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:54:45,077 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:54:45,391 | INFO | app.middleware.logging_middleware | Process timing 0.3140 seconds | Status code: 201
+2026-11-04 18:54:45,392 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:54:46,695 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:54:46,792 | INFO | app.middleware.logging_middleware | Process timing 0.0967 seconds | Status code: 200
+2026-11-04 18:54:46,793 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:54:46,795 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:54:47,056 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-04 18:54:47,056 | INFO | app.middleware.logging_middleware | Process timing 0.2613 seconds | Status code: 403
+2026-11-04 18:54:47,057 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"
+2026-11-04 18:55:23,703 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:55:23,901 | INFO | app.middleware.logging_middleware | Process timing 0.1978 seconds | Status code: 200
+2026-11-04 18:55:23,903 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:55:23,910 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:55:24,222 | INFO | app.middleware.logging_middleware | Process timing 0.3120 seconds | Status code: 201
+2026-11-04 18:55:24,223 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:55:25,415 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:55:25,555 | INFO | app.middleware.logging_middleware | Process timing 0.1396 seconds | Status code: 200
+2026-11-04 18:55:25,556 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:55:25,560 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:55:25,856 | INFO | app.middleware.logging_middleware | Process timing 0.2960 seconds | Status code: 201
+2026-11-04 18:55:25,857 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-04 18:55:27,037 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:55:27,176 | INFO | app.middleware.logging_middleware | Process timing 0.1389 seconds | Status code: 200
+2026-11-04 18:55:27,178 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:55:27,183 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:55:27,498 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-04 18:55:27,500 | INFO | app.middleware.logging_middleware | Process timing 0.3164 seconds | Status code: 403
+2026-11-04 18:55:27,501 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"
+2026-11-04 18:55:28,827 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-04 18:55:28,999 | INFO | app.middleware.logging_middleware | Process timing 0.1727 seconds | Status code: 200
+2026-11-04 18:55:29,001 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-04 18:55:29,005 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-04 18:55:29,445 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-04 18:55:29,445 | INFO | app.middleware.logging_middleware | Process timing 0.4402 seconds | Status code: 403
+2026-11-04 18:55:29,446 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"

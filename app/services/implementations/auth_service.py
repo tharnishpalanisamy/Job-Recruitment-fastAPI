@@ -1,5 +1,9 @@
 from app.core import create_access_token, hash_password, verify_password
-from app.exceptions import InvalidCredentialsException, InvalidRefreshTokenException
+from app.exceptions import (
+    EmailAlreadyExists,
+    InvalidCredentialsException,
+    InvalidRefreshTokenException,
+)
 from app.models import User
 from app.repositories.protocols import (
     UserRepositoryProtocol,
@@ -21,9 +25,7 @@ class AuthService:
         self.refresh_token_service = refresh_token_service
         self.email_service = email_service
 
-    async def authenticate_user(
-        self, user_data: UserCreate
-    ) -> dict[str, str | User]:
+    async def authenticate_user(self, user_data: UserCreate) -> dict[str, str | User]:
         user = await self.user_repository.get_by_email(user_data.email)
 
         if not user:
@@ -52,6 +54,10 @@ class AuthService:
             email=user_data.email,
             password_hash=password_hash,
         )
+        existing_user = await self.user_repository.get_by_email(user.email)
+
+        if existing_user is not None:
+            raise EmailAlreadyExists("Account Already exists please try to login")
 
         created_user = await self.user_repository.create(user)
         await self.db.commit()

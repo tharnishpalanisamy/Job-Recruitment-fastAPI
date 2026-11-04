@@ -8,3 +8,6 @@ class NotAuthorizedException(Exception):
 
 class UserNotFoundException(Exception):
     pass
+
+class EmailAlreadyExists(Exception) :
+    pass 

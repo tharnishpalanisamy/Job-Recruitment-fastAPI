@@ -7,6 +7,7 @@ from app.exceptions import (
     ApplicationAlreadyExistsException,
     ApplicationNotEditableException,
     ApplicationNotFoundException,
+    EmailAlreadyExists,
     InvalidApplicationStatusException,
     InvalidApplicationStatusTransitionException,
     InvalidCredentialsException,
@@ -156,6 +157,13 @@ def register_exception_handlers(app: FastAPI):
     async def invalid_application_status_handler(
         request: Request, exc: InvalidApplicationStatusTransitionException
     ):
+        logger.error("Exception handled : %s ", exc)
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
+        )
+
+    @app.exception_handler(EmailAlreadyExists)
+    async def email_already_exists_handler(request: Request, exc: EmailAlreadyExists):
         logger.error("Exception handled : %s ", exc)
         return JSONResponse(
             status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
