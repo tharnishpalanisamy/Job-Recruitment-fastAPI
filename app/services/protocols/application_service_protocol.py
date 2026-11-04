@@ -4,7 +4,7 @@ from fastapi import UploadFile
 
 from app.core import ApplicationStatus
 from app.models import Application, User
-
+from app.core import ApplicationResult
 
 class ApplicationServiceProtocol(Protocol):
     async def create_application(
@@ -26,3 +26,4 @@ class ApplicationServiceProtocol(Protocol):
     ) -> Application: ...
 
     async def delete_application_by_id(self, user: User, id: int) -> None: ...
+

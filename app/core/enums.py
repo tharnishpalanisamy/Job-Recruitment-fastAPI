@@ -16,8 +16,8 @@ class EmploymentType(str, enum.Enum):
 
 
 class JobStatus(str, enum.Enum):
-    OPEN = "open"
-    CLOSED = "closed"
+    OPEN = "OPEN"
+    CLOSED = "CLOSED"
 
 
 class ApplicationStatus(str, enum.Enum):
@@ -25,8 +25,14 @@ class ApplicationStatus(str, enum.Enum):
     UNDER_REVIEW = "UNDER_REVIEW"
     SHORTLISTED = "SHORTLISTED"
     REJECTED = "REJECTED"
+    SELECTED = "SELECTED"
 
 
 class SortBy(str, enum.Enum):
     ASC = "asc"
     DESC = "desc"
+
+
+class ApplicationResult(str, enum.Enum):
+    SELECTED = "SELECTED"
+    REJECTED = "REJECTED"

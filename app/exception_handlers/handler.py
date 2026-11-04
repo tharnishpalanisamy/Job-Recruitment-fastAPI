@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 
 from app.exceptions import (
     ApplicationAlreadyExistsException,
+    InvalidApplicationStatusTransitionException,
     InvalidCredentialsException,
     InvalidRefreshTokenException,
     JobNotFoundException,
@@ -99,6 +100,15 @@ def register_exception_handlers(app: FastAPI):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={"detail": str(exc)},
+        )
+
+    @app.exception_handler(InvalidApplicationStatusTransitionException)
+    async def invalid_application_status_handler(
+        request: Request, exc: InvalidApplicationStatusTransitionException
+    ):
+        logger.error("Exception handled : %s ", exc)
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
         )
 
     @app.exception_handler(Exception)

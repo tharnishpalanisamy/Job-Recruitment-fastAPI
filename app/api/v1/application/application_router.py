@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, Form, Query, UploadFile, status
 
-from app.core import ApplicationStatus, UserRole
+from app.core import ApplicationStatus, UserRole , ApplicationResult
 from app.dependencies import get_application_service, require_roles
 from app.models import User
 from app.services.protocols import ApplicationServiceProtocol
@@ -65,8 +65,9 @@ async def update_application_status(
     status: ApplicationStatus,
     user: Annotated[
         User,
-        Depends(require_roles(UserRole.RECRUITER)),
+        Depends(require_roles(UserRole.RECRUITER , UserRole.ADMIN)),
     ],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
 ):
     return await service.update_application_status_by_id(user, application_id, status)
+

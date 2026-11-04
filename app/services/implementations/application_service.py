@@ -7,6 +7,7 @@ from app.core import ApplicationStatus, UserRole
 from app.exceptions import (
     ApplicationAlreadyExistsException,
     ApplicationNotFoundException,
+    InvalidApplicationStatusTransitionException,
     JobNotFoundException,
     JobProfileNotFoundException,
     NotAuthorizedException,
@@ -19,7 +20,7 @@ from app.repositories.protocols import (
     UserRepositoryProtocol,
 )
 from app.services.protocols import EmailServiceProtocol
-from app.utilities import save_resume
+from app.utilities import ALLOWED_TRANSITIONS, save_resume
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,20 @@ class ApplicationService:
         self.user_repository = user_repository
         self.email_service = email_service
 
+    def _validate_status_transition(
+        self,
+        current_status: ApplicationStatus,
+        new_status: ApplicationStatus,
+    ) -> None:
+
+        allowed_statuses = ALLOWED_TRANSITIONS[current_status]
+
+        if new_status not in allowed_statuses:
+            raise InvalidApplicationStatusTransitionException(
+                f"Cannot change application status from "
+                f"{current_status.value} to {new_status.value}"
+            )
+
     async def create_application(
         self, job_id: int, resume: UploadFile, user: User
     ) -> Application:
@@ -53,8 +68,10 @@ class ApplicationService:
         if job is None:
             raise JobNotFoundException(f"Job with job id {job_id} not found ")
 
-        existing_application = await self.application_repository.get_existing_application(
-            job_seeker.id, job.id
+        existing_application = (
+            await self.application_repository.get_existing_application(
+                job_seeker.id, job.id
+            )
         )
 
         if existing_application is not None:
@@ -72,7 +89,7 @@ class ApplicationService:
         )
 
         result = await self.application_repository.create(application)
-        await self.db.commit() 
+        await self.db.commit()
         job_seeker = await self.job_seeker_repository.get_by_id(
             application.job_seeker_id
         )
@@ -139,24 +156,28 @@ class ApplicationService:
             raise NotAuthorizedException(
                 "You are not allowed to perform this operation "
             )
-        title = job.title 
+        title = job.title
+
+        self._validate_status_transition(
+            ApplicationStatus(application.status),
+            status,
+        )
         result = await self.application_repository.update_status(application, status)
-        await self.db.commit()  
+        await self.db.commit()
 
         job_seeker = await self.job_seeker_repository.get_by_id(
             application.job_seeker_id
         )
-        applicant = (
-            await self.user_repository.get_by_id(job_seeker.user_id)
-            if job_seeker is not None
-            else None
-        )
+
+        if job_seeker is not None:
+            applicant = await self.user_repository.get_by_id(job_seeker.user_id)
+
         if applicant is not None:
             await self.email_service.send_application_status_update(
                 recipient=applicant.email,
                 username=applicant.username,
                 job_title=title,
-                status=status.replace("_", " ").title()
+                status=status.replace("_", " ").title(),
             )
 
         return result
@@ -191,4 +212,3 @@ class ApplicationService:
                 resume_path.unlink()
         except OSError:
             logger.exception("Failed to delete resume file: %s", resume_path)
-

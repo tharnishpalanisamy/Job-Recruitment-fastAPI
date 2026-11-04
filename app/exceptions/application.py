@@ -4,3 +4,7 @@ class ApplicationAlreadyExistsException(Exception):
 
 class ApplicationNotFoundException(Exception):
     pass
+
+
+class InvalidApplicationStatusTransitionException(Exception) :
+    pass 

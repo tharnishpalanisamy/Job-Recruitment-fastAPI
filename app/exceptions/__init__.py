@@ -1,4 +1,8 @@
-from .application import ApplicationAlreadyExistsException, ApplicationNotFoundException
+from .application import (
+    ApplicationAlreadyExistsException,
+    ApplicationNotFoundException,
+    InvalidApplicationStatusTransitionException,
+)
 from .job import JobNotFoundException
 from .job_seeker import (
     JobProfileNotFoundException,
@@ -14,6 +18,7 @@ from .user import (
 __all__ = [
     "ApplicationAlreadyExistsException",
     "ApplicationNotFoundException",
+    "InvalidApplicationStatusTransitionException",
     "InvalidCredentialsException",
     "InvalidRefreshTokenException",
     "JobNotFoundException",
