@@ -651,3 +651,9 @@
 2026-11-05 15:09:29,937 | INFO | app.middleware.logging_middleware | Process timing 0.0020 seconds | Status code: 200
 2026-11-05 15:09:30,094 | INFO | app.middleware.logging_middleware | Incoming request GET /openapi.json
 2026-11-05 15:09:30,348 | INFO | app.middleware.logging_middleware | Process timing 0.2538 seconds | Status code: 200
+2026-11-05 15:51:27,835 | INFO | app.middleware.logging_middleware | Incoming request GET /docs
+2026-11-05 15:51:27,837 | INFO | app.middleware.logging_middleware | Process timing 0.0021 seconds | Status code: 200
+2026-11-05 15:51:27,930 | INFO | app.middleware.logging_middleware | Incoming request GET /openapi.json
+2026-11-05 15:51:28,136 | INFO | app.middleware.logging_middleware | Process timing 0.2059 seconds | Status code: 200
+2026-11-05 15:54:42,867 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/health/
+2026-11-05 15:54:42,875 | INFO | app.middleware.logging_middleware | Process timing 0.0080 seconds | Status code: 200
