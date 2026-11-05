@@ -20,4 +20,3 @@ class ApplicationDetailedResponse(BaseModel):
     resume_filename: str
     status: ApplicationStatus
     applied_at: datetime
-    resume_path : str 

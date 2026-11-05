@@ -24,7 +24,7 @@ router = APIRouter(prefix="/job-seekers", tags=["Job Seekers"])
 )
 async def create_job_seeker(
     data: JobSeekerCreate,
-    user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
+    user: Annotated[User, Depends(require_roles(UserRole.USER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
 ) -> JobSeekerResponse:
     return await service.create_job_seeker(user, data)
@@ -64,7 +64,7 @@ async def get_all_job_seekers(
     user: Annotated[User, Depends(require_roles(UserRole.ADMIN, UserRole.RECRUITER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
     filters: Annotated[JobSeekerFilterParams, Depends()],
-    limit: int = Query(ge=0, le=100, default=20),
+    limit: int = Query(ge=1, le=100, default=20),
     offset: int = Query(ge=0, default=0),
 ) -> list[JobSeekerResponse]:
 

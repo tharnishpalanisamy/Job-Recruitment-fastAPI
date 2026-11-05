@@ -65,8 +65,8 @@ async def test_job_by_id(client, admin_token, user_token, job_payload):
     response = await client.post(f"{JOB_URL}/create", json=job_payload, headers=headers) 
 
     headers = {"Authorization": f"Bearer {admin_token}"} 
-    response2 = await client.get(f"{JOB_URL}/1", headers=headers) 
     response = response.json() 
+    response2 = await client.get(f"{JOB_URL}/{response['id']}", headers=headers) 
     response2 = response2.json()
 
     assert response['id'] == response2['id']

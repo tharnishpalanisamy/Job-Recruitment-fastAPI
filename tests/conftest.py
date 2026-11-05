@@ -29,24 +29,28 @@ TestingSessionLocal = async_sessionmaker(
 )
 
 
-@pytest_asyncio.fixture(scope="function", autouse=True)
+@pytest_asyncio.fixture(scope="session", loop_scope="session", autouse=True)
 async def setup_database():
-
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    try:
-        yield
-    finally:
-        async with test_engine.begin() as conn:
-            await conn.run_sync(Base.metadata.drop_all)
+    yield
+
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+    await test_engine.dispose()
 
 
 @pytest_asyncio.fixture
 async def db_session(setup_database):
-
-    async with TestingSessionLocal() as session:
-        yield session
+    async with test_engine.connect() as conn:
+        transaction = await conn.begin()
+        async with TestingSessionLocal(
+            bind=conn,
+            join_transaction_mode="create_savepoint",
+        ) as session:
+            yield session
+        await transaction.rollback()
 
 
 @pytest_asyncio.fixture
@@ -157,7 +161,7 @@ async def job_seeker(db_session):
         username="job_seeker",
         email="job_seeker@test.com",
         password_hash=hash_password("job_seeker@123"),
-        role=UserRole.JOB_SEEKER,
+        role=UserRole.USER,
     )
 
     db_session.add(user)

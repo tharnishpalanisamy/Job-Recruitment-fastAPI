@@ -109,7 +109,7 @@ A new signup creates a User account. A User can log in and access routes availab
 
 A Job Seeker can browse jobs, create and update a profile, apply to jobs, view their own applications, replace a resume while an application is still `APPLIED`, and delete an application that has not moved past `APPLIED`.
 
-The job seeker routes require the account to already have the `JOB_SEEKER` role. The signup endpoint does not assign that role, and there is no role-change endpoint in the API.
+After public signup, a `USER` account can create a job seeker profile through the profile creation route. On successful profile creation, the account is assigned the `JOB_SEEKER` role and can use the job seeker profile and application routes. The signup request cannot choose a role; there is no separate role-management endpoint.
 
 ## 5.3 Recruiter
 
@@ -138,7 +138,6 @@ Stores registered user account information and authentication details.
 | email | VARCHAR(255) | Unique, Indexed, Not Null |
 | password_hash | VARCHAR(255) | Not Null |
 | role | ENUM | Not Null, Default `user` |
-| is_active | BOOLEAN | Not Null, Default TRUE |
 | created_at | TIMESTAMP WITH TIME ZONE | Not Null, Default CURRENT_TIMESTAMP |
 | updated_at | TIMESTAMP WITH TIME ZONE | Nullable, Default CURRENT_TIMESTAMP |
 
@@ -268,7 +267,7 @@ Signup accepts `username`, `email`, and `password`. The request does not allow a
 | GET | `/api/v1/job-seekers/` | Recruiter or admin | Search profiles with filters and pagination |
 | GET | `/api/v1/job-seekers/{job_seeker_id}` | Recruiter or admin | Get a profile by ID |
 
-The API has no route for assigning the `JOB_SEEKER` role. An account created through public signup therefore cannot use these profile routes until its role is assigned outside this API.
+The profile creation route is available to accounts with the `USER` role and assigns `JOB_SEEKER` after creating the profile. Other job seeker profile routes require the resulting `JOB_SEEKER` role.
 
 ## 7.4 Jobs
 
@@ -299,7 +298,7 @@ There are no user-management CRUD routes or resume-download route in the current
 
 A user signs up with a username, email address, and password. The password is hashed before it is stored. Public signup assigns the `user` role; the signup request cannot set a role.
 
-On login, the API verifies the password and returns a short-lived JWT access token and a refresh token. Protected routes expect the access token in the `Authorization: Bearer <token>` header. The token contains the user ID and role. The current authentication dependency does not check the account's `is_active` flag.
+On login, the API verifies the password and returns a short-lived JWT access token and a refresh token. Protected routes expect the access token in the `Authorization: Bearer <token>` header. The token contains the user ID and role. The users table does not currently include an account activity flag.
 
 Refresh tokens are generated randomly. The database stores only their SHA-256 hashes, along with expiry and revocation details. Refreshing rotates the token: the old token is revoked and linked to its replacement. Reuse of a revoked token revokes the user's remaining refresh tokens. Logging out revokes the supplied refresh token; an already issued access token remains usable until it expires.
 

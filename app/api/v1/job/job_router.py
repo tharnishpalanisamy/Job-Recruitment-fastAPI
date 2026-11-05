@@ -36,7 +36,7 @@ async def get_all_jobs(
     user: Annotated[User, Depends(get_current_user)],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
     filters: Annotated[JobFilterParams, Depends()],
-    limit: int = Query(default=20, ge=0, le=100),
+    limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
 ) -> list[JobListResponse]:
     return await service.get_all_jobs(filters, limit, offset)

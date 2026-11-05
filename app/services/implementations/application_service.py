@@ -100,7 +100,8 @@ class ApplicationService:
             result = await self.application_repository.create(application)
             await self.db.commit()
         except Exception:
-            Path(file_path).unlink()
+            await self.db.rollback()
+            Path(file_path).unlink(missing_ok=True)
             raise
         job_seeker = await self.job_seeker_repository.get_by_id(
             application.job_seeker_id
