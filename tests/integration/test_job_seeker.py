@@ -1,4 +1,3 @@
-import pytest 
 JOB_SEEKER_URL = "/api/v1/job-seekers"
 
 async def test_creating_profile_without_login(client , job_seeker_payload) :

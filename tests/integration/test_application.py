@@ -1,9 +1,15 @@
+from unittest.mock import AsyncMock
+
 APPLICATION_URL = "/api/v1/application"
 
 
 async def test_job_seeker_apply(
-    client, admin_token, job_seeker_token, job_payload, job_seeker_payload
+    client, admin_token, job_seeker_token, job_payload, job_seeker_payload, monkeypatch
 ):
+
+    monkeypatch.setattr(
+        "app.client.email_client.EmailClient.send_email", AsyncMock()
+    )
 
     admin_headers = {"Authorization": f"Bearer {admin_token}"}
 

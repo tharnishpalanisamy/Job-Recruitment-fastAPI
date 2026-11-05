@@ -207,3 +207,6 @@ def job_seeker_payload():
     "current_designation": "Software Engineer",
     "current_salary": 850000
     }
+
+
+
