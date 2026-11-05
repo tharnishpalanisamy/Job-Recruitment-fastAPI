@@ -10,19 +10,19 @@ There are four roles in the code: User, Job Seeker, Recruiter, and Admin. Each r
 
 These are the main tools used in the project:
 
-1. Python 3 ? application language.
-2. FastAPI ? API framework.
-3. Uvicoen ? ASGI server used to run the application.
-4. PostgreSQL ? relational database.
-5. SQLAlchemy ? ORM and database access layer.
-6. Alembic ? database migration tool.
-7. Pydantic ? request validation and response schemas.
-8. JWT (JSON Web Tokens) ? access-token format.
-9. Pytest ? unit and integration test framework.
-10. HTTPX ? asynchronous HTTP client used by integration tests.
-11. Jinja2 ? renders the HTML email templates.
-12. Git and GitHub ? source control and project hosting.
-13. Swagger UI ? interactive API documentation served by FastAPI.
+1. Python 3 - application language.
+2. FastAPI - API framework.
+3. Uvicoen - ASGI server used to run the application (the dependency is named `uvicorn`).
+4. PostgreSQL - relational database.
+5. SQLAlchemy - ORM and database access layer.
+6. Alembic - database migration tool.
+7. Pydantic - request validation and response schemas.
+8. JWT (JSON Web Tokens) - access-token format.
+9. Pytest - unit and integration test framework.
+10. HTTPX - asynchronous HTTP client used by integration tests.
+11. Jinja2 - renders the HTML email templates.
+12. Git and GitHub - source control and project hosting.
+13. Swagger UI - interactive API documentation served by FastAPI.
 
 # 3 Project Folder Structure
 
@@ -113,7 +113,7 @@ The job seeker routes require the account to already have the `JOB_SEEKER` role.
 
 ## 5.3 Recruiter
 
-A Recruiter can create jobs and manage jobs they created. Recruiters can list applications for their own jobs, review application details, and update application statuses. The status flow is controlled by allowed transitions; selecting an applicant also reduces the job's vacancy count. There is no separate resume download route.
+A Recruiter can create jobs and manage jobs they created. Recruiters can list applications for their own jobs, review application details, and update application statuses. The status flow is controlled by allowed transitions; selecting an applicant reduces the job's vacancy count, and the job is marked closed when that count reaches zero. The job update schema does not expose a status field, so recruiters cannot manually close or reopen a job through this API. There is no separate resume download route.
 
 ## 5.4 Admin
 
@@ -135,7 +135,7 @@ Stores registered user account information and authentication details.
 |---|---|---|
 | id | INTEGER | Primary Key |
 | username | VARCHAR(50) | Not Null |
-| email | VARCHAR(255) | Unique, Indexed |
+| email | VARCHAR(255) | Unique, Indexed, Not Null |
 | password_hash | VARCHAR(255) | Not Null |
 | role | ENUM | Not Null, Default `user` |
 | is_active | BOOLEAN | Not Null, Default TRUE |
@@ -162,7 +162,7 @@ Stores professional and personal information of registered job seekers.
 | current_designation | VARCHAR(150) | Nullable |
 | current_salary | INTEGER | Not Null |
 | created_at | TIMESTAMP WITH TIME ZONE | Not Null |
-| updated_at | TIMESTAMP WITH TIME ZONE | Not Null |
+| updated_at | TIMESTAMP WITH TIME ZONE | Not Nul |
 
 
 3) Jobs Table (jobs) 
@@ -227,17 +227,17 @@ Stores hashed refresh tokens, their expiry and revocation times, and the link to
 
 | Relationship | Type | Description |
 |---|---|---|
-| Users → Job Seekers | One-to-One | A user can have one job seeker profile. |
-| Users → Jobs | One-to-Many | A recruiter can create multiple job vacancies. |
-| Users → Refresh Tokens | One-to-Many | A user can have multiple refresh tokens. |
-| Job Seekers → Applications | One-to-Many | A job seeker can submit multiple applications. |
-| Jobs → Applications | One-to-Many | A job vacancy can receive multiple applications. |
-| Refresh Tokens → Refresh Tokens | Self-referencing | A refresh token can reference its replacement token. |
+| Users -> Job Seekers | One-to-One | A user can have one job seeker profile. |
+| Users -> Jobs | One-to-Many | A recruiter can create multiple job vacancies. |
+| Users -> Refresh Tokens | One-to-Many | A user can have multiple refresh tokens. |
+| Job Seekers -> Applications | One-to-Many | A job seeker can submit multiple applications. |
+| Jobs -> Applications | One-to-Many | A job vacancy can receive multiple applications. |
+| Refresh Tokens -> Refresh Tokens | Self-referencing | A refresh token can reference its replacement token. |
 
 
 # 7 API Documentation
 
-All routes are mounted under `/api/v1`. FastAPI provides interactive documentation at `/docs` and the OpenAPI document at `/openapi.json`.
+All application routes are mounted under `/api/v1`. FastAPI serves Swagger UI at `/docs`, ReDoc at `/redoc`, and the OpenAPI document at `/openapi.json`.
 
 ## 7.1 Health
 
@@ -261,12 +261,14 @@ Signup accepts `username`, `email`, and `password`. The request does not allow a
 
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | `/api/v1/job-seekers/create` | Job seeker | Create own profile |
+| POST | `/api/v1/job-seekers/create` | Account with `JOB_SEEKER` role | Create profile |
 | GET | `/api/v1/job-seekers/me` | Job seeker | Get own profile |
 | PATCH | `/api/v1/job-seekers/me` | Job seeker | Update own profile |
 | DELETE | `/api/v1/job-seekers/me` | Job seeker | Delete own profile |
 | GET | `/api/v1/job-seekers/` | Recruiter or admin | Search profiles with filters and pagination |
 | GET | `/api/v1/job-seekers/{job_seeker_id}` | Recruiter or admin | Get a profile by ID |
+
+The API has no route for assigning the `JOB_SEEKER` role. An account created through public signup therefore cannot use these profile routes until its role is assigned outside this API.
 
 ## 7.4 Jobs
 
@@ -288,9 +290,9 @@ Signup accepts `username`, `email`, and `password`. The request does not allow a
 | GET | `/api/v1/application/{application_id}` | Job seeker, recruiter, or admin | Get application details, subject to ownership checks for job seekers and recruiters |
 | DELETE | `/api/v1/application/{application_id}` | Job seeker, recruiter, or admin | Delete an application, subject to role and ownership rules |
 | PATCH | `/api/v1/application/{application_id}/update_resume` | Job seeker | Replace resume while application is still `APPLIED` |
-| PATCH | `/api/v1/application/{application_id}/status?status={status}` | Recruiter or admin | Update status using allowed transition rules |
+| PATCH | `/api/v1/application/{application_id}/status?status={status}` | Recruiter or admin | Update status using allowed transition rules; service also requires the caller to have created the job |
 
-There are no user-management CRUD routes in the current API. Application responses differ by endpoint; the detailed recruiter/admin list response includes the stored resume path.
+There are no user-management CRUD routes or resume-download route in the current API. Application responses differ by endpoint; the detailed recruiter/admin list response includes the stored resume path. Recruiters are restricted to their own jobs. Although the status route accepts admins, the service checks that the caller created the job, so an admin cannot update status on another user's job.
 
 
 # 8. Authentication Flow
@@ -316,7 +318,7 @@ Pydantic schemas validate request fields before the service layer handles them. 
 
 ## 9.1 Input Validation
 
-- Signup requires a username of 3?50 characters, a valid email address, and a password of 8?50 characters containing an uppercase letter, a number, and one of `!@#$%&*`.
+- Signup requires a username of 3-50 characters, a valid email address, and a password of 8-50 characters containing an uppercase letter, a number, and one of `!@#$%&*`.
 - Job seeker profile creation requires a 10-digit phone number, date of birth, qualification, non-negative experience, and a non-negative current salary. Experience supports one decimal place.
 - Job creation checks required text fields, non-negative salary and experience values, positive vacancy count, and valid employment type. It rejects minimum/maximum salary or experience ranges where the maximum is below the minimum.
 - Applications require an existing job, a job seeker profile, a job that is accepting applications, and a resume with an allowed filename extension. Uploads are limited to 5 MB. The service prevents duplicate applications for the same job seeker and job.
@@ -338,9 +340,7 @@ FastAPI handles request validation errors and HTTP exceptions using its built-in
 
 # 10. Testing
 
-The Job Recruitment and Applicant Tracking System is tested using Pytest to verify the correctness, reliability, and expected behaviour of its API endpoints and backend operations.
-
-HTTPX is used as an asynchronous HTTP client for testing API endpoints, while test cases verify successful operations, validation failures, authentication, authorization, and exception handling.
+The test suite has unit tests for service behavior and integration tests that send requests to the FastAPI application. The cases cover core success paths along with selected validation and authorization failures.
 
 
 ## 10.1 Testing Frameworks and Tools
@@ -389,7 +389,7 @@ The integration-test fixture uses `TEST_DATABASE_URL` and creates and drops the 
 
 ## 10.4 Test Result
 
-Last recorded execution: `50 passed, 1 warning in 163.27s` using the command above. The warning was from pytest being unable to create a cache file because the cache path already existed (`WinError 183`); no tests failed. This result describes that execution and may differ on another machine or run.
+Last recorded execution on 2026-11-05: `50 passed, 1 warning in 163.27s` using the project virtual environment. The warning was from pytest being unable to create a cache file because the cache path already existed (`WinError 183`); no tests failed. This result describes that execution and may differ on another machine or run.
 
 ## 10.5 Test Conclusion
 
@@ -400,38 +400,28 @@ All current unit and integration test cases passed in the recorded run. The suit
 
 # 11. Setup Instructions
 
+The steps below set up the API on a local machine. The database and mail settings are read from `.env` when the application starts.
+
 ## 11.1 Prerequisites
 
-Ensure the following software is installed before setting up the project:
-
-- Python 3.12 or compatible version.
+- Python 3.11 or newer (`datetime.UTC` is used by the application).
 - PostgreSQL.
-- Git.
-- pip (Python package manager).
+- Git and pip.
 
 ## 11.2 Clone the Repository
 
-Clone the project repository using Git:
-
 ```bash
 git clone https://github.com/tharnishpalanisamy/Job-Recruitment-fastAPI.git
-```
-
-Navigate to the project directory:
-
-```bash
-cd <project-directory>
+cd Job-Recruitment-fastAPI
 ```
 
 ## 11.3 Create a Virtual Environment
-
-Create an isolated Python virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate the virtual environment.
+Activate it before installing packages.
 
 **Windows:**
 
@@ -447,34 +437,44 @@ source .venv/bin/activate
 
 ## 11.4 Install Dependencies
 
-Install the required Python packages:
-
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-## 11.5 Database Configuration
+## 11.5 Database and Environment Configuration
 
-Create a PostgreSQL database for the application.
+Create a PostgreSQL database for the application and a separate database for tests. Copy `.env.example` to `.env` (`cp .env.example .env` on Linux/macOS, or `Copy-Item .env.example .env` in PowerShell), then fill in the required values. The test fixtures create and drop the mapped tables in `TEST_DATABASE_URL`, so it must point to a disposable test database rather than the application database.
 
-Configure the database connection string and other required environment variables in the `.env` file.
-
-Example:
+The settings used by the application include:
 
 ```env
-DATABASE_URL=postgresql+asyncpg://username:password@localhost:5432/job_recruitment
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=job_recruitment
+DATABASE_URL=postgresql+asyncpg://your_database_user:your_database_password@localhost:5432/job_recruitment
+TEST_DATABASE_URL=postgresql+asyncpg://your_database_user:your_database_password@localhost:5432/job_recruitment_test
 
-SECRET_KEY=your_secret_key
-ALGORITHM=HS256
+JWT_SECRET_KEY=replace_with_a_long_random_secret_value
+JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 REFRESH_TOKEN_EXPIRE_DAYS=7
+
+MAIL_USERNAME=your_mail_username
+MAIL_PASSWORD=your_mail_password
+MAIL_FROM=your_sender_address
+MAIL_PORT=587
+MAIL_SERVER=smtp.gmail.com
+MAIL_STARTTLS=true
+MAIL_SSL_TLS=false
 ```
 
-Configure additional environment variables required for email services and other application settings.
+`MAIL_USERNAME`, `MAIL_PASSWORD`, and `MAIL_FROM` are required settings. Email delivery is best effort once the application is running, but these settings must still be present for startup configuration.
 
 ## 11.6 Run Database Migrations
 
-Apply the existing Alembic migrations to create the required database tables:
+From the project root, apply the schema migrations to the application database:
 
 ```bash
 alembic upgrade head
@@ -482,48 +482,24 @@ alembic upgrade head
 
 ## 11.7 Run the Application
 
-Start the FastAPI application using Uvicorn:
-
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The application will be available at:
+The API listens at `http://127.0.0.1:8000` by default.
 
-```text
-http://127.0.0.1:8000
-```
+## 11.8 Open the API Documentation
 
-## 11.8 Access API Documentation
-
-Once the application is running, access the interactive API documentation through the following URLs:
-
-- Swagger UI: http://127.0.0.1:8000/docs
-- ReDoc: http://127.0.0.1:8000/redoc
-- OpenAPI Schema: http://127.0.0.1:8000/openapi.json
+- Swagger UI: <http://127.0.0.1:8000/docs>
+- ReDoc: <http://127.0.0.1:8000/redoc>
+- OpenAPI schema: <http://127.0.0.1:8000/openapi.json>
 
 ## 11.9 Run Tests
 
-Execute the test suite using Pytest:
+With the virtual environment active and `TEST_DATABASE_URL` pointing to the test database, run `python -m pytest -q`. See Section 10 for the test inventory and the last recorded result.
 
-```bash
-python -m pytest -v
-```
+# 12. Conclusion
 
-This command runs the available test cases and displays their execution results.
+This repository contains a FastAPI backend for job postings, job seeker profiles, and application tracking. It includes JWT authentication with refresh-token rotation, role checks, resume uploads, email templates, SQLAlchemy persistence, and Alembic migrations.
 
-
-
-# 13. Conclusion
-
-The **Job Recruitment and Applicant Tracking System** was successfully developed to simplify and streamline the recruitment process through a centralized web-based application.
-
-The project provides essential recruitment functionalities, including user registration and authentication, role-based access control, job vacancy management, job seeker profile management, and application tracking.
-
-The application was developed using Python, FastAPI, and PostgreSQL, with SQLAlchemy for database operations and Alembic for database migrations. JWT authentication and refresh token management were implemented to provide secure access to protected resources.
-
-The implementation of input validation, centralized exception handling, and automated testing using Pytest helps improve the reliability, maintainability, and data integrity of the application.
-
-Through this project, practical knowledge was gained in backend development, REST API design, relational database management, authentication, authorization, software testing, and version control using Git.
-
-Overall, the project demonstrates how a structured backend application can improve recruitment management by reducing manual effort, organizing applicant information, and providing an efficient platform for managing the hiring process.
+The current API covers the main job and application workflows. User role provisioning and user-management endpoints are not exposed, and application status updates are limited by the job-creator check described above. The test suite currently passes its 50 existing cases; the remaining coverage gaps are listed in Section 10.2.
