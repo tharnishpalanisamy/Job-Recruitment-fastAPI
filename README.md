@@ -121,15 +121,16 @@ The database consists of five primary tables designed to manage user accounts, j
 
 Stores registered user account information and authentication details. 
 
-Column          Data Type                   Constraints
-id              INTEGER                     Primary Key
-username        VARCHAR(50)                 Not Null
-email           VARCHAR(255)                Unique, Indexed
-password_hash   VARCHAR(255)                Not Null
-role            ENUM                        Not Null, Default USER
-is_active       BOOLEAN                     Not Null, Default TRUE
-created_at      TIMESTAMP WITH TIME ZONE    Not Null, Default CURRENT_TIMESTAMP
-updated_at      TIMESTAMP WITH TIME ZONE    Nullable, Default CURRENT_TIMESTAMP
+| Column | Data Type | Constraints |
+|---|---|---|
+| id | INTEGER | Primary Key |
+| username | VARCHAR(50) | Not Null |
+| email | VARCHAR(255) | Unique, Indexed |
+| password_hash | VARCHAR(255) | Not Null |
+| role | ENUM | Not Null, Default USER |
+| is_active | BOOLEAN | Not Null, Default TRUE |
+| created_at | TIMESTAMP WITH TIME ZONE | Not Null, Default CURRENT_TIMESTAMP |
+| updated_at | TIMESTAMP WITH TIME ZONE | Nullable, Default CURRENT_TIMESTAMP |
 
 
 
@@ -137,85 +138,89 @@ updated_at      TIMESTAMP WITH TIME ZONE    Nullable, Default CURRENT_TIMESTAMP
 
 Stores professional and personal information of registered job seekers. 
 
-Column Name               Data Type	                   Constraints
-id	                      INTEGER	                    Primary Key
-user_id	                  INTEGER	                    Foreign Key, Unique, Not Null
-full_name	              VARCHAR(150)	                Not Null
-phone	                  VARCHAR(10)	                Not Null
-date_of_birth	          DATE	                        Nullable
-qualification	          VARCHAR(150)	                Not Null
-specialization	          VARCHAR(150)	                Nullable
-experience_years	      NUMERIC(4,1)	                Not Null, Default 0
-current_company	          VARCHAR(150)	                Nullable
-current_designation	      VARCHAR(150)	                Nullable
-current_salary	          INTEGER	Not                 Null
-created_at	              TIMESTAMP WITH TIME ZONE	    Not Null
-updated_at	              TIMESTAMP WITH TIME ZONE	    Not Nul
+| Column Name | Data Type | Constraints |
+|---|---|---|
+| id | INTEGER | Primary Key |
+| user_id | INTEGER | Foreign Key, Unique, Not Null |
+| full_name | VARCHAR(150) | Not Null |
+| phone | VARCHAR(10) | Not Null |
+| date_of_birth | DATE | Nullable |
+| qualification | VARCHAR(150) | Not Null |
+| specialization | VARCHAR(150) | Nullable |
+| experience_years | NUMERIC(4,1) | Not Null, Default 0 |
+| current_company | VARCHAR(150) | Nullable |
+| current_designation | VARCHAR(150) | Nullable |
+| current_salary | INTEGER | Not Null |
+| created_at | TIMESTAMP WITH TIME ZONE | Not Null |
+| updated_at | TIMESTAMP WITH TIME ZONE | Not Nul |
 
 
 3) Jobs Table (jobs) 
 
 Stores job vacancy details posted by recruiters.
 
-Column	              Data Type	                Constraints
-id	                  INTEGER	                Primary Key
-title	              VARCHAR(150)	            Not Null
-description	          TEXT	                    Not Null
-requirements	      TEXT	                    Not Null
-qualification	      VARCHAR(150)	            Not Null
-experience_min	      NUMERIC(4,1)	            Not Null, Default 0
-experience_max	      NUMERIC(4,1)	            Nullable
-salary_min	          NUMERIC(12,2)	            Nullable
-salary_max	          NUMERIC(12,2)	            Nullable
-employment_type	      ENUM	                    Not Null
-location	          VARCHAR(150)	            Not Null
-vacancies	          INTEGER	                Not Null, Default 1
-status	              ENUM	                    Not Null, Default OPEN
-created_by	          INTEGER	                Foreign Key, Not Null
-created_at	          TIMESTAMP                 WITH TIME ZONE	Not Null
-updated_at	          TIMESTAMP                 WITH TIME ZONE	Not Null
+| Column | Data Type | Constraints |
+|---|---|---|
+| id | INTEGER | Primary Key |
+| title | VARCHAR(150) | Not Null |
+| description | TEXT | Not Null |
+| requirements | TEXT | Not Null |
+| qualification | VARCHAR(150) | Not Null |
+| experience_min | NUMERIC(4,1) | Not Null, Default 0 |
+| experience_max | NUMERIC(4,1) | Nullable |
+| salary_min | NUMERIC(12,2) | Nullable |
+| salary_max | NUMERIC(12,2) | Nullable |
+| employment_type | ENUM | Not Null |
+| location | VARCHAR(150) | Not Null |
+| vacancies | INTEGER | Not Null, Default 1 |
+| status | ENUM | Not Null, Default OPEN |
+| created_by | INTEGER | Foreign Key, Not Null |
+| created_at | TIMESTAMP WITH TIME ZONE | Not Null |
+| updated_at | TIMESTAMP WITH TIME ZONE | Not Null |
 
 
 4) Applications Table (applications) 
 
 Stores job applications submitted by job seekers, including resume information and application status.
 
-Column                  Data Type                  Constraints
-id                      INTEGER                    Primary Key
-job_seeker_id           INTEGER                    Foreign Key, Not Null
-job_id                  INTEGER                    Foreign Key, Not Null
-resume_filename         VARCHAR(255)               Not Null
-resume_path             VARCHAR(500)               Not Null
-status                  ENUM                       Not Null, Default APPLIED
-applied_at              TIMESTAMP WITH TIME ZONE   Not Null
-updated_at              TIMESTAMP WITH TIME ZONE   Not Null
+| Column | Data Type | Constraints |
+|---|---|---|
+| id | INTEGER | Primary Key |
+| job_seeker_id | INTEGER | Foreign Key, Not Null |
+| job_id | INTEGER | Foreign Key, Not Null |
+| resume_filename | VARCHAR(255) | Not Null |
+| resume_path | VARCHAR(500) | Not Null |
+| status | ENUM | Not Null, Default APPLIED |
+| applied_at | TIMESTAMP WITH TIME ZONE | Not Null |
+| updated_at | TIMESTAMP WITH TIME ZONE | Not Null |
 
 
 5) Refresh Tokens Table (refresh_tokens)
 
 Stores refresh token information to support secure authentication, token rotation, and logout functionality.
 
-Column                  Data Type                   Constraints
-id                      INTEGER                     Primary Key
-user_id                 INTEGER                     Foreign Key, Not Null
-token_hash              VARCHAR(64)                 Unique, Not Null
-expires_at              TIMESTAMP WITH TIME ZONE    Not Null
-revoked_at              TIMESTAMP WITH TIME ZONE    Nullable
-replaced_by_id           INTEGER                    Self-referencing Foreign Key, Nullable
-created_at              TIMESTAMP WITH TIME ZONE    Not Null
+| Column | Data Type | Constraints |
+|---|---|---|
+| id | INTEGER | Primary Key |
+| user_id | INTEGER | Foreign Key, Not Null |
+| token_hash | VARCHAR(64) | Unique, Not Null |
+| expires_at | TIMESTAMP WITH TIME ZONE | Not Null |
+| revoked_at | TIMESTAMP WITH TIME ZONE | Nullable |
+| replaced_by_id | INTEGER | Self-referencing Foreign Key, Nullable |
+| created_at | TIMESTAMP WITH TIME ZONE | Not Null |
 
 
 
 # 5.2 Database Relationships 
 
-Relationship                         Type              Description
-
-Users → Job Seekers                  One-to-One        A user can have one job seeker profile.
-Users → Jobs                         One-to-Many       A recruiter can create multiple job vacancies.
-Users → Refresh Tokens               One-to-Many       A user can have multiple refresh tokens.
-Job Seekers → Applications           One-to-Many       A job seeker can submit multiple applications.
-Jobs → Applications                  One-to-Many       A job vacancy can receive multiple applications.
-Refresh Tokens → Refresh Tokens      Self-referencing  A refresh token can reference its replacement token.
+| Relationship | Type | Description |
+|---|---|---|
+| Users → Job Seekers | One-to-One | A user can have one job seeker profile. |
+| Users → Jobs | One-to-Many | A recruiter can create multiple job vacancies. |
+| Users → Refresh Tokens | One-to-Many | A user can have multiple refresh tokens. |
+| Job Seekers → Applications | One-to-Many | A job seeker can submit multiple applications. |
+| Jobs → Applications | One-to-Many | A job vacancy can receive multiple applications. |
+| Refresh Tokens → Refresh Tokens | Self-referencing | A refresh token can reference its replacement token. |
 
 
 # 6 API Documentation 
@@ -224,9 +229,10 @@ the application contains RESTful APIs developed using FastAPI . These endpoints 
 
 # 6.1 Health check APIs (/api/health)
 
-Method    Endpoint       Description                       Access
-GET       /health        Check application health status  Public
-GET       /health/db     Check database connectivity      Public
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| GET | /health | Check application health status | Public |
+| GET | /health/db | Check database connectivity | Public |
 
 example response 
 {
@@ -236,11 +242,12 @@ example response
 
 # 6.2 Authentication APIs (/api/auth) 
 
-Method    Endpoint              Description                              Access
-POST      /api/auth/signup      Register a new user                       Public
-POST      /api/auth/login       Authenticate user and generate tokens     Public
-POST      /api/auth/refresh     Generate new access and refresh tokens    Authenticated refresh token
-POST      /api/auth/logout      Revoke refresh token                      Authenticated
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| POST | /api/auth/signup | Register a new user | Public |
+| POST | /api/auth/login | Authenticate user and generate tokens | Public |
+| POST | /api/auth/refresh | Generate new access and refresh tokens | Authenticated refresh token |
+| POST | /api/auth/logout | Revoke refresh token | Authenticated |
 
 example singup request body 
 {
@@ -252,12 +259,13 @@ example singup request body
 
 # 6.3 User Management APIs (/api/users) 
 
-Method    Endpoint             Description                              Access
-GET       /api/users/me        Retrieve logged-in user details          Authenticated
-GET       /api/users/          Retrieve all users                       Admin
-GET       /api/users/{id}      Retrieve user by ID                      Admin
-PATCH     /api/users/me        Update logged-in user details            Authenticated
-DELETE    /api/users/{id}      Delete a user                            Admin
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| GET | /api/users/me | Retrieve logged-in user details | Authenticated |
+| GET | /api/users/ | Retrieve all users | Admin |
+| GET | /api/users/{id} | Retrieve user by ID | Admin |
+| PATCH | /api/users/me | Update logged-in user details | Authenticated |
+| DELETE | /api/users/{id} | Delete a user | Admin |
 
 Example – User Response 
 {
@@ -270,13 +278,14 @@ Example – User Response
 
 # 6.4 Job Seeker APIs (/api/job-seekers) 
 
-Method    Endpoint                       Description                              Access
-POST      /api/job-seekers/profile       Create job seeker profile                Job Seeker
-GET       /api/job-seekers/me            Retrieve own profile                     Job Seeker
-PATCH     /api/job-seekers/me            Update own profile                      Job Seeker
-DELETE    /api/job-seekers/me            Delete own profile                      Job Seeker
-GET       /api/job-seekers/              Retrieve job seeker profiles              Recruiter / Admin
-GET       /api/job-seekers/{id}          Retrieve a specific job seeker profile   Recruiter / Admin
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| POST | /api/job-seekers/profile | Create job seeker profile | Job Seeker |
+| GET | /api/job-seekers/me | Retrieve own profile | Job Seeker |
+| PATCH | /api/job-seekers/me | Update own profile | Job Seeker |
+| DELETE | /api/job-seekers/me | Delete own profile | Job Seeker |
+| GET | /api/job-seekers/ | Retrieve job seeker profiles | Recruiter / Admin |
+| GET | /api/job-seekers/{id} | Retrieve a specific job seeker profile | Recruiter / Admin |
 
 Example – Create Profile Request
 {
@@ -294,12 +303,13 @@ Example – Create Profile Request
 
 # 6.5 Job Management APIs (/api/jobs) 
 
-Method    Endpoint          Description                          Access
-POST      /api/jobs/        Create a new job vacancy             Recruiter
-GET       /api/jobs/        Retrieve available job vacancies     Authenticated
-GET       /api/jobs/{id}    Retrieve job details                 Authenticated
-PATCH     /api/jobs/{id}    Update job vacancy details           Recruiter / Admin
-DELETE    /api/jobs/{id}    Delete a job vacancy                 Recruiter / Admin
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| POST | /api/jobs/ | Create a new job vacancy | Recruiter |
+| GET | /api/jobs/ | Retrieve available job vacancies | Authenticated |
+| GET | /api/jobs/{id} | Retrieve job details | Authenticated |
+| PATCH | /api/jobs/{id} | Update job vacancy details | Recruiter / Admin |
+| DELETE | /api/jobs/{id} | Delete a job vacancy | Recruiter / Admin |
 
 
 Example – Create Job Request 
@@ -331,13 +341,14 @@ Example – Job Response
 
 # 6.6 Application Management APIs (/api/applications)
 
-Method    Endpoint                                      Description                                            Access
-POST      /api/v1/application/apply                     Apply for a job vacancy                               Authenticated Job Seeker
-GET       /api/v1/application/me                        Retrieve applications submitted by the logged-in user Authenticated Job Seeker
-DELETE    /api/v1/application/{application_id}          Delete a job application using its ID                 Authenticated
-GET       /api/v1/application/{application_id}          Retrieve application details by ID                    Authenticated
-PATCH     /api/v1/application/{application_id}/update_resume  Update the resume attached to an application   Authenticated Job Seeker
-GET       /api/v1/application/                          Retrieve all job applications                         Recruiter / Admin
-PATCH     /api/v1/application/{application_id}/status   Update the status of a job application                Recruiter / Admin
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| POST | /api/v1/application/apply | Apply for a job vacancy | Authenticated Job Seeker |
+| GET | /api/v1/application/me | Retrieve applications submitted by the logged-in user | Authenticated Job Seeker |
+| DELETE | /api/v1/application/{application_id} | Delete a job application using its ID | Authenticated |
+| GET | /api/v1/application/{application_id} | Retrieve application details by ID | Authenticated |
+| PATCH | /api/v1/application/{application_id}/update_resume | Update the resume attached to an application | Authenticated Job Seeker |
+| GET | /api/v1/application/ | Retrieve all job applications | Recruiter / Admin |
+| PATCH | /api/v1/application/{application_id}/status | Update the status of a job application | Recruiter / Admin |
 
 
