@@ -647,3 +647,7 @@
 2026-11-05 14:25:21,497 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/job-seekers/1
 2026-11-05 14:25:21,644 | INFO | app.middleware.logging_middleware | Process timing 0.1465 seconds | Status code: 200
 2026-11-05 14:25:21,644 | INFO | httpx | HTTP Request: GET http://test/api/v1/job-seekers/1 "HTTP/1.1 200 OK"
+2026-11-05 15:09:29,935 | INFO | app.middleware.logging_middleware | Incoming request GET /docs
+2026-11-05 15:09:29,937 | INFO | app.middleware.logging_middleware | Process timing 0.0020 seconds | Status code: 200
+2026-11-05 15:09:30,094 | INFO | app.middleware.logging_middleware | Incoming request GET /openapi.json
+2026-11-05 15:09:30,348 | INFO | app.middleware.logging_middleware | Process timing 0.2538 seconds | Status code: 200

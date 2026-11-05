@@ -89,3 +89,7 @@ class AuthService:
             "refresh_token": new_refresh_token,
             "token_type": "bearer",
         }
+
+    async def logout(self, token: str) -> dict[str, str]:
+        await self.refresh_token_service.revoke_refresh_token(token)
+        return {"message": "Successfully logged out"}

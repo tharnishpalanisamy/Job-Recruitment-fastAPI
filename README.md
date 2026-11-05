@@ -107,3 +107,68 @@ The Admin role has administrative privileges and is responsible for managing and
 4) View and manage job vacancies.
 5) Monitor job applications.
 6) Oversee overall system operations.
+
+
+# 5 Database Design 
+
+The application uses PostgreSQL as its relational database management system. SQLAlchemy ORM is used to define database models and manage database operations.
+
+The database consists of five primary tables designed to manage user accounts, job seeker profiles, job vacancies, job applications, and refresh tokens.
+
+# 5.1 Database Tables
+
+1) Users Table (users)
+
+Stores registered user account information and authentication details. 
+
+Column	           Data Type	               Constraints
+id	               INTEGER	                   Primary Key
+email	           VARCHAR	                   Unique, Not Null
+username	       VARCHAR	                   Not Null
+password_hash	   VARCHAR	                   Not Null
+role	           ENUM	                       Not Null
+created_at	       TIMESTAMP WITH TIME ZONE	   Not Null  
+
+
+2) Job Seekers Table (job_seekers) 
+
+Stores professional and personal information of registered job seekers. 
+
+Column Name               Data Type	                   Constraints
+id	                      INTEGER	                    Primary Key
+user_id	                  INTEGER	                    Foreign Key, Unique, Not Null
+full_name	              VARCHAR(150)	                Not Null
+phone	                  VARCHAR(10)	                Not Null
+date_of_birth	          DATE	                        Nullable
+qualification	          VARCHAR(150)	                Not Null
+specialization	          VARCHAR(150)	                Nullable
+experience_years	      NUMERIC(4,1)	                Not Null, Default 0
+current_company	          VARCHAR(150)	                Nullable
+current_designation	      VARCHAR(150)	                Nullable
+current_salary	          INTEGER	Not                 Null
+created_at	              TIMESTAMP WITH TIME ZONE	    Not Null
+updated_at	              TIMESTAMP WITH TIME ZONE	    Not Nul
+
+
+3) Jobs Table (jobs) 
+
+Stores job vacancy details posted by recruiters.
+
+| Column | PostgreSQL Data Type | Constraints |
+| --- | --- | --- |
+| `id` | `INTEGER` | Primary Key |
+| `title` | `VARCHAR(150)` | Not Null |
+| `description` | `TEXT` | Not Null |
+| `requirements` | `TEXT` | Not Null |
+| `qualification` | `VARCHAR(150)` | Not Null |
+| `experience_min` | `NUMERIC(4,1)` | Not Null, Default 0 |
+| `experience_max` | `NUMERIC(4,1)` | Nullable |
+| `salary_min` | `NUMERIC(12,2)` | Nullable |
+| `salary_max` | `NUMERIC(12,2)` | Nullable |
+| `employment_type` | `ENUM` | Not Null |
+| `location` | `VARCHAR(150)` | Not Null |
+| `vacancies` | `INTEGER` | Not Null, Default 1 |
+| `status` | `ENUM` | Not Null, Default OPEN |
+| `created_by` | `INTEGER` | Foreign Key, Not Null |
+| `created_at` | `TIMESTAMP WITH TIME ZONE` | Not Null |
+| `updated_at` | `TIMESTAMP WITH TIME ZONE` | Not Null |

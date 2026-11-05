@@ -47,3 +47,11 @@ async def refresh_token(
     service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
 ) -> dict[str, str]:
     return await service.refresh_tokens(payload.refresh_token)
+
+
+@router.post("/logout", summary="Logout", status_code=status.HTTP_200_OK)
+async def logout_user(
+    payload: RefreshTokenRequest,
+    service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
+) -> dict[str, str]:
+    return await service.logout(payload.refresh_token)
