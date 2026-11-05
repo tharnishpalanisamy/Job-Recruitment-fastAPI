@@ -423,3 +423,114 @@ Example – Job Response
 
 
 
+# 8. Authentication Flow 
+
+The Job Recruitment and Applicant Tracking System implements a secure authentication mechanism using JSON Web Tokens (JWT) and refresh tokens. The authentication system verifies user identity and controls access to protected API endpoints. 
+
+# 8.1 User Authentication 
+
+1) A user registers using the signup endpoint with the required account details.
+2) The password is hashed and then stored in the database. 
+3) during login the system fetches the user corresponding to the user and verifies the password with the hashed password stored in the database 
+4) When verifed the system returns a access token and a refresh token to the user . where access token is used to authenticate the user and refresh token is used to renew or get new access token 
+
+# 8,2 JWT Access Token 
+
+JWT access tokens are used to authenticate users when accessing protected API endpoints. 
+
+1) The token is generated after successful login.
+2) It contains the required user identification and authentication claims.
+3) The client sends the token through the HTTP Authorization header.
+4) The server validates the token's signature and expiration.
+5) If valid, the authenticated user is identified and allowed to proceed, subject to authorization checks.
+
+# 8.3 Refresh Token Management 
+
+Refresh tokens allow users to obtain new access tokens without logging in again.
+
+this application implements server side token management 
+
+1) refresh tokens are generate during login 
+2) when access token expires a new token can be acquired using the refresh token 
+3) when a new access token is generated the system rotates or issues new refresh token as well and revokes the old one
+4) when a revoked token is used again it logs out the user 
+5) it ensures Expired or revoked refresh tokens cannot be reused. 
+
+# 8.4 Role-Based Authorization 
+
+The application implements Role-Based Access Control (RBAC) to restrict API access according to the authenticated user's role.
+
+The system supports four roles:
+
+| Role       | Access Permissions                                      |
+| ---------- | ------------------------------------------------------- |
+| USER       | Basic account functionalities                           |
+| JOB_SEEKER | Job browsing, profile management, and job applications  |
+| RECRUITER  | Job vacancy management and applicant management         |
+| ADMIN      | Administrative operations and overall system management |
+
+
+
+# 9 Validations & Exception Handling 
+
+The Job Recruitment and Applicant Tracking System implements input validation and centralized exception handling to maintain data integrity, prevent invalid operations, and provide meaningful error responses. 
+
+
+# 9.1 Input Validation 
+
+Pydantic schemas are used to validate incoming request data before processing it through the application.
+
+1) User Validation
+- Username and email are required during registration.
+- Email must follow a valid email format.
+- Password must have atleast one capital letter , one number and one symbol.
+- Duplicate email addresses are not allowed.
+- User roles must match the predefined role values.
+
+2) Job Seeker Profile Validation
+- Full name, phone number, and qualification are required.
+- Phone number must contain exactly 10 digits.
+- Date of birth must be a valid date.
+- Experience must be a non-negative value.
+
+3) Job Validation
+- Job title, description, requirements, qualification, and location are mandatory.
+- Minimum experience must be non-negative.
+- Maximum experience must not be less than minimum experience.
+- Salary values must be non negative .
+- Employment type must match the predefined enum values.
+- Vacancy count must be a valid positive integer.
+- Job status must be a valid predefined value.
+
+4) Application Validation
+- The referenced job must exist.
+- The job seeker must have a valid profile.
+- A job seeker cannot apply for the same job multiple time.
+- Resume uploads must satisfy the configured file type and size restrictions.
+- Application status must match the predefined application status values.
+
+# 9.2 Database-level validations 
+
+1) Added Primary to ensure unique identification 
+2) Added Foriegn Key to maintain relationship between tables 
+3) Added Index to ensure Quick lookup 
+4) Added Unique constraint to Prevents duplicate email addresses, job seeker profiles, and duplicate applications.
+5) Added NotNull constraint to restrict null values
+6) Added Check Constraint to restrict values 
+7) Added Enum to only allow specified values
+8) Added Cascase Delete to remove dependent records when configured parent records are deleted.
+
+
+# 9.3 Custom Exception Handling
+
+The application has many custom exception classes to handler business logic errors 
+
+Examples 
+
+1) UserNotFoundException - Raised when a requested user does not exist. 
+2) InvalidCredentialsException - Raise when user logs in with invalid credentials 
+3) JobNotAcceptingApplicationsException - Raised when user Tries to apply to a job with no vacancies or closed 
+4) EmailAlreadyExists - Raised when registering with an existing email address. 
+5) NotAuthorizedException - Raise when user tries to access routes which they are not authorized to access 
+
+

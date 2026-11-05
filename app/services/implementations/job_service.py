@@ -69,8 +69,6 @@ class JobService:
         if existing_job is None:
             raise JobNotFoundException(f"Job posting with id {job_id} not found!")
 
-        # Capture resume paths before the application's rows are removed by
-        # the job foreign-key cascade.
         result = await self.db.scalars(
             select(Application.resume_path).where(Application.job_id == job_id)
         )
