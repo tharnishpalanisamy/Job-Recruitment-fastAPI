@@ -1,46 +1,28 @@
-# 1 Project Abstract 
+# 1 Project Overview
 
-Job Recruitment and Applicant Tracking System 
+This project is a backend for a Job Recruitment and Applicant Tracking System. It brings job postings, applicant profiles, and applications into one cetralized place. Recruiters can post vacancies and review applications; job seekers can browse jobs, maintain a profile, apply, and follow application status changes.
 
-The Job Recruitment and Applicant Tracking System is a system to streamline and manage the job recuitment process .
-It is developed using python , FastAPi and PostgreSQL . This system provides a cetralized platform that can be used 
-for job posting , managing job vacancies , job applicants etc...
+The sysetm is built with python, FastAPi, and PostgreSQL. It uses JWT access tokens and rotating refresh tokens for authentication, and sends email notifications for account creation, applications, and status updates. Email is best effort: a missing recipient or delivery failure does not prevent the main operation from completing.
 
-The sysetm is developed using Python , FastApi , and PostgreSQL , following a structured backend architecture and solid principles to ensure maintainablity , extendability and scalability . 
-
-The application supports four user roles which are User , Job Seeker , Recruiter and Admin where Each role has different level of permissions and authorization . 
-eg : Administrators can manage users and oversee system operations, Recuiters can create and manage job vacancies and process applications, while regular users can browse available job opportunities, Job Seekers maintain their job seeker profiles, and apply for suitable positions.
-
-The system includes secure authentication using JWT tokens and refresh tokens . It also provides application tracking capabilities, allowing Recruiters to review applications and update their statuses throughout the recruitment process.
-
-Additionally the system also sends email notification to the users in situations like account creation , job application , application update etc... 
-
-The application supports role based access with different permissions for User , Job Seeker , Recruiter and Admin 
-
-Roles and Authorization level 
-User - Users can register and authenticate securely using JWT-based authentication with refresh token support. 
-Job Seeker - Can view and search Jobs , Apply for Jobs , maintain their application and Job Seeker profile 
-Recruiter - Can post Job Vacancies , manage job posting , review applications received for Jobs they posted 
-Admin - Can post Job vacancies , manage Job posting , Review applications 
-
+There are four roles in the code: User, Job Seeker, Recruiter, and Admin. Each role is checked at the routes that need access control. A public signup creates a User account; there is no API for changing a user's role. The job seeker profile routes require an account that already has the Job Seeker role.
 
 # 2 Technology Stack
 
-The Job Recruitment and Applicant Tracking System is developed using the following technologies 
+These are the main tools used in the project:
 
-1)Python 3 - programming language used for the backend development.
-2) FastAPI - Backend web framework used to develop RESTful APIs. 
-3) Uvicoen - ASGI server used to run the FastAPI application. 
-4) PostgreSQL - Relational database used to store and manage the applications data. 
-5) SQLAlchemy - ORM used for database models and database operations.
-6) Alembic - Database migration management and schema version control.
-7) Pydantic - Data validation, serialization, and request/response schema management.
-8) JWT (JSON Web Tokens) - Secure user authentication and access control. 
-9) Pytest - Unit and integration testing of application functionality.
-10) HTTPX - Asynchronous HTTP client used for API integration testing. 
-11) Jinja2 - Template engine used for generating dynamic HTML content using templates. 
-11) Git & GitHub - Version control and source code management 
-12) Swagger UI - Interactive API documentation and endpoint testing. 
+1. Python 3 ? application language.
+2. FastAPI ? API framework.
+3. Uvicoen ? ASGI server used to run the application.
+4. PostgreSQL ? relational database.
+5. SQLAlchemy ? ORM and database access layer.
+6. Alembic ? database migration tool.
+7. Pydantic ? request validation and response schemas.
+8. JWT (JSON Web Tokens) ? access-token format.
+9. Pytest ? unit and integration test framework.
+10. HTTPX ? asynchronous HTTP client used by integration tests.
+11. Jinja2 ? renders the HTML email templates.
+12. Git and GitHub ? source control and project hosting.
+13. Swagger UI ? interactive API documentation served by FastAPI.
 
 # 3 Project Folder Structure
 
@@ -48,44 +30,44 @@ The Job Recruitment and Applicant Tracking System is developed using the followi
 
 ```text
 project/
-├── alembic/
-│   └── versions/
-├── app/
-│   ├── api/v1/
-│   │   ├── application/
-│   │   ├── auth/
-│   │   ├── health/
-│   │   ├── job/
-│   │   └── job_seekers/
-│   ├── client/
-│   ├── core/
-│   ├── database/
-│   ├── dependencies/
-│   ├── exception_handlers/
-│   ├── exceptions/
-│   ├── middleware/
-│   ├── models/
-│   ├── repositories/
-│   │   ├── implementations/
-│   │   └── protocols/
-│   ├── schemas/
-│   ├── services/
-│   │   ├── implementations/
-│   │   └── protocols/
-│   ├── templates/
-│   ├── utilities/
-│   ├── create_admin.py
-│   └── main.py
-├── logs/
-├── tests/
-│   ├── integration/
-│   └── unit/
-├── uploads/
-│   └── resumes/
-├── alembic.ini
-├── pytest.ini
-├── README.md
-└── requirements.txt
+|-- alembic/
+|   |-- versions/
+|-- app/
+|   |-- api/v1/
+|   |   |-- application/
+|   |   |-- auth/
+|   |   |-- health/
+|   |   |-- job/
+|   |   |-- job_seekers/
+|   |-- client/
+|   |-- core/
+|   |-- database/
+|   |-- dependencies/
+|   |-- exception_handlers/
+|   |-- exceptions/
+|   |-- middleware/
+|   |-- models/
+|   |-- repositories/
+|   |   |-- implementations/
+|   |   |-- protocols/
+|   |-- schemas/
+|   |-- services/
+|   |   |-- implementations/
+|   |   |-- protocols/
+|   |-- templates/
+|   |-- utilities/
+|   |-- create_admin.py
+|   |-- main.py
+|-- logs/
+|-- tests/
+|   |-- integration/
+|   |-- unit/
+|-- uploads/
+|   |-- resumes/
+|-- alembic.ini
+|-- pytest.ini
+|-- README.md
+|-- requirements.txt
 ```
 
 ## 3.2 Directory Description
@@ -113,70 +95,29 @@ project/
 
 # 4 Development Tools
 
-IDE: PyCharm / Visual Studio Code
-
-Database Management: pgAdmin / PostgreSQL
-
-API Testing: Swagger UI
-
-Version Control: Git and GitHub
+I used PyCharm or Visual Studio Code for editing, PostgreSQL with pgAdmin for database work, Swagger UI for trying API requests, and Git/GitHub for version control.
 
 # 5 User Roles & Authorization
 
-The Job Recruitment and Applicant Tracking System implements Role-Based Access Control (RBAC) to manage user permissions and restrict access to specific functionalities based on roles. 
+The API has four roles. Route dependencies check the caller's role before allowing access to protected operations. Some actions also check resource ownership in the service layer.
 
-The system consists of four roles 
+## 5.1 User
 
-# 5.1 User 
+A new signup creates a User account. A User can log in and access routes available to authenticated accounts, including browsing jobs. The current API does not include user account detail, user listing, or user role management endpoints.
 
-The User role represents a registered user who has access to basic account functionalities. 
-# Permissions 
-1) Register and log in to the application. 
-2) Manage personal account details.
-3) Access authorized user functionalities. 
-4) Access Protected routes like jobs etc.. 
+## 5.2 Job Seeker
 
+A Job Seeker can browse jobs, create and update a profile, apply to jobs, view their own applications, replace a resume while an application is still `APPLIED`, and delete an application that has not moved past `APPLIED`.
 
-# 5.2 Job Seeker 
+The job seeker routes require the account to already have the `JOB_SEEKER` role. The signup endpoint does not assign that role, and there is no role-change endpoint in the API.
 
-The Job Seeker role represents an user looking for job ooportunities 
+## 5.3 Recruiter
 
-# Permissions 
-1) All regular user permissions 
-2) Create and Manage job seeker profile 
-3) Browse available job opportunities 
-4) view individual job details 
-5) Apply to available jobs 
-6) Manage their applications 
-7) Track application status 
+A Recruiter can create jobs and manage jobs they created. Recruiters can list applications for their own jobs, review application details, and update application statuses. The status flow is controlled by allowed transitions; selecting an applicant also reduces the job's vacancy count. There is no separate resume download route.
 
-# 5.3 Recruiter 
+## 5.4 Admin
 
-The recruiter role represents a HR , Reponsible for managing job vacancies , handling recruitment activities and selecting candidates . 
-
-# Permissions:
-
-1) Create and publish job vacancies.
-2) View and manage job postings.
-3) Update job vacancy details.
-4) Close or reopen job vacancies.
-5) View applications submitted for job vacancies.
-6) Review applicant information and resumes.
-7) Update application statuses throughout the recruitment process.
-
-# 5.4 Admin 
-
-The Admin role has administrative privileges and is responsible for managing and overseeing the system.
-
-# Permissions:
-
-1) Access administrative functionalities.
-2) View and manage registered users.
-3) Manage user roles and permissions.
-4) View and manage job vacancies.
-5) Monitor job applications.
-6) Oversee overall system operations.
-
+An Admin can create, update, and delete jobs and can list applications across recruiters. The routes also allow admins to request application status updates, but the service currently requires the admin's ID to match the job creator's ID. As a result, an admin cannot update status for a job created by someone else. The API does not currently provide user-management endpoints.
 
 # 6 Database Design 
 
@@ -196,7 +137,7 @@ Stores registered user account information and authentication details.
 | username | VARCHAR(50) | Not Null |
 | email | VARCHAR(255) | Unique, Indexed |
 | password_hash | VARCHAR(255) | Not Null |
-| role | ENUM | Not Null, Default USER |
+| role | ENUM | Not Null, Default `user` |
 | is_active | BOOLEAN | Not Null, Default TRUE |
 | created_at | TIMESTAMP WITH TIME ZONE | Not Null, Default CURRENT_TIMESTAMP |
 | updated_at | TIMESTAMP WITH TIME ZONE | Nullable, Default CURRENT_TIMESTAMP |
@@ -221,7 +162,7 @@ Stores professional and personal information of registered job seekers.
 | current_designation | VARCHAR(150) | Nullable |
 | current_salary | INTEGER | Not Null |
 | created_at | TIMESTAMP WITH TIME ZONE | Not Null |
-| updated_at | TIMESTAMP WITH TIME ZONE | Not Nul |
+| updated_at | TIMESTAMP WITH TIME ZONE | Not Null |
 
 
 3) Jobs Table (jobs) 
@@ -264,9 +205,11 @@ Stores job applications submitted by job seekers, including resume information a
 | updated_at | TIMESTAMP WITH TIME ZONE | Not Null |
 
 
+Application status values are `APPLIED`, `UNDER_REVIEW`, `SHORTLISTED`, `REJECTED`, and `SELECTED`. A unique constraint prevents a job seeker from applying to the same job twice.
+
 5) Refresh Tokens Table (refresh_tokens)
 
-Stores refresh token information to support secure authentication, token rotation, and logout functionality.
+Stores hashed refresh tokens, their expiry and revocation times, and the link to a replacement token when a token is rotated.
 
 | Column | Data Type | Constraints |
 |---|---|---|
@@ -350,126 +293,48 @@ Signup accepts `username`, `email`, and `password`. The request does not allow a
 There are no user-management CRUD routes in the current API. Application responses differ by endpoint; the detailed recruiter/admin list response includes the stored resume path.
 
 
-# 8. Authentication Flow 
+# 8. Authentication Flow
 
-The Job Recruitment and Applicant Tracking System implements a secure authentication mechanism using JSON Web Tokens (JWT) and refresh tokens. The authentication system verifies user identity and controls access to protected API endpoints. 
+A user signs up with a username, email address, and password. The password is hashed before it is stored. Public signup assigns the `user` role; the signup request cannot set a role.
 
-# 8.1 User Authentication 
+On login, the API verifies the password and returns a short-lived JWT access token and a refresh token. Protected routes expect the access token in the `Authorization: Bearer <token>` header. The token contains the user ID and role. The current authentication dependency does not check the account's `is_active` flag.
 
-1) A user registers using the signup endpoint with the required account details.
-2) The password is hashed and then stored in the database. 
-3) during login the system fetches the user corresponding to the user and verifies the password with the hashed password stored in the database 
-4) When verifed the system returns a access token and a refresh token to the user . where access token is used to authenticate the user and refresh token is used to renew or get new access token 
+Refresh tokens are generated randomly. The database stores only their SHA-256 hashes, along with expiry and revocation details. Refreshing rotates the token: the old token is revoked and linked to its replacement. Reuse of a revoked token revokes the user's remaining refresh tokens. Logging out revokes the supplied refresh token; an already issued access token remains usable until it expires.
 
-# 8,2 JWT Access Token 
-
-JWT access tokens are used to authenticate users when accessing protected API endpoints. 
-
-1) The token is generated after successful login.
-2) It contains the required user identification and authentication claims.
-3) The client sends the token through the HTTP Authorization header.
-4) The server validates the token's signature and expiration.
-5) If valid, the authenticated user is identified and allowed to proceed, subject to authorization checks.
-
-# 8.3 Refresh Token Management 
-
-Refresh tokens allow users to obtain new access tokens without logging in again.
-
-this application implements server side token management 
-
-1) refresh tokens are generate during login 
-2) when access token expires a new token can be acquired using the refresh token 
-3) when a new access token is generated the system rotates or issues new refresh token as well and revokes the old one
-4) when a revoked token is used again it logs out the user 
-5) it ensures Expired or revoked refresh tokens cannot be reused. 
-
-# 8.4 Role-Based Authorization 
-
-The application implements Role-Based Access Control (RBAC) to restrict API access according to the authenticated user's role.
-
-The system supports four roles:
+The role table below summarizes route access at a high level. Resource ownership checks also apply in some service methods, as described in Sections 5 and 7.
 
 | Role       | Access Permissions                                      |
 | ---------- | ------------------------------------------------------- |
-| USER       | Basic account functionalities                           |
-| JOB_SEEKER | Job browsing, profile management, and job applications  |
-| RECRUITER  | Job vacancy management and applicant management         |
-| ADMIN      | Administrative operations and overall system management |
+| USER       | Authenticated job browsing and other routes available to a regular user. |
+| JOB_SEEKER | Job browsing, profile management, and job applications, when the account already has this role. |
+| RECRUITER  | Job management and applications for jobs they created. |
+| ADMIN      | Job management and application listing; some application status changes are limited by a creator check in the service. |
 
+# 9. Validations & Exception Handling
 
+Pydantic schemas validate request fields before the service layer handles them. The database adds foreign keys, unique constraints, not-null constraints, enum columns, and a non-negative experience check on job seeker profiles.
 
-# 9 Validations & Exception Handling 
+## 9.1 Input Validation
 
-The Job Recruitment and Applicant Tracking System implements input validation and centralized exception handling to maintain data integrity, prevent invalid operations, and provide meaningful error responses. 
+- Signup requires a username of 3?50 characters, a valid email address, and a password of 8?50 characters containing an uppercase letter, a number, and one of `!@#$%&*`.
+- Job seeker profile creation requires a 10-digit phone number, date of birth, qualification, non-negative experience, and a non-negative current salary. Experience supports one decimal place.
+- Job creation checks required text fields, non-negative salary and experience values, positive vacancy count, and valid employment type. It rejects minimum/maximum salary or experience ranges where the maximum is below the minimum.
+- Applications require an existing job, a job seeker profile, a job that is accepting applications, and a resume with an allowed filename extension. Uploads are limited to 5 MB. The service prevents duplicate applications for the same job seeker and job.
+- Application status values are restricted to the defined enum and allowed transitions. Selecting a candidate requires an open job with at least one vacancy.
 
+Resume checks use the filename extension and size; the server does not inspect the file contents to verify its actual format.
 
-# 9.1 Input Validation 
+## 9.2 Database-level validations
 
-Pydantic schemas are used to validate incoming request data before processing it through the application.
+The schema uses primary keys, foreign keys, indexes, uniqueness constraints, not-null columns, and enum types. It prevents duplicate emails, duplicate job seeker profiles for one user, and duplicate applications by the same job seeker to the same job. Job seeker experience also has a database check requiring a value of zero or greater. Foreign keys configured with cascade deletion remove dependent job seeker profiles or applications when their parent records are deleted.
 
-1) User Validation
-- Username and email are required during registration.
-- Email must follow a valid email format.
-- Password must have atleast one capital letter , one number and one symbol.
-- Duplicate email addresses are not allowed.
-- User roles must match the predefined role values.
+## 9.3 Custom Exception Handling
 
-2) Job Seeker Profile Validation
-- Full name, phone number, and qualification are required.
-- Phone number must contain exactly 10 digits.
-- Date of birth must be a valid date.
-- Experience must be a non-negative value.
+The application defines exceptions for expected service errors, including missing users, invalid credentials, duplicate email addresses, missing jobs or profiles, duplicate applications, invalid status changes, and unauthorized actions. These are mapped to HTTP responses in `app/exception_handlers/handler.py`.
 
-3) Job Validation
-- Job title, description, requirements, qualification, and location are mandatory.
-- Minimum experience must be non-negative.
-- Maximum experience must not be less than minimum experience.
-- Salary values must be non negative .
-- Employment type must match the predefined enum values.
-- Vacancy count must be a valid positive integer.
-- Job status must be a valid predefined value.
+## 9.4 Framework Error Responses
 
-4) Application Validation
-- The referenced job must exist.
-- The job seeker must have a valid profile.
-- A job seeker cannot apply for the same job multiple time.
-- Resume uploads must satisfy the configured file type and size restrictions.
-- Application status must match the predefined application status values.
-
-# 9.2 Database-level validations 
-
-1) Added Primary to ensure unique identification 
-2) Added Foriegn Key to maintain relationship between tables 
-3) Added Index to ensure Quick lookup 
-4) Added Unique constraint to Prevents duplicate email addresses, job seeker profiles, and duplicate applications.
-5) Added NotNull constraint to restrict null values
-6) Added Check Constraint to restrict values 
-7) Added Enum to only allow specified values
-8) Added Cascase Delete to remove dependent records when configured parent records are deleted.
-
-
-# 9.3 Custom Exception Handling
-
-The application has many custom exception classes to handler business logic errors 
-
-Examples 
-
-1) UserNotFoundException - Raised when a requested user does not exist. 
-2) InvalidCredentialsException - Raise when user logs in with invalid credentials 
-3) JobNotAcceptingApplicationsException - Raised when user Tries to apply to a job with no vacancies or closed 
-4) EmailAlreadyExists - Raised when registering with an existing email address. 
-5) NotAuthorizedException - Raise when user tries to access routes which they are not authorized to access 
-
-
-# 9.4 Centralized Exception Handling
-FastAPI exception handlers are registered centrally in the application to provide consistent error responses.
-
-The system handles:
-- Custom application exceptions.
-- HTTP exceptions.
-- Request validation errors.
-- Unexpected internal server errors.
-
+FastAPI handles request validation errors and HTTP exceptions using its built-in handlers. The application also registers a generic handler for unexpected exceptions, which returns a 500 response and logs the failure. Email template or delivery errors are logged by the email service and do not fail the main request.
 
 # 10. Testing
 
@@ -511,3 +376,154 @@ The repository contains 50 asynchronous test functions: 17 unit tests and 33 int
 | `tests/integration/test_db.py` (1) | Basic database connectivity using `SELECT 1`. |
 
 Integration tests use an async SQLAlchemy session configured from `TEST_DATABASE_URL`; the fixture creates and drops the mapped tables around each test. The test suite does not currently include explicit cases for refresh-token rotation/logout, email delivery failure handling, invalid resume format/size, or most application status transitions and ownership scenarios.
+
+## 10.3 Test Execution
+
+Run the complete test suite from the project root with:
+
+```powershell
+.venv\Scripts\python.exe -m pytest -q
+```
+
+The integration-test fixture uses `TEST_DATABASE_URL` and creates and drops the mapped tables for each test. Configure it to point to a dedicated test database before running the suite.
+
+## 10.4 Test Result
+
+Last recorded execution: `50 passed, 1 warning in 163.27s` using the command above. The warning was from pytest being unable to create a cache file because the cache path already existed (`WinError 183`); no tests failed. This result describes that execution and may differ on another machine or run.
+
+## 10.5 Test Conclusion
+
+All current unit and integration test cases passed in the recorded run. The suite provides coverage for core authentication, jobs, job seeker profiles, applications, and database connectivity. It does not cover every documented or implemented behavior; see the coverage gaps listed in Section 10.2.
+
+
+
+
+# 11. Setup Instructions
+
+## 11.1 Prerequisites
+
+Ensure the following software is installed before setting up the project:
+
+- Python 3.12 or compatible version.
+- PostgreSQL.
+- Git.
+- pip (Python package manager).
+
+## 11.2 Clone the Repository
+
+Clone the project repository using Git:
+
+```bash
+git clone https://github.com/tharnishpalanisamy/Job-Recruitment-fastAPI.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd <project-directory>
+```
+
+## 11.3 Create a Virtual Environment
+
+Create an isolated Python virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate the virtual environment.
+
+**Windows:**
+
+```powershell
+.venv\Scripts\activate
+```
+
+**Linux / macOS:**
+
+```bash
+source .venv/bin/activate
+```
+
+## 11.4 Install Dependencies
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+## 11.5 Database Configuration
+
+Create a PostgreSQL database for the application.
+
+Configure the database connection string and other required environment variables in the `.env` file.
+
+Example:
+
+```env
+DATABASE_URL=postgresql+asyncpg://username:password@localhost:5432/job_recruitment
+
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+REFRESH_TOKEN_EXPIRE_DAYS=7
+```
+
+Configure additional environment variables required for email services and other application settings.
+
+## 11.6 Run Database Migrations
+
+Apply the existing Alembic migrations to create the required database tables:
+
+```bash
+alembic upgrade head
+```
+
+## 11.7 Run the Application
+
+Start the FastAPI application using Uvicorn:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+The application will be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+## 11.8 Access API Documentation
+
+Once the application is running, access the interactive API documentation through the following URLs:
+
+- Swagger UI: http://127.0.0.1:8000/docs
+- ReDoc: http://127.0.0.1:8000/redoc
+- OpenAPI Schema: http://127.0.0.1:8000/openapi.json
+
+## 11.9 Run Tests
+
+Execute the test suite using Pytest:
+
+```bash
+python -m pytest -v
+```
+
+This command runs the available test cases and displays their execution results.
+
+
+
+# 13. Conclusion
+
+The **Job Recruitment and Applicant Tracking System** was successfully developed to simplify and streamline the recruitment process through a centralized web-based application.
+
+The project provides essential recruitment functionalities, including user registration and authentication, role-based access control, job vacancy management, job seeker profile management, and application tracking.
+
+The application was developed using Python, FastAPI, and PostgreSQL, with SQLAlchemy for database operations and Alembic for database migrations. JWT authentication and refresh token management were implemented to provide secure access to protected resources.
+
+The implementation of input validation, centralized exception handling, and automated testing using Pytest helps improve the reliability, maintainability, and data integrity of the application.
+
+Through this project, practical knowledge was gained in backend development, REST API design, relational database management, authentication, authorization, software testing, and version control using Git.
+
+Overall, the project demonstrates how a structured backend application can improve recruitment management by reducing manual effort, organizing applicant information, and providing an efficient platform for managing the hiring process.
