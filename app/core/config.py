@@ -27,6 +27,14 @@ class Settings(BaseSettings):
     MAIL_STARTTLS: bool = True
     MAIL_SSL_TLS: bool = False
 
+    ADMIN_EMAIL: str | None = None
+    ADMIN_USERNAME: str | None = None
+    ADMIN_PASSWORD: str | None = None
+
+    RECRUITER_EMAIL: str | None = None
+    RECRUITER_USERNAME: str | None = None
+    RECRUITER_PASSWORD: str | None = None
+
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",
         env_file_encoding="utf-8",

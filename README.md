@@ -54,9 +54,11 @@ project/
 |   |-- services/
 |   |   |-- implementations/
 |   |   |-- protocols/
+|   |-- scripts/
+|   |   |-- create_admin.py
+|   |   |-- create_recruiter.py
 |   |-- templates/
 |   |-- utilities/
-|   |-- create_admin.py
 |   |-- main.py
 |-- logs/
 |-- tests/
@@ -497,13 +499,29 @@ uvicorn app.main:app --reload
 
 The API listens at `http://127.0.0.1:8000` by default.
 
-## 11.8 Open the API Documentation
+## 11.8 Create Admin and Recruiter Accounts
+
+Set `ADMIN_EMAIL`, `ADMIN_USERNAME`, and `ADMIN_PASSWORD`, and/or
+`RECRUITER_EMAIL`, `RECRUITER_USERNAME`, and `RECRUITER_PASSWORD` in `.env`.
+Use passwords that satisfy the account password validation rules.
+
+Run the relevant script from the project root:
+
+```bash
+python -m app.scripts.create_admin
+python -m app.scripts.create_recruiter
+```
+
+Each script creates the account if the email is new or updates the existing
+account with the configured role and credentials.
+
+## 11.9 Open the API Documentation
 
 - Swagger UI: <http://127.0.0.1:8000/docs>
 - ReDoc: <http://127.0.0.1:8000/redoc>
 - OpenAPI schema: <http://127.0.0.1:8000/openapi.json>
 
-## 11.9 Run Tests
+## 11.10 Run Tests
 
 With the virtual environment active and `TEST_DATABASE_URL` pointing to the test database, run `python -m pytest -q`. See Section 10 for the test inventory and the last recorded result.
 

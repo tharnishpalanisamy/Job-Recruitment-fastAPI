@@ -1,10 +1,10 @@
 import asyncio
-from getpass import getpass
 
 from pydantic import ValidationError
 from sqlalchemy import select
 
 from app.core import UserRole, hash_password
+from app.core.config import setting
 from app.database.connection import AsyncSessionLocal, engine
 from app.models import User
 from app.schemas import UserCreate
@@ -37,21 +37,28 @@ async def create_recruiter(user_data: UserCreate) -> str:
 
 
 async def main() -> None:
+    values = {
+        "RECRUITER_EMAIL": setting.RECRUITER_EMAIL,
+        "RECRUITER_USERNAME": setting.RECRUITER_USERNAME,
+        "RECRUITER_PASSWORD": setting.RECRUITER_PASSWORD,
+    }
+    missing = [name for name, value in values.items() if not value]
+    if missing:
+        raise ValueError(
+            f"Set the following environment variables in .env: {', '.join(missing)}"
+        )
+
     try:
-        email = input("Recruiter email: ").strip()
-        username = input("Recruiter username: ").strip()
-        password = getpass("Recruiter password: ")
+        user_data = UserCreate(
+            username=setting.RECRUITER_USERNAME,
+            email=setting.RECRUITER_EMAIL,
+            password=setting.RECRUITER_PASSWORD,
+        )
+    except ValidationError as exc:
+        errors = "; ".join(error["msg"] for error in exc.errors(include_input=False))
+        raise ValueError(f"Invalid recruiter details: {errors}") from exc
 
-        try:
-            user_data = UserCreate(
-                username=username,
-                email=email,
-                password=password,
-            )
-        except ValidationError as exc:
-            print(f"Invalid recruiter details:\n{exc}")
-            return
-
+    try:
         action = await create_recruiter(user_data)
         print(f"Recruiter account {action}: {user_data.email}")
     finally:
