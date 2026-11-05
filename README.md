@@ -340,3 +340,4 @@ PATCH     /api/v1/application/{application_id}/update_resume  Update the resume 
 GET       /api/v1/application/                          Retrieve all job applications                         Recruiter / Admin
 PATCH     /api/v1/application/{application_id}/status   Update the status of a job application                Recruiter / Admin
 
+
