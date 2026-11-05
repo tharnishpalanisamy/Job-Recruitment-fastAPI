@@ -122,7 +122,6 @@ async def recruiter_token(client, recuiter_user):
     return response.json()["access_token"]
 
 
-
 @pytest_asyncio.fixture
 async def user(db_session):
 
@@ -151,7 +150,6 @@ async def user_token(client, user):
     return response.json()["access_token"]
 
 
-
 @pytest_asyncio.fixture
 async def job_seeker(db_session):
 
@@ -159,7 +157,7 @@ async def job_seeker(db_session):
         username="job_seeker",
         email="job_seeker@test.com",
         password_hash=hash_password("job_seeker@123"),
-        role=UserRole.USER,
+        role=UserRole.JOB_SEEKER,
     )
 
     db_session.add(user)
@@ -178,3 +176,34 @@ async def job_seeker_token(client, job_seeker):
     )
 
     return response.json()["access_token"]
+
+
+@pytest_asyncio.fixture
+def job_payload():
+    return {
+        "title": "Software Engineer",
+        "description": "Software Engineer position",
+        "requirements": "Python, FastAPI",
+        "qualification": "BSc Computer Science",
+        "experience_min": 2,
+        "experience_max": 5,
+        "salary_min": 60000,
+        "salary_max": 95000,
+        "employment_type": "full_time",
+        "location": "Remote",
+        "vacancies": 3,
+    }
+
+@pytest_asyncio.fixture
+def job_seeker_payload():
+    return {
+    "full_name": "Arun Kumar",
+    "phone": "3383450518",
+    "date_of_birth": "1996-05-14",
+    "qualification": "B.E.",
+    "specialization": "Computer Science and Engineering",
+    "experience_years": 4,
+    "current_company": "Avanse Technologies",
+    "current_designation": "Software Engineer",
+    "current_salary": 850000
+    }

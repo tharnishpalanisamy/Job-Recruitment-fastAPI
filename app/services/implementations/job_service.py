@@ -1,7 +1,14 @@
+import logging
+from pathlib import Path
+
+from sqlalchemy import select
+
 from app.core import UserRole
 from app.exceptions import JobNotFoundException, NotAuthorizedException
-from app.models import Job, User
+from app.models import Application, Job, User
 from app.schemas import JobCreate, JobFilterParams, JobUpdate
+
+logger = logging.getLogger(__name__)
 
 
 class JobService:
@@ -31,7 +38,8 @@ class JobService:
 
     async def update_job(self, user: User, job_id: int, job_data: JobUpdate) -> Job:
         existing_job = await self.job_repository.get_by_id(job_id)
-
+        if existing_job is None:
+            raise JobNotFoundException(f"Job with id {job_id} not found !")
         if user.role == UserRole.RECRUITER and user.id != existing_job.created_by:
             raise NotAuthorizedException("You are not allowed to edit this resouce")
 
@@ -49,6 +57,8 @@ class JobService:
         if user.role == UserRole.RECRUITER:
             job = await self.job_repository.get_by_id(job_id)
 
+            if job is None:
+                raise JobNotFoundException(f"Job with id {job_id} not found")
             if user.id != job.created_by:
                 raise NotAuthorizedException(
                     "You are not authorized to delete this job posting"
@@ -56,5 +66,21 @@ class JobService:
         existing_job = await self.job_repository.get_by_id(job_id)
         if existing_job is None:
             raise JobNotFoundException(f"Job posting with id {job_id} not found!")
+
+        # Capture resume paths before the application's rows are removed by
+        # the job foreign-key cascade.
+        result = await self.db.scalars(
+            select(Application.resume_path).where(Application.job_id == job_id)
+        )
+        resume_paths = result.all()
+
         await self.job_repository.delete_by_id(job_id)
         await self.db.commit()
+
+        for resume_path in resume_paths:
+            try:
+                path = Path(resume_path)
+                if path.exists():
+                    path.unlink()
+            except OSError:
+                logger.exception("Failed to delete resume file: %s", resume_path)

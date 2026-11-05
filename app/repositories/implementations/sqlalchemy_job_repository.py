@@ -1,6 +1,6 @@
 from datetime import datetime, time, timedelta, timezone
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, or_, select
 
 from app.core import JobStatus
 from app.models import Job
@@ -30,16 +30,27 @@ class JobRepository:
             conditions.append(Job.qualification.ilike(f"%{filters.qualification}%"))
 
         if filters.experience_min is not None:
-            conditions.append(Job.experience_min >= filters.experience_min)
+            # The requested range and posting range must overlap. A missing
+            # posting maximum represents no upper limit.
+            conditions.append(
+                or_(
+                    Job.experience_max.is_(None),
+                    Job.experience_max >= filters.experience_min,
+                )
+            )
 
         if filters.experience_max is not None:
-            conditions.append(Job.experience_max <= filters.experience_max)
+            conditions.append(Job.experience_min <= filters.experience_max)
 
         if filters.salary_min is not None:
-            conditions.append(Job.salary_min >= filters.salary_min)
+            conditions.append(
+                or_(Job.salary_max.is_(None), Job.salary_max >= filters.salary_min)
+            )
 
         if filters.salary_max is not None:
-            conditions.append(Job.salary_max <= filters.salary_max)
+            conditions.append(
+                or_(Job.salary_min.is_(None), Job.salary_min <= filters.salary_max)
+            )
 
         if filters.employment_type is not None:
             conditions.append(Job.employment_type == filters.employment_type)
