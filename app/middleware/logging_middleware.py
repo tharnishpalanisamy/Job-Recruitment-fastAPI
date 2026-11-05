@@ -7,9 +7,7 @@ from starlette.responses import Response
 logger = logging.getLogger(__name__)
 
 
-async def logging_middleware(
-    request: Request, call_next
-) -> Response:
+async def logging_middleware(request: Request, call_next) -> Response:
 
     start = time.perf_counter()
 

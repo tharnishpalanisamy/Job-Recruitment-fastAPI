@@ -13,6 +13,7 @@ class ApplicationResponse(BaseModel):
     status: ApplicationStatus
     applied_at: datetime
 
+
 class ApplicationDetailedResponse(BaseModel):
     id: int
     job_id: int

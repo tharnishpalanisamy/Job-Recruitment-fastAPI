@@ -27,7 +27,9 @@ async def apply(
     return await service.create_application(job_id, resume, user)
 
 
-@router.get("/me", summary="get users applications", response_model=list[ApplicationResponse])
+@router.get(
+    "/me", summary="get users applications", response_model=list[ApplicationResponse]
+)
 async def get_current_user_applications(
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
@@ -50,14 +52,16 @@ async def delete_application(
 ) -> None:
     return await service.delete_application_by_id(user, application_id)
 
-@router.patch('/{application_id}/update_resume' , response_model=ApplicationResponse) 
+
+@router.patch("/{application_id}/update_resume", response_model=ApplicationResponse)
 async def update_resume(
     application_id: int,
     resume: Annotated[UploadFile, File(...)],
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
 ) -> ApplicationResponse:
-    return await service.update_resume_by_id( user ,application_id , resume )
+    return await service.update_resume_by_id(user, application_id, resume)
+
 
 @router.get(
     "/",
@@ -76,16 +80,18 @@ async def get_all_applications(
 ) -> list[ApplicationDetailedResponse]:
     return await service.get_all_applications(user, job_id, limit, offset)
 
-@router.get('/{application_id}' , response_model=ApplicationResponse) 
+
+@router.get("/{application_id}", response_model=ApplicationResponse)
 async def get_application_by_id(
-    application_id:int , 
+    application_id: int,
     user: Annotated[
         User,
-        Depends(require_roles(UserRole.JOB_SEEKER,UserRole.ADMIN, UserRole.RECRUITER)),
+        Depends(require_roles(UserRole.JOB_SEEKER, UserRole.ADMIN, UserRole.RECRUITER)),
     ],
-    service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)], 
+    service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
 ) -> ApplicationResponse:
-    return await service.get_application_by_id(user , application_id)
+    return await service.get_application_by_id(user, application_id)
+
 
 @router.patch("/{application_id}/status", response_model=ApplicationResponse)
 async def update_application_status(

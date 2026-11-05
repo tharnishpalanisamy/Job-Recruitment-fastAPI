@@ -58,7 +58,7 @@ async def update_job_by_id(
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
 ) -> JobResponse:
-    return await service.update_job(user ,job_id, job_data)
+    return await service.update_job(user, job_id, job_data)
 
 
 @router.delete(

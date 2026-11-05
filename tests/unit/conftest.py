@@ -65,9 +65,6 @@ def mock_job_seeker_repository():
     return AsyncMock()
 
 
-@pytest.fixture
-def mock_user_repository():
-    return AsyncMock()
 
 
 @pytest.fixture
@@ -87,11 +84,6 @@ def job_seeker_service(
 
 @pytest.fixture
 def mock_application_repository():
-    return AsyncMock()
-
-
-@pytest.fixture
-def mock_job_repository():
     return AsyncMock()
 
 

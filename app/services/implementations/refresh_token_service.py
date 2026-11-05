@@ -11,7 +11,9 @@ from app.repositories.protocols import RefreshTokenRepositoryProtocol
 
 
 class RefreshTokenService:
-    def __init__(self, db: AsyncSession, repository: RefreshTokenRepositoryProtocol) -> None:
+    def __init__(
+        self, db: AsyncSession, repository: RefreshTokenRepositoryProtocol
+    ) -> None:
         self.db = db
         self.repository = repository
 
@@ -109,7 +111,9 @@ class RefreshTokenService:
         token_hash = self.hash_refresh_token(raw_token)
 
         try:
-            token_record = await self.repository.get_token_by_hash_for_update(token_hash)
+            token_record = await self.repository.get_token_by_hash_for_update(
+                token_hash
+            )
 
             if token_record is None:
                 raise InvalidRefreshTokenException("This refresh token is not valid.")

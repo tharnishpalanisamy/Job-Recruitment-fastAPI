@@ -7,9 +7,7 @@ async def test_job_seeker_apply(
     client, admin_token, job_seeker_token, job_payload, job_seeker_payload, monkeypatch
 ):
 
-    monkeypatch.setattr(
-        "app.client.email_client.EmailClient.send_email", AsyncMock()
-    )
+    monkeypatch.setattr("app.client.email_client.EmailClient.send_email", AsyncMock())
 
     admin_headers = {"Authorization": f"Bearer {admin_token}"}
 
@@ -84,14 +82,15 @@ async def test_get_applications_of_user(
     assert response.json()[0]["job_id"] == int(data["job_id"])
 
 
-async def _create_application(client, job_creator_token, job_seeker_token, job_payload, job_seeker_payload):
+async def _create_application(
+    client, job_creator_token, job_seeker_token, job_payload, job_seeker_payload
+):
     creator_headers = {"Authorization": f"Bearer {job_creator_token}"}
     job_response = await client.post(
         "/api/v1/jobs/create", json=job_payload, headers=creator_headers
     )
-    assert job_response.status_code == 201 
+    assert job_response.status_code == 201
     job_id = job_response.json()["id"]
-
 
     seeker_headers = {"Authorization": f"Bearer {job_seeker_token}"}
     profile_response = await client.post(
@@ -101,7 +100,9 @@ async def _create_application(client, job_creator_token, job_seeker_token, job_p
     )
     assert profile_response.status_code == 201
 
-    files = {"resume": ("resume.pdf", b"%PDF-1.4\nDummy resume content", "application/pdf")}
+    files = {
+        "resume": ("resume.pdf", b"%PDF-1.4\nDummy resume content", "application/pdf")
+    }
     response = await client.post(
         f"{APPLICATION_URL}/apply",
         data={"job_id": str(job_id)},
@@ -120,10 +121,11 @@ async def test_delete_application_by_id(
     )
     headers = {"Authorization": f"Bearer {job_seeker_token}"}
 
-    response = await client.delete(f"{APPLICATION_URL}/{application_id}", headers=headers)
+    response = await client.delete(
+        f"{APPLICATION_URL}/{application_id}", headers=headers
+    )
 
     assert response.status_code == 204
-
 
 
 async def test_application_resume_update(
@@ -133,7 +135,9 @@ async def test_application_resume_update(
         client, admin_token, job_seeker_token, job_payload, job_seeker_payload
     )
     headers = {"Authorization": f"Bearer {job_seeker_token}"}
-    files = {"resume": ("updated_resume.pdf", b"%PDF-1.4\nUpdated resume", "application/pdf")}
+    files = {
+        "resume": ("updated_resume.pdf", b"%PDF-1.4\nUpdated resume", "application/pdf")
+    }
 
     response = await client.patch(
         f"{APPLICATION_URL}/{application_id}/update_resume",
@@ -144,7 +148,6 @@ async def test_application_resume_update(
     assert response.status_code == 200, response.text
     assert response.json()["id"] == application_id
     assert response.json()["resume_filename"] == "updated_resume.pdf"
-
 
 
 async def test_get_all_applications(
@@ -168,7 +171,9 @@ async def test_get_all_applications(
         headers=recruiter_headers,
     )
     assert filtered_response.status_code == 200
-    assert [application["id"] for application in filtered_response.json()] == [application_id]
+    assert [application["id"] for application in filtered_response.json()] == [
+        application_id
+    ]
 
 
 async def test_application_status_update(

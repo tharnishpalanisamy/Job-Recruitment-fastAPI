@@ -34,4 +34,3 @@ class EmailClient:
         )
 
         await self.mailer.send_message(message)
-    

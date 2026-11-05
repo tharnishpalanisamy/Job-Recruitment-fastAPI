@@ -17,7 +17,6 @@ async def test_signup_success(client):
     assert response.status_code == 201
 
 
-
 @pytest.mark.asyncio
 async def test_signup_duplicate_email(client):
 
@@ -35,16 +34,16 @@ async def test_signup_duplicate_email(client):
     assert second_response.status_code == 409
 
 
-@pytest.mark.asyncio 
-async def test_invalid_email(client) :
+@pytest.mark.asyncio
+async def test_invalid_email(client):
     payload = {
-        'username' : 'test' , 
-        'email' : 'invalid-email' ,
-        'password' : 'password@2005'
+        "username": "test",
+        "email": "invalid-email",
+        "password": "password@2005",
     }
 
-    response = await client.post(f'{AUTH_URL}/signup' , json=payload) 
-    assert response.status_code == 422 
+    response = await client.post(f"{AUTH_URL}/signup", json=payload)
+    assert response.status_code == 422
 
 
 @pytest.mark.asyncio
@@ -68,15 +67,12 @@ async def test_signup_short_username(client):
     assert response.status_code == 422
 
 
-@pytest.mark.asyncio 
-async def test_invalid_login(client) :
-    payload = {
-        'email' : 'dummyuser@gmail.com' , 
-        'password':'Dummy@2123'
-    } 
+@pytest.mark.asyncio
+async def test_invalid_login(client):
+    payload = {"email": "dummyuser@gmail.com", "password": "Dummy@2123"}
 
-    response = await client.post(f"{AUTH_URL}/login", json=payload) 
-    assert response.status_code == 401 
+    response = await client.post(f"{AUTH_URL}/login", json=payload)
+    assert response.status_code == 401
 
 
 @pytest.mark.asyncio
@@ -107,6 +103,3 @@ async def test_login_success(client):
 
     assert data["access_token"] != ""
     assert data["refresh_token"] != ""
-
-
-

@@ -80,12 +80,11 @@ class EmailService:
     ) -> None:
         await self._send_template(
             recipient=recipient,
-            subject="Your Job Seeker Profile Has Been Successfully Created – Job Portal", 
-            template_name='job_seeker.html',
-            context={
-                'username':username
-            }
+            subject="Your Job Seeker Profile Has Been Successfully Created – Job Portal",
+            template_name="job_seeker.html",
+            context={"username": username},
         )
+
     async def send_new_application_notification(
         self,
         recipient: str,

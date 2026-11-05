@@ -45,9 +45,9 @@ class JobSeekerService:
 
         if updated_user is None:
             raise UserNotFoundException("User not found")
-        user = updated_user 
+        user = updated_user
 
-        await self.db.commit() 
+        await self.db.commit()
         await self.email_service.send_job_seeker_account_creation_email(
             recipient=user.email, username=user.username
         )
@@ -83,7 +83,7 @@ class JobSeekerService:
         updated_job_seeker = await self.job_seeker_repository.update_by_user_id(
             job_seeker, fields
         )
-        await self.db.commit()      
+        await self.db.commit()
         return updated_job_seeker
 
     async def delete_current_job_seeker(self, user_id: int) -> None:

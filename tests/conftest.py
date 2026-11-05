@@ -198,19 +198,17 @@ def job_payload():
         "vacancies": 3,
     }
 
+
 @pytest_asyncio.fixture
 def job_seeker_payload():
     return {
-    "full_name": "Arun Kumar",
-    "phone": "3383450518",
-    "date_of_birth": "1996-05-14",
-    "qualification": "B.E.",
-    "specialization": "Computer Science and Engineering",
-    "experience_years": 4,
-    "current_company": "Avanse Technologies",
-    "current_designation": "Software Engineer",
-    "current_salary": 850000
+        "full_name": "Arun Kumar",
+        "phone": "3383450518",
+        "date_of_birth": "1996-05-14",
+        "qualification": "B.E.",
+        "specialization": "Computer Science and Engineering",
+        "experience_years": 4,
+        "current_company": "Avanse Technologies",
+        "current_designation": "Software Engineer",
+        "current_salary": 850000,
     }
-
-
-

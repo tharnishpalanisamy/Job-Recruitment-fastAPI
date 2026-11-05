@@ -49,11 +49,11 @@ async def test_invalid_payload(client, recruiter_token):
 async def test_get_all_jobs(client, admin_token, user_token, job_payload):
     headers = {"Authorization": f"Bearer {admin_token}"}
 
-    response = await client.post(f"{JOB_URL}/create", json=job_payload, headers=headers) 
+    response = await client.post(f"{JOB_URL}/create", json=job_payload, headers=headers)
 
-    headers = {"Authorization": f"Bearer {admin_token}"} 
-    response2 = await client.get(f"{JOB_URL}/", headers=headers) 
-    response = response.json() 
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    response2 = await client.get(f"{JOB_URL}/", headers=headers)
+    response = response.json()
     response2 = response2.json()
 
     assert any(job["id"] == response["id"] for job in response2)
@@ -62,14 +62,14 @@ async def test_get_all_jobs(client, admin_token, user_token, job_payload):
 async def test_job_by_id(client, admin_token, user_token, job_payload):
     headers = {"Authorization": f"Bearer {admin_token}"}
 
-    response = await client.post(f"{JOB_URL}/create", json=job_payload, headers=headers) 
+    response = await client.post(f"{JOB_URL}/create", json=job_payload, headers=headers)
 
-    headers = {"Authorization": f"Bearer {admin_token}"} 
-    response = response.json() 
-    response2 = await client.get(f"{JOB_URL}/{response['id']}", headers=headers) 
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    response = response.json()
+    response2 = await client.get(f"{JOB_URL}/{response['id']}", headers=headers)
     response2 = response2.json()
 
-    assert response['id'] == response2['id']
+    assert response["id"] == response2["id"]
 
 
 async def test_patch_job(client, admin_token, job_payload):
@@ -81,7 +81,9 @@ async def test_patch_job(client, admin_token, job_payload):
     job_id = create_response.json()["id"]
 
     response = await client.patch(
-        f"{JOB_URL}/{job_id}", json={"title": "Senior Software Engineer"}, headers=headers
+        f"{JOB_URL}/{job_id}",
+        json={"title": "Senior Software Engineer"},
+        headers=headers,
     )
 
     assert response.status_code == 200
@@ -100,7 +102,8 @@ async def test_recruiter_cannot_patch_another_users_job(
     job_id = create_response.json()["id"]
 
     response = await client.patch(
-        f"{JOB_URL}/{job_id}", json={"title": "Changed by another recruiter"},
+        f"{JOB_URL}/{job_id}",
+        json={"title": "Changed by another recruiter"},
         headers=recruiter_headers,
     )
 
