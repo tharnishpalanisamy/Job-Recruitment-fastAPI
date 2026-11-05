@@ -7,7 +7,7 @@ from app.models import RefreshToken
 
 
 class RefreshTokenRepository:
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
     async def create(self, token: RefreshToken) -> RefreshToken:

@@ -24,7 +24,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 async def login_user(
     login_data: UserLogin,
     service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
-):
+) -> LoginResponse:
     return await service.authenticate_user(login_data)
 
 
@@ -37,7 +37,7 @@ async def login_user(
 async def signup_user(
     user_data: UserCreate,
     service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
-):
+) -> UserResponse:
     return await service.create_user(user_data)
 
 
@@ -45,5 +45,5 @@ async def signup_user(
 async def refresh_token(
     payload: RefreshTokenRequest,
     service: Annotated[AuthServiceProtocol, Depends(get_auth_service)],
-):
+) -> dict[str, str]:
     return await service.refresh_tokens(payload.refresh_token)

@@ -14,7 +14,7 @@ template_env = Environment(
 
 
 class EmailService:
-    def __init__(self, email_client: EmailClient):
+    def __init__(self, email_client: EmailClient) -> None:
         self.email_client = email_client
 
     async def _send_template(

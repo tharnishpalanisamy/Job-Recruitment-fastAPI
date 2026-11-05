@@ -16,7 +16,7 @@ email_config = ConnectionConfig(
 
 
 class EmailClient:
-    def __init__(self):
+    def __init__(self) -> None:
         self.mailer = FastMail(email_config)
 
     async def send_email(
@@ -25,7 +25,7 @@ class EmailClient:
         subject: str,
         body: str,
         subtype: MessageType = MessageType.html,
-    ):
+    ) -> None:
         message = MessageSchema(
             subject=subject,
             recipients=[recipient],

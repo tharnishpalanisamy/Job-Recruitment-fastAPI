@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class HealthRepository:
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
     async def check_database(self) -> bool:

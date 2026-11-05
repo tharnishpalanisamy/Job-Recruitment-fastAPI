@@ -23,7 +23,7 @@ class JobCreate(BaseModel):
     vacancies: int = Field(default=1, ge=1)
 
     @model_validator(mode="after")
-    def validate_ranges(self):
+    def validate_ranges(self) -> "JobCreate":
         if (
             self.experience_max is not None
             and self.experience_max < self.experience_min
@@ -110,7 +110,7 @@ class JobUpdate(BaseModel):
     vacancies: int | None = Field(ge=1, default=None)
 
     @model_validator(mode="after")
-    def validate_ranges(self):
+    def validate_ranges(self) -> "JobUpdate":
         if (
             self.experience_min is not None
             and self.experience_max is not None

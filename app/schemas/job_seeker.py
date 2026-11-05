@@ -91,7 +91,7 @@ class JobSeekerFilterParams(BaseModel):
     current_salary: int | None = Field(default=None)
 
     @model_validator(mode="after")
-    def validate_experience_range(self):
+    def validate_experience_range(self) -> "JobSeekerFilterParams":
         if (
             self.min_experience is not None
             and self.max_experience is not None

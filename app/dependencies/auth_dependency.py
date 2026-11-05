@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import Annotated
 
 import jwt
@@ -57,7 +58,7 @@ def get_auth_service(
     ],
     email_service: Annotated[EmailServiceProtocol, Depends(get_email_service)],
 ) -> AuthServiceProtocol:
-    return AuthService(db, repository, refresh_token_service , email_service)
+    return AuthService(db, repository, refresh_token_service, email_service)
 
 
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -66,7 +67,7 @@ bearer_scheme = HTTPBearer(auto_error=False)
 async def get_current_user(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(bearer_scheme)],
     db: Annotated[AsyncSession, Depends(get_db)],
-):
+) -> User:
     if credentials is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -108,7 +109,7 @@ async def get_current_user(
     return user
 
 
-def require_roles(*allowed_roles: UserRole):
+def require_roles(*allowed_roles: UserRole) -> Callable[..., User]:
 
     def role_checker(
         current_user: Annotated[User, Depends(get_current_user)],

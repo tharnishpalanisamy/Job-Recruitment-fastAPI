@@ -1,23 +1,27 @@
 from datetime import datetime, time, timedelta, timezone
 
 from sqlalchemy import delete, or_, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core import JobStatus
 from app.models import Job
+from app.schemas import JobFilterParams
 
 
 class JobRepository:
-    def __init__(self, db):
+    def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
-    async def create(self, job) -> Job:
+    async def create(self, job: Job) -> Job:
         self.db.add(job)
         await self.db.flush()
         await self.db.refresh(job)
 
         return job
 
-    async def get_all(self, filters, limit, offset):
+    async def get_all(
+        self, filters: JobFilterParams, limit: int, offset: int
+    ) -> list[Job]:
         query = select(Job)
 
         conditions = []
@@ -73,7 +77,7 @@ class JobRepository:
         result = await self.db.execute(query)
         return result.scalars().all()
 
-    async def get_by_id(self, id):
+    async def get_by_id(self, id: int) -> Job | None:
         query = select(Job).where(Job.id == id)
         return await self.db.scalar(query)
 
@@ -94,7 +98,7 @@ class JobRepository:
         await self.db.execute(query)
         await self.db.flush()
 
-    async def update(self, job, fields) -> Job:
+    async def update(self, job: Job, fields: dict[str, object]) -> Job:
         for field, value in fields.items():
             setattr(job, field, value)
         await self.db.flush()

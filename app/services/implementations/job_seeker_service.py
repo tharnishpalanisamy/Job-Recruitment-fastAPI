@@ -1,3 +1,5 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.core import UserRole
 from app.exceptions import (
     JobProfileNotFoundException,
@@ -16,11 +18,11 @@ from app.services.protocols import EmailServiceProtocol
 class JobSeekerService:
     def __init__(
         self,
-        db,
+        db: AsyncSession,
         repository: JobSeekersRepositoryProtocol,
         user_repository: UserRepositoryProtocol,
         email_service: EmailServiceProtocol,
-    ):
+    ) -> None:
         self.db = db
         self.job_seeker_repository = repository
         self.user_repository = user_repository

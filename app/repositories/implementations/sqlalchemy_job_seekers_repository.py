@@ -2,10 +2,11 @@ from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import JobSeeker
+from app.schemas import JobSeekerFilterParams
 
 
 class JobSeekersRepository:
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
     async def create(self, job_seeker: JobSeeker) -> JobSeeker:
@@ -15,7 +16,9 @@ class JobSeekersRepository:
 
         return job_seeker
 
-    async def get_all(self, filters, limit, offset) -> list[JobSeeker]:
+    async def get_all(
+        self, filters: JobSeekerFilterParams, limit: int, offset: int
+    ) -> list[JobSeeker]:
         query = select(JobSeeker)
 
         conditions = []
@@ -50,15 +53,17 @@ class JobSeekersRepository:
 
         return result.all()
 
-    async def get_by_id(self, job_seeker_id) -> JobSeeker:
+    async def get_by_id(self, job_seeker_id: int) -> JobSeeker | None:
         query = select(JobSeeker).where(JobSeeker.id == job_seeker_id)
         return await self.db.scalar(query)
 
-    async def get_by_user_id(self, user_id) -> JobSeeker:
+    async def get_by_user_id(self, user_id: int) -> JobSeeker | None:
         query = select(JobSeeker).where(JobSeeker.user_id == user_id)
         return await self.db.scalar(query)
 
-    async def update_by_user_id(self, job_seeker, fields) -> JobSeeker:
+    async def update_by_user_id(
+        self, job_seeker: JobSeeker, fields: dict[str, object]
+    ) -> JobSeeker:
 
         for field, value in fields.items():
             setattr(job_seeker, field, value)

@@ -26,7 +26,7 @@ async def create_job_seeker(
     data: JobSeekerCreate,
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
-):
+) -> JobSeekerResponse:
     return await service.create_job_seeker(user, data)
 
 
@@ -34,7 +34,7 @@ async def create_job_seeker(
 async def get_current_user(
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
-):
+) -> JobSeekerResponse:
     return await service.get_current_job_seeker(user)
 
 
@@ -45,7 +45,7 @@ async def update_current_jobseeker(
     job_seeker_data: JobSeekerUpdate,
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
-):
+) -> JobSeekerResponse:
     return await service.update_current_job_seeker(user, job_seeker_data)
 
 
@@ -55,7 +55,7 @@ async def update_current_jobseeker(
 async def delete_current_job_seeker(
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
-):
+) -> None:
     return await service.delete_current_job_seeker(user.id)
 
 
@@ -66,7 +66,7 @@ async def get_all_job_seekers(
     filters: Annotated[JobSeekerFilterParams, Depends()],
     limit: int = Query(ge=0, le=100, default=20),
     offset: int = Query(ge=0, default=0),
-):
+) -> list[JobSeekerResponse]:
 
     return await service.get_all_job_seekers(filters, limit, offset)
 
@@ -76,5 +76,5 @@ async def get_job_seeker_by_id(
     job_seeker_id: int,
     user: Annotated[User, Depends(require_roles(UserRole.ADMIN, UserRole.RECRUITER))],
     service: Annotated[JobSeekerServiceProtocol, Depends(get_job_seeker_service)],
-):
+) -> JobSeekerResponse:
     return await service.get_job_seeker_by_id(job_seeker_id)

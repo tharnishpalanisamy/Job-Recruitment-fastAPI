@@ -1,3 +1,5 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.core import create_access_token, hash_password, verify_password
 from app.exceptions import (
     EmailAlreadyExists,
@@ -15,11 +17,11 @@ from app.services.protocols import EmailServiceProtocol, RefreshTokenServiceProt
 class AuthService:
     def __init__(
         self,
-        db,
+        db: AsyncSession,
         repository: UserRepositoryProtocol,
         refresh_token_service: RefreshTokenServiceProtocol,
         email_service: EmailServiceProtocol,
-    ):
+    ) -> None:
         self.db = db
         self.user_repository = repository
         self.refresh_token_service = refresh_token_service

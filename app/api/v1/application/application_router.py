@@ -22,7 +22,7 @@ async def apply(
     resume: Annotated[UploadFile, File(...)],
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
-):
+) -> ApplicationResponse:
 
     return await service.create_application(job_id, resume, user)
 
@@ -31,7 +31,7 @@ async def apply(
 async def get_current_user_applications(
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
-):
+) -> list[ApplicationResponse]:
     return await service.get_current_user_applications(user)
 
 
@@ -47,7 +47,7 @@ async def delete_application(
         Depends(require_roles(UserRole.JOB_SEEKER, UserRole.ADMIN, UserRole.RECRUITER)),
     ],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
-):
+) -> None:
     return await service.delete_application_by_id(user, application_id)
 
 @router.patch('/{application_id}/update_resume' , response_model=ApplicationResponse) 
@@ -56,8 +56,7 @@ async def update_resume(
     resume: Annotated[UploadFile, File(...)],
     user: Annotated[User, Depends(require_roles(UserRole.JOB_SEEKER))],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
-
-):
+) -> ApplicationResponse:
     return await service.update_resume_by_id( user ,application_id , resume )
 
 @router.get(
@@ -74,7 +73,7 @@ async def get_all_applications(
     job_id: int | None = Query(default=None),
     limit: int = Query(ge=1, le=100, default=20),
     offset: int = Query(ge=0, default=0),
-):
+) -> list[ApplicationDetailedResponse]:
     return await service.get_all_applications(user, job_id, limit, offset)
 
 @router.get('/{application_id}' , response_model=ApplicationResponse) 
@@ -85,7 +84,7 @@ async def get_application_by_id(
         Depends(require_roles(UserRole.JOB_SEEKER,UserRole.ADMIN, UserRole.RECRUITER)),
     ],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)], 
-) :
+) -> ApplicationResponse:
     return await service.get_application_by_id(user , application_id)
 
 @router.patch("/{application_id}/status", response_model=ApplicationResponse)
@@ -97,5 +96,5 @@ async def update_application_status(
         Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN)),
     ],
     service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)],
-):
+) -> ApplicationResponse:
     return await service.update_application_status_by_id(user, application_id, status)

@@ -27,7 +27,7 @@ async def create_job(
     job_data: JobCreate,
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
-):
+) -> JobResponse:
     return await service.create_job(user, job_data)
 
 
@@ -38,7 +38,7 @@ async def get_all_jobs(
     filters: Annotated[JobFilterParams, Depends()],
     limit: int = Query(default=20, ge=0, le=100),
     offset: int = Query(default=0, ge=0),
-):
+) -> list[JobListResponse]:
     return await service.get_all_jobs(filters, limit, offset)
 
 
@@ -47,7 +47,7 @@ async def get_job_by_id(
     job_id: int,
     user: Annotated[User, Depends(get_current_user)],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
-):
+) -> JobResponse:
     return await service.get_job_by_id(job_id)
 
 
@@ -57,7 +57,7 @@ async def update_job_by_id(
     job_data: JobUpdate,
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
-):
+) -> JobResponse:
     return await service.update_job(user ,job_id, job_data)
 
 
@@ -68,5 +68,5 @@ async def delete_job_by_id(
     job_id: int,
     user: Annotated[User, Depends(require_roles(UserRole.RECRUITER, UserRole.ADMIN))],
     service: Annotated[JobServiceProtocol, Depends(get_job_service)],
-):
+) -> None:
     return await service.delete_job_by_id(user, job_id)

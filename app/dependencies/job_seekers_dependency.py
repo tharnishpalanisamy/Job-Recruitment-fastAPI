@@ -14,7 +14,9 @@ from app.services.implementations import JobSeekerService
 from app.services.protocols import EmailServiceProtocol, JobSeekerServiceProtocol
 
 
-def get_job_seeker_repository(db: Annotated[AsyncSession, Depends(get_db)]):
+def get_job_seeker_repository(
+    db: Annotated[AsyncSession, Depends(get_db)],
+) -> JobSeekersRepositoryProtocol:
     return JobSeekersRepository(db)
 
 

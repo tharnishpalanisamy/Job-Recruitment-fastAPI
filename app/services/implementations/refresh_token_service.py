@@ -11,7 +11,7 @@ from app.repositories.protocols import RefreshTokenRepositoryProtocol
 
 
 class RefreshTokenService:
-    def __init__(self, db: AsyncSession, repository: RefreshTokenRepositoryProtocol):
+    def __init__(self, db: AsyncSession, repository: RefreshTokenRepositoryProtocol) -> None:
         self.db = db
         self.repository = repository
 

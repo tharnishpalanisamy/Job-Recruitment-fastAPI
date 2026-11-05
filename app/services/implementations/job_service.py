@@ -2,17 +2,19 @@ import logging
 from pathlib import Path
 
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core import UserRole
 from app.exceptions import JobNotFoundException, NotAuthorizedException
 from app.models import Application, Job, User
+from app.repositories.protocols import JobRepositoryProtocol
 from app.schemas import JobCreate, JobFilterParams, JobUpdate
 
 logger = logging.getLogger(__name__)
 
 
 class JobService:
-    def __init__(self, db, repository):
+    def __init__(self, db: AsyncSession, repository: JobRepositoryProtocol) -> None:
         self.db = db
         self.job_repository = repository
 

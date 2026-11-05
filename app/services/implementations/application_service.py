@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 
 from fastapi import UploadFile
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core import ApplicationStatus, JobStatus, UserRole
 from app.exceptions import (
@@ -31,13 +32,13 @@ logger = logging.getLogger(__name__)
 class ApplicationService:
     def __init__(
         self,
-        db,
+        db: AsyncSession,
         repository: ApplicationRepositoryProtocol,
         job_seeker_repository: JobSeekersRepositoryProtocol,
         job_repository: JobRepositoryProtocol,
         user_repository: UserRepositoryProtocol,
         email_service: EmailServiceProtocol,
-    ):
+    ) -> None:
         self.db = db
         self.application_repository = repository
         self.job_seeker_repository = job_seeker_repository
@@ -239,7 +240,9 @@ class ApplicationService:
         except OSError:
             logger.exception("Failed to delete resume file: %s", resume_path)
 
-    async def update_resume_by_id(self, user, application_id, resume):
+    async def update_resume_by_id(
+        self, user: User, application_id: int, resume: UploadFile
+    ) -> Application:
         application = await self.application_repository.get_by_application_id(
             application_id
         )
