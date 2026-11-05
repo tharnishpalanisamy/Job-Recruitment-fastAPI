@@ -42,7 +42,76 @@ The Job Recruitment and Applicant Tracking System is developed using the followi
 11) Git & GitHub - Version control and source code management 
 12) Swagger UI - Interactive API documentation and endpoint testing. 
 
-# 3 Development Tools
+# 3 Project Folder Structure
+
+## 3.1 Directory Structure
+
+```text
+project/
+├── alembic/
+│   └── versions/
+├── app/
+│   ├── api/v1/
+│   │   ├── application/
+│   │   ├── auth/
+│   │   ├── health/
+│   │   ├── job/
+│   │   └── job_seekers/
+│   ├── client/
+│   ├── core/
+│   ├── database/
+│   ├── dependencies/
+│   ├── exception_handlers/
+│   ├── exceptions/
+│   ├── middleware/
+│   ├── models/
+│   ├── repositories/
+│   │   ├── implementations/
+│   │   └── protocols/
+│   ├── schemas/
+│   ├── services/
+│   │   ├── implementations/
+│   │   └── protocols/
+│   ├── templates/
+│   ├── utilities/
+│   ├── create_admin.py
+│   └── main.py
+├── logs/
+├── tests/
+│   ├── integration/
+│   └── unit/
+├── uploads/
+│   └── resumes/
+├── alembic.ini
+├── pytest.ini
+├── README.md
+└── requirements.txt
+```
+
+## 3.2 Directory Description
+
+| Directory | Responsibility |
+|---|---|
+| `app/api/v1/` | Defines versioned API endpoints, grouped by feature. |
+| `app/services/` | Contains application business logic and service protocols. |
+| `app/repositories/` | Handles data access through repository protocols and SQLAlchemy implementations. |
+| `app/models/` | Defines SQLAlchemy database models. |
+| `app/schemas/` | Defines Pydantic request and response schemas. |
+| `app/core/` | Contains configuration, security, enums, and logging setup. |
+| `app/exceptions/` | Defines custom application exceptions. |
+| `app/exception_handlers/` | Maps application exceptions to HTTP responses. |
+| `app/database/` | Configures the database connection and declarative base. |
+| `app/dependencies/` | Provides dependencies used by API routes. |
+| `app/middleware/` | Contains request and response middleware. |
+| `app/client/` | Provides clients for external services such as email. |
+| `app/templates/` | Stores HTML email templates. |
+| `app/utilities/` | Contains shared helpers, including file upload utilities. |
+| `alembic/` | Contains database migration configuration and migration versions. |
+| `tests/` | Contains unit and integration tests. |
+| `uploads/resumes/` | Stores uploaded applicant resumes. |
+| `logs/` | Stores application logs. |
+
+# 4 Development Tools
 
 IDE: PyCharm / Visual Studio Code
 
@@ -52,13 +121,13 @@ API Testing: Swagger UI
 
 Version Control: Git and GitHub
 
-# 4 User Roles & Authorization
+# 5 User Roles & Authorization
 
 The Job Recruitment and Applicant Tracking System implements Role-Based Access Control (RBAC) to manage user permissions and restrict access to specific functionalities based on roles. 
 
 The system consists of four roles 
 
-# 4.1 User 
+# 5.1 User 
 
 The User role represents a registered user who has access to basic account functionalities. 
 # Permissions 
@@ -68,7 +137,7 @@ The User role represents a registered user who has access to basic account funct
 4) Access Protected routes like jobs etc.. 
 
 
-# 4.2 Job Seeker 
+# 5.2 Job Seeker 
 
 The Job Seeker role represents an user looking for job ooportunities 
 
@@ -81,7 +150,7 @@ The Job Seeker role represents an user looking for job ooportunities
 6) Manage their applications 
 7) Track application status 
 
-# 4.3 Recruiter 
+# 5.3 Recruiter 
 
 The recruiter role represents a HR , Reponsible for managing job vacancies , handling recruitment activities and selecting candidates . 
 
@@ -95,7 +164,7 @@ The recruiter role represents a HR , Reponsible for managing job vacancies , han
 6) Review applicant information and resumes.
 7) Update application statuses throughout the recruitment process.
 
-# 4.4 Admin 
+# 5.4 Admin 
 
 The Admin role has administrative privileges and is responsible for managing and overseeing the system.
 
@@ -109,13 +178,13 @@ The Admin role has administrative privileges and is responsible for managing and
 6) Oversee overall system operations.
 
 
-# 5 Database Design 
+# 6 Database Design 
 
 The application uses PostgreSQL as its relational database management system. SQLAlchemy ORM is used to define database models and manage database operations.
 
 The database consists of five primary tables designed to manage user accounts, job seeker profiles, job vacancies, job applications, and refresh tokens.
 
-# 5.1 Database Tables
+# 6.1 Database Tables
 
 1) Users Table (users)
 
@@ -211,7 +280,7 @@ Stores refresh token information to support secure authentication, token rotatio
 
 
 
-# 5.2 Database Relationships 
+# 6.2 Database Relationships 
 
 | Relationship | Type | Description |
 |---|---|---|
@@ -223,11 +292,11 @@ Stores refresh token information to support secure authentication, token rotatio
 | Refresh Tokens → Refresh Tokens | Self-referencing | A refresh token can reference its replacement token. |
 
 
-# 6 API Documentation 
+# 7 API Documentation 
 
 the application contains RESTful APIs developed using FastAPI . These endpoints allows user to login , view jobs , apply to jobs ,manage job vacancies, maintain job seeker profiles, and process job applications.
 
-# 6.1 Health check APIs (/api/health)
+# 7.1 Health check APIs (/api/health)
 
 | Method | Endpoint | Description | Access |
 |---|---|---|---|
@@ -240,7 +309,7 @@ example response
   "message": "Application is running"
 }
 
-# 6.2 Authentication APIs (/api/auth) 
+# 7.2 Authentication APIs (/api/auth) 
 
 | Method | Endpoint | Description | Access |
 |---|---|---|---|
@@ -257,7 +326,7 @@ example singup request body
 }
 
 
-# 6.3 User Management APIs (/api/users) 
+# 7.3 User Management APIs (/api/users) 
 
 | Method | Endpoint | Description | Access |
 |---|---|---|---|
@@ -276,7 +345,7 @@ Example – User Response
   "is_active": true
 } 
 
-# 6.4 Job Seeker APIs (/api/job-seekers) 
+# 7.4 Job Seeker APIs (/api/job-seekers) 
 
 | Method | Endpoint | Description | Access |
 |---|---|---|---|
@@ -301,7 +370,7 @@ Example – Create Profile Request
 }
 
 
-# 6.5 Job Management APIs (/api/jobs) 
+# 7.5 Job Management APIs (/api/jobs) 
 
 | Method | Endpoint | Description | Access |
 |---|---|---|---|
@@ -339,7 +408,7 @@ Example – Job Response
 }
 
 
-# 6.6 Application Management APIs (/api/applications)
+# 7.6 Application Management APIs (/api/applications)
 
 | Method | Endpoint | Description | Access |
 |---|---|---|---|
@@ -350,5 +419,7 @@ Example – Job Response
 | PATCH | /api/v1/application/{application_id}/update_resume | Update the resume attached to an application | Authenticated Job Seeker |
 | GET | /api/v1/application/ | Retrieve all job applications | Recruiter / Admin |
 | PATCH | /api/v1/application/{application_id}/status | Update the status of a job application | Recruiter / Admin |
+
+
 
 
