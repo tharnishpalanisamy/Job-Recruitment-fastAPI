@@ -77,6 +77,16 @@ async def get_all_applications(
 ):
     return await service.get_all_applications(user, job_id, limit, offset)
 
+@router.get('/{application_id}' , response_model=ApplicationResponse) 
+async def get_application_by_id(
+    application_id:int , 
+    user: Annotated[
+        User,
+        Depends(require_roles(UserRole.JOB_SEEKER,UserRole.ADMIN, UserRole.RECRUITER)),
+    ],
+    service: Annotated[ApplicationServiceProtocol, Depends(get_application_service)], 
+) :
+    return await service.get_application_by_id(user , application_id)
 
 @router.patch("/{application_id}/status", response_model=ApplicationResponse)
 async def update_application_status(

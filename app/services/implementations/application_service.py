@@ -219,7 +219,7 @@ class ApplicationService:
             job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
 
             if job_seeker is None:
-                raise JobProfileNotFoundException(  
+                raise JobProfileNotFoundException(
                     "Cannot find job profile associated with user"
                 )
             if application.job_seeker_id != job_seeker.id:
@@ -291,3 +291,42 @@ class ApplicationService:
             logger.exception("Failed to delete old resume: %s", old_path)
 
         return result
+
+    async def get_application_by_id(
+        self, user: User, application_id: int
+    ) -> Application:
+        application = await self.application_repository.get_by_application_id(
+            application_id
+        )
+
+        if application is None:
+            raise ApplicationNotFoundException(
+                f"Application with id {application_id} not found !"
+            )
+
+        if user.role == UserRole.JOB_SEEKER:
+            job_seeker = await self.job_seeker_repository.get_by_user_id(user.id)
+
+            if job_seeker is None:
+                raise JobProfileNotFoundException(
+                    "The job profile linked with the user is not found"
+                )
+
+            if application.job_seeker_id != job_seeker.id:
+                raise NotAuthorizedException(
+                    "You are not allowed to access this resouce"
+                )
+        if user.role == UserRole.RECRUITER:
+            job = await self.job_repository.get_by_id(application.job_id)
+
+            if job is None:
+                raise JobNotFoundException(
+                    "job linked with the application is not found"
+                )
+
+            if job.created_by != user.id:
+                raise NotAuthorizedException(
+                    "You are not allowed to access this resouce"
+                )
+
+        return application
