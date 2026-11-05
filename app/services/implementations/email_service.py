@@ -1,9 +1,12 @@
+import logging
 from pathlib import Path
 
 from fastapi_mail import MessageType
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from app.client import EmailClient
+
+logger = logging.getLogger(__name__)
 
 TEMPLATE_DIR = Path(__file__).resolve().parents[2] / "templates"
 
@@ -19,20 +22,30 @@ class EmailService:
 
     async def _send_template(
         self,
-        recipient: str,
+        recipient: str | None,
         subject: str,
         template_name: str,
         context: dict[str, str],
     ) -> None:
-        template = template_env.get_template(template_name)
-        body = template.render(**context)
+        if not recipient:
+            logger.info(
+                "Skipping email %r because no recipient address is available",
+                subject,
+            )
+            return
 
-        await self.email_client.send_email(
-            recipient=recipient,
-            subject=subject,
-            body=body,
-            subtype=MessageType.html,
-        )
+        try:
+            template = template_env.get_template(template_name)
+            body = template.render(**context)
+
+            await self.email_client.send_email(
+                recipient=recipient,
+                subject=subject,
+                body=body,
+                subtype=MessageType.html,
+            )
+        except Exception:
+            logger.exception("Failed to send email %r to %s", subject, recipient)
 
     async def send_welcome_email(
         self,

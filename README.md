@@ -292,135 +292,62 @@ Stores refresh token information to support secure authentication, token rotatio
 | Refresh Tokens → Refresh Tokens | Self-referencing | A refresh token can reference its replacement token. |
 
 
-# 7 API Documentation 
+# 7 API Documentation
 
-the application contains RESTful APIs developed using FastAPI . These endpoints allows user to login , view jobs , apply to jobs ,manage job vacancies, maintain job seeker profiles, and process job applications.
+All routes are mounted under `/api/v1`. FastAPI provides interactive documentation at `/docs` and the OpenAPI document at `/openapi.json`.
 
-# 7.1 Health check APIs (/api/health)
+## 7.1 Health
 
-| Method | Endpoint | Description | Access |
+| Method | Endpoint | Access | Description |
 |---|---|---|---|
-| GET | /health | Check application health status | Public |
-| GET | /health/db | Check database connectivity | Public |
+| GET | `/api/v1/health/` | Public | Liveness check |
+| GET | `/api/v1/health/ready` | Public | Checks database readiness |
 
-example response 
-{
-  "status": "Healthy",
-  "message": "Application is running"
-}
+## 7.2 Authentication
 
-# 7.2 Authentication APIs (/api/auth) 
-
-| Method | Endpoint | Description | Access |
+| Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | /api/auth/signup | Register a new user | Public |
-| POST | /api/auth/login | Authenticate user and generate tokens | Public |
-| POST | /api/auth/refresh | Generate new access and refresh tokens | Authenticated refresh token |
-| POST | /api/auth/logout | Revoke refresh token | Authenticated |
+| POST | `/api/v1/auth/signup` | Public | Register a `USER` account |
+| POST | `/api/v1/auth/login` | Public | Authenticate and return access and refresh tokens |
+| POST | `/api/v1/auth/refresh` | Refresh token supplied in request body | Rotate refresh token and issue a new access token |
+| POST | `/api/v1/auth/logout` | Refresh token supplied in request body | Revoke the supplied refresh token |
 
-example singup request body 
-{
-  "username": "tharnish",
-  "email": "tharnish@gmail.com",
-  "password": "tharnish@123"
-}
+Signup accepts `username`, `email`, and `password`. The request does not allow a caller to choose an account role.
 
+## 7.3 Job seeker profiles
 
-# 7.3 User Management APIs (/api/users) 
-
-| Method | Endpoint | Description | Access |
+| Method | Endpoint | Access | Description |
 |---|---|---|---|
-| GET | /api/users/me | Retrieve logged-in user details | Authenticated |
-| GET | /api/users/ | Retrieve all users | Admin |
-| GET | /api/users/{id} | Retrieve user by ID | Admin |
-| PATCH | /api/users/me | Update logged-in user details | Authenticated |
-| DELETE | /api/users/{id} | Delete a user | Admin |
+| POST | `/api/v1/job-seekers/create` | Job seeker | Create own profile |
+| GET | `/api/v1/job-seekers/me` | Job seeker | Get own profile |
+| PATCH | `/api/v1/job-seekers/me` | Job seeker | Update own profile |
+| DELETE | `/api/v1/job-seekers/me` | Job seeker | Delete own profile |
+| GET | `/api/v1/job-seekers/` | Recruiter or admin | Search profiles with filters and pagination |
+| GET | `/api/v1/job-seekers/{job_seeker_id}` | Recruiter or admin | Get a profile by ID |
 
-Example – User Response 
-{
-  "id": 1,
-  "username": "tharnish",
-  "email": "tharnish@gmail.com",
-  "role": "JOB_SEEKER",
-  "is_active": true
-} 
+## 7.4 Jobs
 
-# 7.4 Job Seeker APIs (/api/job-seekers) 
-
-| Method | Endpoint | Description | Access |
+| Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | /api/job-seekers/profile | Create job seeker profile | Job Seeker |
-| GET | /api/job-seekers/me | Retrieve own profile | Job Seeker |
-| PATCH | /api/job-seekers/me | Update own profile | Job Seeker |
-| DELETE | /api/job-seekers/me | Delete own profile | Job Seeker |
-| GET | /api/job-seekers/ | Retrieve job seeker profiles | Recruiter / Admin |
-| GET | /api/job-seekers/{id} | Retrieve a specific job seeker profile | Recruiter / Admin |
+| POST | `/api/v1/jobs/create` | Recruiter or admin | Create a job |
+| GET | `/api/v1/jobs/` | Authenticated | Search jobs with filters and pagination |
+| GET | `/api/v1/jobs/{job_id}` | Authenticated | Get job details |
+| PATCH | `/api/v1/jobs/{job_id}` | Recruiter or admin; recruiters may edit their own jobs | Update a job |
+| DELETE | `/api/v1/jobs/{job_id}` | Recruiter or admin; recruiters may delete their own jobs | Delete a job |
 
-Example – Create Profile Request
-{
-  "full_name": "Tharnish",
-  "phone": "9876543210",
-  "date_of_birth": "2002-05-15",
-  "qualification": "B.Sc Computer Science",
-  "specialization": "Data Analytics",
-  "experience_years": 1.5,
-  "current_company": "ABC Technologies",
-  "current_designation": "Software dev",
-  "current_salary": 300000
-}
+## 7.5 Applications
 
-
-# 7.5 Job Management APIs (/api/jobs) 
-
-| Method | Endpoint | Description | Access |
+| Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | /api/jobs/ | Create a new job vacancy | Recruiter |
-| GET | /api/jobs/ | Retrieve available job vacancies | Authenticated |
-| GET | /api/jobs/{id} | Retrieve job details | Authenticated |
-| PATCH | /api/jobs/{id} | Update job vacancy details | Recruiter / Admin |
-| DELETE | /api/jobs/{id} | Delete a job vacancy | Recruiter / Admin |
+| POST | `/api/v1/application/apply` | Job seeker | Apply using multipart form fields `job_id` and `resume` |
+| GET | `/api/v1/application/me` | Job seeker | List own applications |
+| GET | `/api/v1/application/` | Recruiter or admin | List applications; recruiters see applications for their jobs |
+| GET | `/api/v1/application/{application_id}` | Job seeker, recruiter, or admin | Get application details, subject to ownership checks for job seekers and recruiters |
+| DELETE | `/api/v1/application/{application_id}` | Job seeker, recruiter, or admin | Delete an application, subject to role and ownership rules |
+| PATCH | `/api/v1/application/{application_id}/update_resume` | Job seeker | Replace resume while application is still `APPLIED` |
+| PATCH | `/api/v1/application/{application_id}/status?status={status}` | Recruiter or admin | Update status using allowed transition rules |
 
-
-Example – Create Job Request 
-{
-  "title": "Python Backend Developer",
-  "description": "Develop and maintain backend applications.",
-  "requirements": "Python, FastAPI, PostgreSQL",
-  "qualification": "B.Sc Computer Science",
-  "experience_min": 0,
-  "experience_max": 2,
-  "salary_min": 300000,
-  "salary_max": 500000,
-  "employment_type": "FULL_TIME",
-  "location": "Coimbatore",
-  "vacancies": 3
-}
-
-Example – Job Response
-{
-  "id": 1,
-  "title": "Python Backend Developer",
-  "qualification": "B.Sc Computer Science",
-  "employment_type": "FULL_TIME",
-  "location": "Coimbatore",
-  "vacancies": 3,
-  "status": "OPEN"
-}
-
-
-# 7.6 Application Management APIs (/api/applications)
-
-| Method | Endpoint | Description | Access |
-|---|---|---|---|
-| POST | /api/v1/application/apply | Apply for a job vacancy | Authenticated Job Seeker |
-| GET | /api/v1/application/me | Retrieve applications submitted by the logged-in user | Authenticated Job Seeker |
-| DELETE | /api/v1/application/{application_id} | Delete a job application using its ID | Authenticated |
-| GET | /api/v1/application/{application_id} | Retrieve application details by ID | Authenticated |
-| PATCH | /api/v1/application/{application_id}/update_resume | Update the resume attached to an application | Authenticated Job Seeker |
-| GET | /api/v1/application/ | Retrieve all job applications | Recruiter / Admin |
-| PATCH | /api/v1/application/{application_id}/status | Update the status of a job application | Recruiter / Admin |
-
-
+There are no user-management CRUD routes in the current API. Application responses differ by endpoint; the detailed recruiter/admin list response includes the stored resume path.
 
 
 # 8. Authentication Flow 
@@ -534,3 +461,53 @@ Examples
 5) NotAuthorizedException - Raise when user tries to access routes which they are not authorized to access 
 
 
+# 9.4 Centralized Exception Handling
+FastAPI exception handlers are registered centrally in the application to provide consistent error responses.
+
+The system handles:
+- Custom application exceptions.
+- HTTP exceptions.
+- Request validation errors.
+- Unexpected internal server errors.
+
+
+# 10. Testing
+
+The Job Recruitment and Applicant Tracking System is tested using Pytest to verify the correctness, reliability, and expected behaviour of its API endpoints and backend operations.
+
+HTTPX is used as an asynchronous HTTP client for testing API endpoints, while test cases verify successful operations, validation failures, authentication, authorization, and exception handling.
+
+
+## 10.1 Testing Frameworks and Tools
+
+| Tool | Purpose |
+|---|---|
+| Pytest | Test execution and test case management |
+| HTTPX | API integration testing |
+| HTTPX AsyncClient with ASGITransport | Sending asynchronous requests to the FastAPI app in-process |
+| PostgreSQL | Database operations and data persistence testing |
+
+## 10.2 Test Cases
+
+The repository contains 50 asynchronous test functions: 17 unit tests and 33 integration tests. This section describes the test cases present in the files; it does not indicate that the suite was run or passed.
+
+### Unit tests
+
+| Test file | Cases covered |
+|---|---|
+| `tests/unit/test_auth_service.py` (4) | Successful authentication, unknown user, incorrect password, and successful account creation. |
+| `tests/unit/test_job_service.py` (5) | Job creation, listing, successful lookup, missing-job error, and update. |
+| `tests/unit/test_job_seeker_service.py` (4) | Profile creation, duplicate-profile error, getting the current profile, and profile update. |
+| `tests/unit/test_application_service.py` (4) | Application creation, duplicate application, closed job rejection, and selecting an applicant while reducing vacancies. |
+
+### Integration tests
+
+| Test file | Cases covered |
+|---|---|
+| `tests/integration/test_auth.py` (7) | Signup, duplicate email, invalid email, invalid password, short username, invalid login, and successful login with token fields. |
+| `tests/integration/test_job.py` (11) | Job creation for admin and recruiter, forbidden creation for user and job seeker, invalid payload, listing, lookup, update, deletion, and recruiter ownership checks for updates and deletion. |
+| `tests/integration/test_job_seeker.py` (8) | Unauthenticated profile creation, profile creation, own-profile retrieval/update/deletion, role restriction on deletion, listing, and lookup by ID. |
+| `tests/integration/test_application.py` (6) | Applying with a resume, listing own applications, deleting an application, replacing a resume, recruiter application listing/filtering, and a status update to `UNDER_REVIEW`. |
+| `tests/integration/test_db.py` (1) | Basic database connectivity using `SELECT 1`. |
+
+Integration tests use an async SQLAlchemy session configured from `TEST_DATABASE_URL`; the fixture creates and drops the mapped tables around each test. The test suite does not currently include explicit cases for refresh-token rotation/logout, email delivery failure handling, invalid resume format/size, or most application status transitions and ownership scenarios.
