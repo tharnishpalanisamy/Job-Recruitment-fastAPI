@@ -95,7 +95,17 @@ project/
 
 # 4 Development Tools
 
-I used PyCharm or Visual Studio Code for editing, PostgreSQL with pgAdmin for database work, Swagger UI for trying API requests, and Git/GitHub for version control.
+I used Visual Studio Code for editing, PostgreSQL with pgAdmin for database work, Swagger UI for trying API requests, and Git/GitHub for version control.
+
+## 4.1 Ruff
+
+Ruff is used to lint and format the Python code. Run these commands from the project root:
+
+```bash
+ruff check .
+ruff check . --fix
+ruff format .
+```
 
 # 5 User Roles & Authorization
 

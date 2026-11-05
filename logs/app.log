@@ -7590,3 +7590,317 @@ WHERE users.email = $1::VARCHAR]
 2026-11-05 20:10:47,224 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/job-seekers/13
 2026-11-05 20:10:47,231 | INFO | app.middleware.logging_middleware | Process timing 0.0075 seconds | Status code: 200
 2026-11-05 20:10:47,232 | INFO | httpx | HTTP Request: GET http://test/api/v1/job-seekers/13 "HTTP/1.1 200 OK"
+2026-11-05 20:13:20,024 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:20,128 | INFO | app.middleware.logging_middleware | Process timing 0.1036 seconds | Status code: 200
+2026-11-05 20:13:20,128 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:20,207 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:20,294 | INFO | app.middleware.logging_middleware | Process timing 0.0872 seconds | Status code: 200
+2026-11-05 20:13:20,295 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:20,298 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:13:20,332 | INFO | app.middleware.logging_middleware | Process timing 0.0334 seconds | Status code: 201
+2026-11-05 20:13:20,332 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:20,333 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:13:20,366 | INFO | app.middleware.logging_middleware | Process timing 0.0323 seconds | Status code: 201
+2026-11-05 20:13:20,366 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:20,367 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/application/apply
+2026-11-05 20:13:20,412 | INFO | app.middleware.logging_middleware | Process timing 0.0447 seconds | Status code: 201
+2026-11-05 20:13:20,413 | INFO | httpx | HTTP Request: POST http://test/api/v1/application/apply "HTTP/1.1 201 Created"
+2026-11-05 20:13:20,746 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:20,836 | INFO | app.middleware.logging_middleware | Process timing 0.0897 seconds | Status code: 200
+2026-11-05 20:13:20,836 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:20,907 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:20,987 | INFO | app.middleware.logging_middleware | Process timing 0.0802 seconds | Status code: 200
+2026-11-05 20:13:20,988 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:20,990 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:13:21,008 | INFO | app.middleware.logging_middleware | Process timing 0.0183 seconds | Status code: 201
+2026-11-05 20:13:21,009 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:21,010 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:13:24,967 | INFO | app.middleware.logging_middleware | Process timing 3.9568 seconds | Status code: 201
+2026-11-05 20:13:24,968 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:24,969 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/application/apply
+2026-11-05 20:13:33,934 | INFO | app.middleware.logging_middleware | Process timing 8.9654 seconds | Status code: 201
+2026-11-05 20:13:33,935 | INFO | httpx | HTTP Request: POST http://test/api/v1/application/apply "HTTP/1.1 201 Created"
+2026-11-05 20:13:33,936 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/application/me
+2026-11-05 20:13:33,944 | INFO | app.middleware.logging_middleware | Process timing 0.0082 seconds | Status code: 200
+2026-11-05 20:13:33,944 | INFO | httpx | HTTP Request: GET http://test/api/v1/application/me "HTTP/1.1 200 OK"
+2026-11-05 20:13:34,197 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:34,274 | INFO | app.middleware.logging_middleware | Process timing 0.0763 seconds | Status code: 200
+2026-11-05 20:13:34,274 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:34,339 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:34,401 | INFO | app.middleware.logging_middleware | Process timing 0.0627 seconds | Status code: 200
+2026-11-05 20:13:34,402 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:34,404 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:13:34,426 | INFO | app.middleware.logging_middleware | Process timing 0.0224 seconds | Status code: 201
+2026-11-05 20:13:34,427 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:34,428 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:13:38,441 | INFO | app.middleware.logging_middleware | Process timing 4.0133 seconds | Status code: 201
+2026-11-05 20:13:38,443 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:38,444 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/application/apply
+2026-11-05 20:13:46,502 | INFO | app.middleware.logging_middleware | Process timing 8.0570 seconds | Status code: 201
+2026-11-05 20:13:46,504 | INFO | httpx | HTTP Request: POST http://test/api/v1/application/apply "HTTP/1.1 201 Created"
+2026-11-05 20:13:46,506 | INFO | app.middleware.logging_middleware | Incoming request DELETE /api/v1/application/3
+2026-11-05 20:13:46,517 | INFO | app.middleware.logging_middleware | Process timing 0.0108 seconds | Status code: 204
+2026-11-05 20:13:46,518 | INFO | httpx | HTTP Request: DELETE http://test/api/v1/application/3 "HTTP/1.1 204 No Content"
+2026-11-05 20:13:46,766 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:46,840 | INFO | app.middleware.logging_middleware | Process timing 0.0744 seconds | Status code: 200
+2026-11-05 20:13:46,840 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:46,899 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:46,968 | INFO | app.middleware.logging_middleware | Process timing 0.0687 seconds | Status code: 200
+2026-11-05 20:13:46,968 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:46,970 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:13:47,001 | INFO | app.middleware.logging_middleware | Process timing 0.0303 seconds | Status code: 201
+2026-11-05 20:13:47,001 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:47,002 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:13:50,814 | INFO | app.middleware.logging_middleware | Process timing 3.8122 seconds | Status code: 201
+2026-11-05 20:13:50,816 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:50,817 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/application/apply
+2026-11-05 20:13:58,355 | INFO | app.middleware.logging_middleware | Process timing 7.5387 seconds | Status code: 201
+2026-11-05 20:13:58,357 | INFO | httpx | HTTP Request: POST http://test/api/v1/application/apply "HTTP/1.1 201 Created"
+2026-11-05 20:13:58,358 | INFO | app.middleware.logging_middleware | Incoming request PATCH /api/v1/application/4/update_resume
+2026-11-05 20:13:58,374 | INFO | app.middleware.logging_middleware | Process timing 0.0159 seconds | Status code: 200
+2026-11-05 20:13:58,375 | INFO | httpx | HTTP Request: PATCH http://test/api/v1/application/4/update_resume "HTTP/1.1 200 OK"
+2026-11-05 20:13:58,722 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:58,867 | INFO | app.middleware.logging_middleware | Process timing 0.1446 seconds | Status code: 200
+2026-11-05 20:13:58,868 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:59,007 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:13:59,189 | INFO | app.middleware.logging_middleware | Process timing 0.1818 seconds | Status code: 200
+2026-11-05 20:13:59,190 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:13:59,194 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:13:59,239 | INFO | app.middleware.logging_middleware | Process timing 0.0455 seconds | Status code: 201
+2026-11-05 20:13:59,240 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:13:59,242 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:14:03,351 | INFO | app.middleware.logging_middleware | Process timing 4.1087 seconds | Status code: 201
+2026-11-05 20:14:03,353 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:03,355 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/application/apply
+2026-11-05 20:14:12,764 | INFO | app.middleware.logging_middleware | Process timing 9.4088 seconds | Status code: 201
+2026-11-05 20:14:12,765 | INFO | httpx | HTTP Request: POST http://test/api/v1/application/apply "HTTP/1.1 201 Created"
+2026-11-05 20:14:12,766 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/application/
+2026-11-05 20:14:12,775 | INFO | app.middleware.logging_middleware | Process timing 0.0086 seconds | Status code: 200
+2026-11-05 20:14:12,775 | INFO | httpx | HTTP Request: GET http://test/api/v1/application/ "HTTP/1.1 200 OK"
+2026-11-05 20:14:12,776 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/application/
+2026-11-05 20:14:12,782 | INFO | app.middleware.logging_middleware | Process timing 0.0060 seconds | Status code: 200
+2026-11-05 20:14:12,783 | INFO | httpx | HTTP Request: GET http://test/api/v1/application/?job_id=5&limit=1&offset=0 "HTTP/1.1 200 OK"
+2026-11-05 20:14:13,037 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:13,119 | INFO | app.middleware.logging_middleware | Process timing 0.0825 seconds | Status code: 200
+2026-11-05 20:14:13,120 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:13,179 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:13,243 | INFO | app.middleware.logging_middleware | Process timing 0.0638 seconds | Status code: 200
+2026-11-05 20:14:13,243 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:13,246 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:13,271 | INFO | app.middleware.logging_middleware | Process timing 0.0252 seconds | Status code: 201
+2026-11-05 20:14:13,271 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:13,273 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:14:17,147 | INFO | app.middleware.logging_middleware | Process timing 3.8743 seconds | Status code: 201
+2026-11-05 20:14:17,148 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:17,149 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/application/apply
+2026-11-05 20:14:25,327 | INFO | app.middleware.logging_middleware | Process timing 8.1785 seconds | Status code: 201
+2026-11-05 20:14:25,330 | INFO | httpx | HTTP Request: POST http://test/api/v1/application/apply "HTTP/1.1 201 Created"
+2026-11-05 20:14:25,332 | INFO | app.middleware.logging_middleware | Incoming request PATCH /api/v1/application/6/status
+2026-11-05 20:14:29,580 | INFO | app.middleware.logging_middleware | Process timing 4.2485 seconds | Status code: 200
+2026-11-05 20:14:29,583 | INFO | httpx | HTTP Request: PATCH http://test/api/v1/application/6/status?status=UNDER_REVIEW "HTTP/1.1 200 OK"
+2026-11-05 20:14:29,699 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:33,312 | INFO | app.middleware.logging_middleware | Process timing 3.6134 seconds | Status code: 201
+2026-11-05 20:14:33,314 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-05 20:14:33,427 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:37,305 | INFO | app.middleware.logging_middleware | Process timing 3.8771 seconds | Status code: 201
+2026-11-05 20:14:37,307 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-05 20:14:37,309 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:37,374 | ERROR | app.exception_handlers.handler | Exception handled : Account Already exists please try to login 
+2026-11-05 20:14:37,374 | INFO | app.middleware.logging_middleware | Process timing 0.0648 seconds | Status code: 409
+2026-11-05 20:14:37,375 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 409 Conflict"
+2026-11-05 20:14:37,475 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:37,479 | INFO | app.middleware.logging_middleware | Process timing 0.0034 seconds | Status code: 422
+2026-11-05 20:14:37,479 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-05 20:14:37,578 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:37,581 | INFO | app.middleware.logging_middleware | Process timing 0.0032 seconds | Status code: 422
+2026-11-05 20:14:37,581 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-05 20:14:37,687 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:37,690 | INFO | app.middleware.logging_middleware | Process timing 0.0032 seconds | Status code: 422
+2026-11-05 20:14:37,690 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 422 Unprocessable Entity"
+2026-11-05 20:14:37,793 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:37,876 | ERROR | app.exception_handlers.handler | Exception handled: Invalid username or password 
+2026-11-05 20:14:37,876 | INFO | app.middleware.logging_middleware | Process timing 0.0830 seconds | Status code: 401
+2026-11-05 20:14:37,876 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 401 Unauthorized"
+2026-11-05 20:14:38,054 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/signup
+2026-11-05 20:14:42,194 | INFO | app.middleware.logging_middleware | Process timing 4.1402 seconds | Status code: 201
+2026-11-05 20:14:42,197 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/signup "HTTP/1.1 201 Created"
+2026-11-05 20:14:42,199 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:42,273 | INFO | app.middleware.logging_middleware | Process timing 0.0733 seconds | Status code: 200
+2026-11-05 20:14:42,273 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:42,683 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:42,771 | INFO | app.middleware.logging_middleware | Process timing 0.0882 seconds | Status code: 200
+2026-11-05 20:14:42,772 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:42,774 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:42,790 | INFO | app.middleware.logging_middleware | Process timing 0.0161 seconds | Status code: 201
+2026-11-05 20:14:42,790 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:43,025 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:43,096 | INFO | app.middleware.logging_middleware | Process timing 0.0712 seconds | Status code: 200
+2026-11-05 20:14:43,097 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:43,099 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:43,122 | INFO | app.middleware.logging_middleware | Process timing 0.0224 seconds | Status code: 201
+2026-11-05 20:14:43,122 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:43,383 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:43,472 | INFO | app.middleware.logging_middleware | Process timing 0.0897 seconds | Status code: 200
+2026-11-05 20:14:43,473 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:43,475 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:43,479 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-05 20:14:43,479 | INFO | app.middleware.logging_middleware | Process timing 0.0042 seconds | Status code: 403
+2026-11-05 20:14:43,479 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"
+2026-11-05 20:14:43,709 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:43,783 | INFO | app.middleware.logging_middleware | Process timing 0.0737 seconds | Status code: 200
+2026-11-05 20:14:43,783 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:43,785 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:43,789 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-05 20:14:43,789 | INFO | app.middleware.logging_middleware | Process timing 0.0041 seconds | Status code: 403
+2026-11-05 20:14:43,789 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 403 Forbidden"
+2026-11-05 20:14:44,048 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:44,118 | INFO | app.middleware.logging_middleware | Process timing 0.0702 seconds | Status code: 200
+2026-11-05 20:14:44,119 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:44,121 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:44,125 | INFO | app.middleware.logging_middleware | Process timing 0.0041 seconds | Status code: 422
+2026-11-05 20:14:44,125 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 422 Unprocessable Entity"
+2026-11-05 20:14:44,390 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:44,465 | INFO | app.middleware.logging_middleware | Process timing 0.0750 seconds | Status code: 200
+2026-11-05 20:14:44,465 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:44,525 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:44,585 | INFO | app.middleware.logging_middleware | Process timing 0.0599 seconds | Status code: 200
+2026-11-05 20:14:44,586 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:44,588 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:44,604 | INFO | app.middleware.logging_middleware | Process timing 0.0160 seconds | Status code: 201
+2026-11-05 20:14:44,604 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:44,606 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/jobs/
+2026-11-05 20:14:44,614 | INFO | app.middleware.logging_middleware | Process timing 0.0087 seconds | Status code: 200
+2026-11-05 20:14:44,615 | INFO | httpx | HTTP Request: GET http://test/api/v1/jobs/ "HTTP/1.1 200 OK"
+2026-11-05 20:14:44,850 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:44,923 | INFO | app.middleware.logging_middleware | Process timing 0.0733 seconds | Status code: 200
+2026-11-05 20:14:44,923 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:44,978 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:45,044 | INFO | app.middleware.logging_middleware | Process timing 0.0660 seconds | Status code: 200
+2026-11-05 20:14:45,045 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:45,047 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:45,070 | INFO | app.middleware.logging_middleware | Process timing 0.0230 seconds | Status code: 201
+2026-11-05 20:14:45,070 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:45,071 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/jobs/10
+2026-11-05 20:14:45,076 | INFO | app.middleware.logging_middleware | Process timing 0.0042 seconds | Status code: 200
+2026-11-05 20:14:45,076 | INFO | httpx | HTTP Request: GET http://test/api/v1/jobs/10 "HTTP/1.1 200 OK"
+2026-11-05 20:14:45,337 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:45,418 | INFO | app.middleware.logging_middleware | Process timing 0.0806 seconds | Status code: 200
+2026-11-05 20:14:45,418 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:45,421 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:45,451 | INFO | app.middleware.logging_middleware | Process timing 0.0306 seconds | Status code: 201
+2026-11-05 20:14:45,452 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:45,453 | INFO | app.middleware.logging_middleware | Incoming request PATCH /api/v1/jobs/11
+2026-11-05 20:14:45,462 | INFO | app.middleware.logging_middleware | Process timing 0.0095 seconds | Status code: 200
+2026-11-05 20:14:45,463 | INFO | httpx | HTTP Request: PATCH http://test/api/v1/jobs/11 "HTTP/1.1 200 OK"
+2026-11-05 20:14:45,720 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:45,797 | INFO | app.middleware.logging_middleware | Process timing 0.0773 seconds | Status code: 200
+2026-11-05 20:14:45,797 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:45,856 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:45,914 | INFO | app.middleware.logging_middleware | Process timing 0.0581 seconds | Status code: 200
+2026-11-05 20:14:45,914 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:45,916 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:45,937 | INFO | app.middleware.logging_middleware | Process timing 0.0208 seconds | Status code: 201
+2026-11-05 20:14:45,937 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:45,938 | INFO | app.middleware.logging_middleware | Incoming request PATCH /api/v1/jobs/12
+2026-11-05 20:14:45,943 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to edit this resouce
+2026-11-05 20:14:45,943 | INFO | app.middleware.logging_middleware | Process timing 0.0048 seconds | Status code: 403
+2026-11-05 20:14:45,944 | INFO | httpx | HTTP Request: PATCH http://test/api/v1/jobs/12 "HTTP/1.1 403 Forbidden"
+2026-11-05 20:14:46,211 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:46,283 | INFO | app.middleware.logging_middleware | Process timing 0.0718 seconds | Status code: 200
+2026-11-05 20:14:46,284 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:46,286 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:46,306 | INFO | app.middleware.logging_middleware | Process timing 0.0206 seconds | Status code: 201
+2026-11-05 20:14:46,307 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:46,308 | INFO | app.middleware.logging_middleware | Incoming request DELETE /api/v1/jobs/13
+2026-11-05 20:14:46,319 | INFO | app.middleware.logging_middleware | Process timing 0.0115 seconds | Status code: 204
+2026-11-05 20:14:46,320 | INFO | httpx | HTTP Request: DELETE http://test/api/v1/jobs/13 "HTTP/1.1 204 No Content"
+2026-11-05 20:14:46,321 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/jobs/13
+2026-11-05 20:14:46,325 | ERROR | app.exception_handlers.handler | Exception handled: Job posting with id 13 not found!
+2026-11-05 20:14:46,325 | INFO | app.middleware.logging_middleware | Process timing 0.0044 seconds | Status code: 404
+2026-11-05 20:14:46,325 | INFO | httpx | HTTP Request: GET http://test/api/v1/jobs/13 "HTTP/1.1 404 Not Found"
+2026-11-05 20:14:46,570 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:46,646 | INFO | app.middleware.logging_middleware | Process timing 0.0756 seconds | Status code: 200
+2026-11-05 20:14:46,646 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:46,706 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:46,769 | INFO | app.middleware.logging_middleware | Process timing 0.0633 seconds | Status code: 200
+2026-11-05 20:14:46,770 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:46,771 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/jobs/create
+2026-11-05 20:14:46,792 | INFO | app.middleware.logging_middleware | Process timing 0.0207 seconds | Status code: 201
+2026-11-05 20:14:46,793 | INFO | httpx | HTTP Request: POST http://test/api/v1/jobs/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:46,794 | INFO | app.middleware.logging_middleware | Incoming request DELETE /api/v1/jobs/14
+2026-11-05 20:14:46,797 | ERROR | app.exception_handlers.handler | Exception handled: You are not authorized to delete this job posting
+2026-11-05 20:14:46,798 | INFO | app.middleware.logging_middleware | Process timing 0.0042 seconds | Status code: 403
+2026-11-05 20:14:46,798 | INFO | httpx | HTTP Request: DELETE http://test/api/v1/jobs/14 "HTTP/1.1 403 Forbidden"
+2026-11-05 20:14:46,904 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:14:46,905 | INFO | app.middleware.logging_middleware | Process timing 0.0013 seconds | Status code: 401
+2026-11-05 20:14:46,905 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 401 Unauthorized"
+2026-11-05 20:14:47,139 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:47,216 | INFO | app.middleware.logging_middleware | Process timing 0.0763 seconds | Status code: 200
+2026-11-05 20:14:47,216 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:47,218 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:14:51,116 | INFO | app.middleware.logging_middleware | Process timing 3.8980 seconds | Status code: 201
+2026-11-05 20:14:51,118 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:51,365 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:51,444 | INFO | app.middleware.logging_middleware | Process timing 0.0792 seconds | Status code: 200
+2026-11-05 20:14:51,444 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:51,446 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:14:55,361 | INFO | app.middleware.logging_middleware | Process timing 3.9148 seconds | Status code: 201
+2026-11-05 20:14:55,363 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:55,365 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/job-seekers/me
+2026-11-05 20:14:55,373 | INFO | app.middleware.logging_middleware | Process timing 0.0077 seconds | Status code: 200
+2026-11-05 20:14:55,373 | INFO | httpx | HTTP Request: GET http://test/api/v1/job-seekers/me "HTTP/1.1 200 OK"
+2026-11-05 20:14:55,619 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:55,699 | INFO | app.middleware.logging_middleware | Process timing 0.0797 seconds | Status code: 200
+2026-11-05 20:14:55,700 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:55,702 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:14:59,522 | INFO | app.middleware.logging_middleware | Process timing 3.8205 seconds | Status code: 201
+2026-11-05 20:14:59,524 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:14:59,526 | INFO | app.middleware.logging_middleware | Incoming request DELETE /api/v1/job-seekers/me
+2026-11-05 20:14:59,537 | INFO | app.middleware.logging_middleware | Process timing 0.0112 seconds | Status code: 204
+2026-11-05 20:14:59,538 | INFO | httpx | HTTP Request: DELETE http://test/api/v1/job-seekers/me "HTTP/1.1 204 No Content"
+2026-11-05 20:14:59,780 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:59,860 | INFO | app.middleware.logging_middleware | Process timing 0.0797 seconds | Status code: 200
+2026-11-05 20:14:59,860 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:59,921 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:14:59,986 | INFO | app.middleware.logging_middleware | Process timing 0.0649 seconds | Status code: 200
+2026-11-05 20:14:59,986 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:14:59,989 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:15:03,967 | INFO | app.middleware.logging_middleware | Process timing 3.9784 seconds | Status code: 201
+2026-11-05 20:15:03,969 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:15:03,972 | INFO | app.middleware.logging_middleware | Incoming request DELETE /api/v1/job-seekers/me
+2026-11-05 20:15:03,976 | ERROR | app.exception_handlers.handler | Exception handled: You are not allowed to access this resource
+2026-11-05 20:15:03,977 | INFO | app.middleware.logging_middleware | Process timing 0.0045 seconds | Status code: 403
+2026-11-05 20:15:03,977 | INFO | httpx | HTTP Request: DELETE http://test/api/v1/job-seekers/me "HTTP/1.1 403 Forbidden"
+2026-11-05 20:15:04,221 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:15:04,309 | INFO | app.middleware.logging_middleware | Process timing 0.0878 seconds | Status code: 200
+2026-11-05 20:15:04,309 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:15:04,311 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:15:08,216 | INFO | app.middleware.logging_middleware | Process timing 3.9045 seconds | Status code: 201
+2026-11-05 20:15:08,218 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:15:08,221 | INFO | app.middleware.logging_middleware | Incoming request PATCH /api/v1/job-seekers/me
+2026-11-05 20:15:08,232 | INFO | app.middleware.logging_middleware | Process timing 0.0111 seconds | Status code: 200
+2026-11-05 20:15:08,232 | INFO | httpx | HTTP Request: PATCH http://test/api/v1/job-seekers/me "HTTP/1.1 200 OK"
+2026-11-05 20:15:08,496 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:15:08,573 | INFO | app.middleware.logging_middleware | Process timing 0.0771 seconds | Status code: 200
+2026-11-05 20:15:08,573 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:15:08,637 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:15:08,700 | INFO | app.middleware.logging_middleware | Process timing 0.0635 seconds | Status code: 200
+2026-11-05 20:15:08,701 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:15:08,703 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:15:12,979 | INFO | app.middleware.logging_middleware | Process timing 4.2762 seconds | Status code: 201
+2026-11-05 20:15:12,981 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:15:12,984 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/job-seekers/
+2026-11-05 20:15:12,994 | INFO | app.middleware.logging_middleware | Process timing 0.0106 seconds | Status code: 200
+2026-11-05 20:15:12,994 | INFO | httpx | HTTP Request: GET http://test/api/v1/job-seekers/ "HTTP/1.1 200 OK"
+2026-11-05 20:15:13,241 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:15:13,319 | INFO | app.middleware.logging_middleware | Process timing 0.0778 seconds | Status code: 200
+2026-11-05 20:15:13,320 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:15:13,381 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/auth/login
+2026-11-05 20:15:13,444 | INFO | app.middleware.logging_middleware | Process timing 0.0633 seconds | Status code: 200
+2026-11-05 20:15:13,445 | INFO | httpx | HTTP Request: POST http://test/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-11-05 20:15:13,447 | INFO | app.middleware.logging_middleware | Incoming request POST /api/v1/job-seekers/create
+2026-11-05 20:15:17,181 | INFO | app.middleware.logging_middleware | Process timing 3.7342 seconds | Status code: 201
+2026-11-05 20:15:17,183 | INFO | httpx | HTTP Request: POST http://test/api/v1/job-seekers/create "HTTP/1.1 201 Created"
+2026-11-05 20:15:17,185 | INFO | app.middleware.logging_middleware | Incoming request GET /api/v1/job-seekers/13
+2026-11-05 20:15:17,193 | INFO | app.middleware.logging_middleware | Process timing 0.0072 seconds | Status code: 200
+2026-11-05 20:15:17,193 | INFO | httpx | HTTP Request: GET http://test/api/v1/job-seekers/13 "HTTP/1.1 200 OK"
